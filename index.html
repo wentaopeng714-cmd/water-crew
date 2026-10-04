@@ -36,14 +36,14 @@ html{min-height:100%;background:#edf1e9}body{margin:0;background:#edf1e9}header{
 @media(max-width:900px){#panel-campaign{padding:16px 12px}.campaign-layout{grid-template-columns:minmax(0,1fr) 270px;gap:12px}.campaign-panel{padding:14px}.campaign-hero h1{font-size:24px}.stage-card{padding:10px 7px}.stage-card strong{font-size:11px}.mission-hud{max-width:230px;font-size:9px;top:50px}nav button{padding:6px 9px;font-size:10px}}
 @media(max-width:660px){.campaign-layout{grid-template-columns:1fr}.campaign-hero{gap:10px}.campaign-hero h1{font-size:23px}.coin-wallet{padding:10px 12px}.coin-wallet strong{font-size:20px}.campaign-session{align-items:flex-start;flex-wrap:wrap}.stage-card{min-height:96px}.mission-hud{top:48px;max-width:180px;font-size:8px}.mission-hud strong{font-size:9px}.brand strong{font-size:11px}nav{gap:0}nav button{padding:6px 7px;font-size:9px}}
 </style>
-<link rel="stylesheet" href="menu-screens-v7.css">
+<link rel="stylesheet" href="menu-screens-v7.css?v=0.13.0">
 </head>
 <body data-screen="home">
 <header>
  <div class="brand"><div class="brand-icon" aria-hidden="true">≈</div><div><strong>水枪推推乐</strong><small>浅水喷泉对战</small></div></div>
  <nav aria-label="游戏菜单"><button data-tab="home" class="active" aria-pressed="true"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/></svg></span>主菜单</button><button data-tab="levels" aria-pressed="false"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2ZM9 3v16M15 5v16"/></svg></span>选择关卡</button><button data-tab="upgrades" aria-pressed="false"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4a6 6 0 0 1-8 8L5 20a2 2 0 0 1-3-3l8-8a6 6 0 0 1 8-8l-4 4 3 3Z"/></svg></span>水枪工坊</button></nav>
  <details class="menu-extras" id="menu-extras"><summary>更多</summary><div class="menu-extra-links"><button id="extra-quick">快速对战</button><button data-tab="character">人物动作</button><button data-tab="concept">概念初稿</button><button data-tab="production">制作设计</button></div></details>
- <div class="version">试玩版 0.12</div>
+ <div class="version">试玩版 0.13</div>
 </header>
 <main>
 <div class="campaign-session menu-live-banner" id="campaign-session" hidden><span id="session-label">挑战已暂停。</span><div><button id="campaign-resume">继续挑战</button><button id="campaign-abandon">结束本次挑战</button></div></div>
@@ -64,7 +64,7 @@ html{min-height:100%;background:#edf1e9}body{margin:0;background:#edf1e9}header{
 <section id="panel-play" hidden>
  <div class="section-intro"><div><h1>湿石花园 · 喷泉对战</h1><p>移动、瞄准，把对手推过边缘。留在场上的队员获胜。</p></div><span class="pill" id="gameplay-pill">轻松模式 · 45 秒一局</span></div>
  <div class="arena-wrap" id="arena-wrap">
-  <canvas id="arena" tabindex="0" aria-label="水枪推推乐三维场地，使用 WASD 移动、鼠标瞄准、按住左键或空格喷水"></canvas>
+  <div class="arena-view" id="arena-view"><canvas id="arena" tabindex="0" aria-label="水枪推推乐三维场地，使用 WASD 移动、鼠标瞄准、按住左键或空格喷水"></canvas></div>
   <div class="hud">
    <div class="hud-top"><span class="identity-dot" data-player="0" style="background:#248fce">P1</span><span class="identity-dot" data-player="1" style="background:#f2776b">2</span><span class="identity-dot" data-player="2" style="background:#e6b843">3</span><span class="identity-dot" data-player="3" style="background:#9072ca">4</span><span class="small-hud" id="alive-count">存活 4 / 4</span></div>
    <div class="timer" id="timer"><strong id="time-left">45</strong><span>剩余时间</span></div>
@@ -93,7 +93,7 @@ html{min-height:100%;background:#edf1e9}body{margin:0;background:#edf1e9}header{
  <div class="design-detail-grid"><article><div class="section-num">01 · 原始角色方向</div><h3>一套角色，四种身份</h3><p>1.4 米高的短肢玩具小人，圆头、护目镜、圆角水枪、透明背罐。四名队员共用骨架和动作，颜色之外保留编号和地面标记。</p></article><article><div class="section-num">02 · 场地</div><h3>看得见的边缘</h3><p>7 米半径的浅水圆台与下层水池形成落差。五个补水口中央与外围轮换激活；外围装饰低矮、稀疏，不遮挡角色和落水。</p></article><article><div class="section-num">03 · 反馈</div><h3>命中和水量都要易读</h3><p>枪口、水流、命中水花和后仰在同一方向响应。空水给明确文案；补水显示水位上升；边缘警告只提示，不更改角色属性。</p></article></div>
 </section>
 <section id="panel-production" hidden>
- <div class="section-intro"><div><h1>制作与资源</h1><p>Blender 制作资产，Three.js 运行场景；玩法逻辑与显示资源分别管理。</p></div><span class="pill">试玩版 0.12 · 独立菜单与闯关成长</span></div>
+ <div class="section-intro"><div><h1>制作与资源</h1><p>Blender 制作资产，Three.js 运行场景；玩法逻辑与显示资源分别管理。</p></div><span class="pill">试玩版 0.13 · 独立菜单与闯关成长</span></div>
  <div class="pipeline-intro">本版的圆润角色和花园场景均在 Blender 中建模，导出真实 GLB，由 Three.js 加载运行。角色保留 Quaternius 的 CC0 骨架与 17 段动作；喷泉、水面反射、溢流和喷水反馈由运行时驱动。水流保留出射速度，随重力回落；停火后空中的水会继续飞行。当前可直接试玩，专用水枪动作与更精细的水体表现仍需继续制作和验收。</div>
  <div class="production-grid"><article><h2>闯关与成长</h2><table class="spec-table"><thead><tr><th>系统</th><th>本版玩法</th></tr></thead><tbody><tr><td>战役</td><td>12 关、4 个主题章节；生存、击落和队长挑战，逐关解锁</td></tr><tr><td>水枪</td><td>高压泵、远射管、散射喷头、水箱共 17 次升级；喷头 Lv.2 开启三束喷射</td></tr><tr><td>成长反馈</td><td>推力、射程、水束宽度、续航实际提升；装备、飞溅和水炮声同步加强</td></tr><tr><td>后期挑战</td><td>电脑速度、瞄准和水枪渐强；第 3/6/9/12 关队长需要击落 1/2/2/3 轮</td></tr><tr><td>补水</td><td>中央/外围交替、外围轮换和脉冲喷泉；松开喷水才能补水</td></tr><tr><td>奖励</td><td>通关赚金币、评星和解锁；失败也有参与奖励，重玩继续升级</td></tr><tr><td>存档</td><td>本机保存金币、装备和通关进度；满级试枪不计进度</td></tr><tr><td>快速对战</td><td>保留轻松 45 秒与标准 30 秒的四人对抗，使用基础水枪</td></tr></tbody></table></article><article><h2>资产与接入</h2><table class="spec-table"><thead><tr><th>内容</th><th>本版方式与制作边界</th></tr></thead><tbody><tr><td>角色</td><td>Blender 原创圆润角色，真实蒙皮骨架，四种身份配色</td></tr><tr><td>骨骼动作</td><td>保留 Quaternius 的 17 段动作；预览提供待机、跑步、喷水、受击、落水五种状态</td></tr><tr><td>水枪</td><td>独立程序道具，挂到右手骨骼，水流跟随实际枪口</td></tr><tr><td>花园场景</td><td>Blender 资产导出 GLB，由 Three.js 实际导入，不用渲染图替代模型</td></tr><tr><td>动态反馈</td><td>水柱、水流、水滴、波纹和命中反馈由运行时状态控制</td></tr><tr><td>专用动作</td><td>横移、后退、补水、落水挣扎、上下身瞄准仍需专业动画制作</td></tr><tr><td>声音与界面</td><td>原创海岛风循环配乐；喷水、命中、补水、落水、结算音效与喷泉环境声</td></tr></tbody></table></article></div>
  <div class="flow"><div><b>01 · 资产制作</b><span>在 Blender 中管理场景尺寸、材质、节点和可编辑源文件，导出 GLB。</span></div><div><b>02 · 运行接入</b><span>Three.js 加载角色与场景，骨骼动画与装备挂点驱动可见动作。</span></div><div><b>03 · 手感调整</b><span>在完整对局中检查命中、补水、横向躲避、击退和镜头可读性。</span></div><div><b>04 · 制作验收</b><span>检查四人同屏表现、专用动作、资源授权、目标设备性能及异常流程。</span></div></div>
@@ -967,7 +967,7 @@ html{min-height:100%;background:#edf1e9}body{margin:0;background:#edf1e9}header{
 
 </script>
 <script>window.WATER_CHARACTER_URL="assets/character-v3.glb";window.WATER_ENVIRONMENT_URL="assets/environment-v3.glb";</script>
-<script src="game-visuals-v3.js"></script>
+<script src="game-visuals-v3.js?v=0.13.0"></script>
 <script>
 
 

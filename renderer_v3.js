@@ -12,6 +12,12 @@ import { Reflector } from './vendor/addons/objects/Reflector.js';
 import { WaterJet, FountainSpray } from './water-flow.js';
 
 const TAU = Math.PI * 2;
+// Keep the v0.12 reference composition on every screen. Resize changes only
+// the orthographic viewing bounds, never the camera's angle or world scale.
+const ARENA_ASPECT = 1264 / 650;
+const ARENA_HALF_WIDTH = 7.40;
+const ARENA_ELEVATION = Math.asin(.41);
+const ARENA_TARGET_HEIGHT = .65;
 const COLORS = [0x278ee0, 0xf16762, 0xefc33b, 0x9971d5];
 const FLOOR = 0, POOL = -1.15;
 const UP = new THREE.Vector3(0, 1, 0);
@@ -147,7 +153,11 @@ export class WaterRenderer {
     this._receivingWaterHeight = (x, z) => Math.hypot(x, z) > 7.04 ? POOL + .028 : .045;
     this.modelHeight = 2.12; this.gunHeight = .98; this.muzzleOffset = .35;
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(0x298a24);
-    this.camera = new THREE.OrthographicCamera(-9, 9, 5, -5, .1, 100);
+    const halfHeight = ARENA_HALF_WIDTH / ARENA_ASPECT;
+    this.camera = new THREE.OrthographicCamera(-ARENA_HALF_WIDTH, ARENA_HALF_WIDTH, halfHeight, -halfHeight, .1, 100);
+    this.camera.position.set(0, 22 * Math.sin(ARENA_ELEVATION) + ARENA_TARGET_HEIGHT, 22 * Math.cos(ARENA_ELEVATION));
+    this.camera.lookAt(0, ARENA_TARGET_HEIGHT, 0);
+    this.camera.updateMatrixWorld(true);
     this._raycaster = new THREE.Raycaster(); this._floorPlane = new THREE.Plane(UP, 0);
     this._pointer = new THREE.Vector2(); this._projected = new THREE.Vector3();
     try {
@@ -629,15 +639,15 @@ export class WaterRenderer {
   }
 
   resize() {
-    const rect = this.canvas.getBoundingClientRect(), width = Math.max(1, rect.width || 960), height = Math.max(1, rect.height || 600);
+    const rect = this.canvas.getBoundingClientRect(), width = rect.width, height = rect.height;
+    // Hidden menu panels have no dimensions. Preserve the last valid frame.
+    if (!(width > 0 && height > 0)) return;
     this._width = width; this._height = height;
     const aspect = width / height;
-    // Fit the actual game viewport rather than assuming a 16:9 page. The disk remains about
-    // 95% of its width; camera elevation adapts so the floor occupies roughly 75% of its height.
-    const halfW = 7.40, halfH = halfW / aspect;
+    const halfW = ARENA_HALF_WIDTH * Math.max(1, aspect / ARENA_ASPECT), halfH = halfW / aspect;
     this.camera.left = -halfW; this.camera.right = halfW; this.camera.top = halfH; this.camera.bottom = -halfH;
-    const elevation = Math.asin(clamp(.75 * halfH / 7, .30, .88)), targetY = .65;
-    this.camera.position.set(0, 22 * Math.sin(elevation) + targetY, 22 * Math.cos(elevation)); this.camera.lookAt(0, targetY, 0);
+    this.camera.position.set(0, 22 * Math.sin(ARENA_ELEVATION) + ARENA_TARGET_HEIGHT, 22 * Math.cos(ARENA_ELEVATION));
+    this.camera.lookAt(0, ARENA_TARGET_HEIGHT, 0);
     this.camera.updateProjectionMatrix(); this.camera.updateMatrixWorld(true);
     if (this.renderer) this.renderer.setSize(width, height, false);
     if (this.particles) this.particles.material.uniforms.uScale.value = height / (halfH * 2) * (this.renderer ? this.renderer.getPixelRatio() : 1);
@@ -870,7 +880,7 @@ export class WaterRenderer {
 
   render(state = {}, seconds = 0) {
     if (!this.supported || this._destroyed || !this.renderer) return;
-    const rect = this.canvas.getBoundingClientRect(); if (Math.abs(rect.width - this._width) > .5 || Math.abs(rect.height - this._height) > .5) this.resize();
+    const rect = this.canvas.getBoundingClientRect(); if (!Number.isFinite(this._width) || !Number.isFinite(this._height) || Math.abs(rect.width - this._width) > .5 || Math.abs(rect.height - this._height) > .5) this.resize();
     const now = Number.isFinite(seconds) ? seconds : 0;
     let dt = this._lastSeconds == null ? 0 : clamp(now - this._lastSeconds, 0, .06); this._lastSeconds = now;
     if (state.phase === 'paused' || state.paused) dt = 0; this._time += dt;
