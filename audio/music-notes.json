@@ -1,0 +1,21 @@
+{
+  "title": "喷泉假日 / Fountain Days",
+  "composer": "本项目原创程序作曲与合成",
+  "bpm": 108,
+  "bars": 16,
+  "durationSeconds": 35.55555555555556,
+  "key": "C major",
+  "form": "8-bar A + 8-bar B",
+  "instruments": [
+    "marimba",
+    "steel-pan accent",
+    "plucked four-note chords",
+    "bass",
+    "soft kick",
+    "hand drum",
+    "shaker"
+  ],
+  "externalSamples": false,
+  "peak": 0.6066352737879365,
+  "rms": 0.12582889103153957
+}

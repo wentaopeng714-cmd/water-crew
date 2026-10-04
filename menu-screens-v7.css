@@ -1,0 +1,556 @@
+/* v0.8 · Three distinct menu themes with readable text and explicit state colors.
+   Loaded after the arena stylesheet. Canvas sizes and game HUD styles are preserved. */
+#panel-home,
+#panel-levels,
+#panel-upgrades {
+  --menu-card: #ffffff;
+  --menu-edge: #cdd5df;
+  --menu-ink: #192535;
+  --menu-muted: #4b5969;
+  --menu-accent: #1565bd;
+  --menu-accent-dark: #0d4688;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 24px 30px;
+  color: var(--menu-ink);
+  font-size: 14px;
+}
+#panel-levels { --menu-accent: #b74707; --menu-accent-dark: #823004; }
+#panel-upgrades { --menu-accent: #6f38ba; --menu-accent-dark: #4c2389; }
+body[data-screen="home"] { background: #f0f6fd; }
+body[data-screen="levels"] { background: #fff7ed; }
+body[data-screen="upgrades"] { background: #f6f2fc; }
+body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) { min-height: 100vh; }
+body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header {
+  height: 54px;
+  min-height: 54px;
+  padding: 7px 16px;
+  background: #fff;
+  border-bottom: 3px solid #1565bd;
+}
+body[data-screen="levels"] header { border-bottom-color: #b74707; }
+body[data-screen="upgrades"] header { border-bottom-color: #6f38ba; }
+body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header .brand-icon {
+  color: #fff;
+  background: #1565bd;
+}
+body[data-screen="levels"] header .brand-icon { background: #b74707; }
+body[data-screen="upgrades"] header .brand-icon { background: #6f38ba; }
+header nav { background: #eff2f6; padding: 3px; gap: 4px; border-radius: 12px; }
+header nav button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #3b4858;
+}
+header nav [data-tab="home"] { background: #e8f2ff; color: #124f96; }
+header nav [data-tab="levels"] { background: #fff0dd; color: #903905; }
+header nav [data-tab="upgrades"] { background: #efe5ff; color: #5e2c9f; }
+header nav button:not(.active):hover { border-color: currentColor; }
+header nav [data-tab="home"].active { background: #1565bd; color: #fff; }
+header nav [data-tab="levels"].active { background: #b74707; color: #fff; }
+header nav [data-tab="upgrades"].active { background: #6f38ba; color: #fff; }
+header nav button.active { box-shadow: 0 2px 5px #18253520; }
+.nav-icon, .action-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-icon svg { display: block; width: 15px; height: 15px; }
+.action-icon svg { display: block; width: 19px; height: 19px; }
+header .version { color: #576575; }
+.menu-extras { position: relative; flex-shrink: 0; color: #455365; }
+.menu-extras > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 7px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 9px;
+}
+.menu-extras > summary::-webkit-details-marker { display: none; }
+.menu-extras > summary::after { content: "⌄"; display: inline-block; margin-left: 4px; }
+.menu-extras > summary:hover, .menu-extras[open] > summary { background: #e8edf5; color: #192535; }
+.menu-extra-links {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 7px);
+  z-index: 15;
+  display: grid;
+  gap: 3px;
+  width: 170px;
+  padding: 7px;
+  border: 1px solid #c4cedc;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px #18253520;
+}
+.menu-extra-links button { text-align: left; padding: 11px 12px; border: 0; background: transparent; border-radius: 7px; font-size: 13px; color: #344459; }
+.menu-extra-links button:hover, .menu-extra-links button.active { background: #e8f2ff; color: #124f96; }
+
+.home-menu { max-width: 1100px; margin: 0 auto; }
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: 40px;
+  align-items: center;
+  padding: 12px 0 26px;
+}
+.home-copy { padding: 10px 0; }
+.home-eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #185fa9; font-size: 12px; font-weight: 750; letter-spacing: 1px; }
+.home-eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #0f7aae; box-shadow: 0 0 0 4px #dcefff; }
+.home-copy h1, .home-copy .h1 { margin: 17px 0 17px; color: #17385c; font-size: clamp(38px, 4.5vw, 58px); font-weight: 900; line-height: 1.13; letter-spacing: -2px; }
+.home-copy h1 > span { display: block; color: #185fa9; font-size: 14px; line-height: 1.7; font-weight: 650; letter-spacing: .2px; margin-top: 14px; }
+.home-copy > p { max-width: 380px; margin: 0; color: var(--menu-muted); font-size: 14px; line-height: 1.9; }
+.home-actions { display: grid; gap: 12px; max-width: 310px; margin-top: 26px; }
+.home-actions button, .level-detail-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.5;
+  padding: 12px 18px;
+}
+.home-primary, .level-detail-actions .primary {
+  border: 1px solid var(--menu-accent);
+  color: #fff;
+  background: var(--menu-accent);
+  box-shadow: 0 4px 0 var(--menu-accent-dark), 0 7px 14px #19253515;
+}
+.home-primary:not(:disabled):hover, .level-detail-actions .primary:not(:disabled):hover { filter: brightness(1.08); }
+.home-primary:not(:disabled):active, .level-detail-actions .primary:not(:disabled):active { transform: translateY(2px); box-shadow: 0 2px 0 var(--menu-accent-dark); }
+.home-secondary { border: 2px solid #6f38ba; color: #5e2c9f; background: #fff; }
+.home-secondary:not(:disabled):hover { background: #efe5ff; }
+.home-small-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; margin-top: 21px; }
+.home-small-actions > button { border: 0; border-bottom: 1px solid #526b88; padding: 0 0 3px; background: transparent; color: #314c6d; font-size: 13px; }
+.home-help { font-size: 13px; color: #314c6d; position: relative; }
+.home-help summary { cursor: pointer; }
+.home-help p { max-width: 310px; font-size: 13px; line-height: 1.8; }
+.home-preview {
+  position: relative;
+  min-width: 0;
+  height: clamp(345px, 45vh, 430px);
+  overflow: hidden;
+  border-radius: 24px;
+  border: 2px solid #78addd;
+  background: linear-gradient(145deg, #dbeeff, #bddaf6);
+  box-shadow: 0 10px 28px #18447315;
+}
+.home-preview > canvas, .home-preview > img, .home-preview > .home-preview-canvas { width: 100%; height: 100%; display: block; object-fit: cover; }
+.home-preview-caption { color: #405975; padding: 12px 5px 0; font-size: 13px; line-height: 1.7; }
+.home-preview-caption strong { display: block; color: #174a80; font-size: 15px; }
+.home-preview-caption small { color: #405975; font-size: 12px; }
+.home-preview .home-preview-caption { position: absolute; inset: auto 0 0; padding: 34px 22px 18px; background: linear-gradient(transparent, #17385ccf); color: #fff; pointer-events: none; }
+.home-preview .home-preview-caption strong, .home-preview .home-preview-caption small { color: #fff; }
+.home-progress { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding-top: 5px; }
+.home-stat { min-width: 0; padding: 15px 18px; background: #fff; border: 1px solid #c6d6e8; border-top: 4px solid #1565bd; border-radius: 12px; }
+.home-stat:nth-child(2) { border-top-color: #b74707; }
+.home-stat:nth-child(3) { border-top-color: #6f38ba; }
+.home-stat strong { display: block; color: #16324f; font-size: 25px; letter-spacing: -.3px; line-height: 1.5; }
+.home-stat:nth-child(2) strong { color: #943905; }
+.home-stat:nth-child(3) strong { color: #5e2c9f; }
+.home-stat span { display: block; color: var(--menu-muted); font-size: 13px; line-height: 1.7; }
+
+.screen-toolbar { display: flex; align-items: center; gap: 18px; margin: 0 0 22px; min-height: 62px; }
+.screen-toolbar > button, .screen-back { flex-shrink: 0; padding: 10px 13px; border: 1px solid #bac5d2; background: #fff; color: #344459; border-radius: 10px; font-size: 13px; font-weight: 650; }
+.screen-toolbar > button:hover { background: #edf2f8; border-color: #75879d; }
+.screen-title { min-width: 0; }
+.screen-title h1 { font-size: 28px; font-weight: 850; letter-spacing: -.6px; margin: 0; color: var(--menu-accent); }
+.screen-title p { font-size: 13px; color: var(--menu-muted); margin: 6px 0 0; line-height: 1.7; }
+.screen-step { display: block; font-size: 12px; font-weight: 750; color: var(--menu-accent); margin-bottom: 5px; }
+.screen-wallet { flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; min-width: 108px; margin-left: auto; padding: 10px 16px; border: 2px solid #ce8b35; border-radius: 13px; background: #fff0cd; color: #754605; }
+.screen-wallet small { font-size: 12px; font-weight: 600; }
+.screen-wallet strong { font-size: 25px; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.campaign-heading { gap: 12px; }
+#panel-levels .campaign-heading h2, #panel-upgrades .campaign-heading h2 { font-size: 17px; color: #192535; }
+#panel-levels .campaign-heading span, #panel-upgrades .campaign-heading span { font-size: 12px; color: #4b5969; }
+#panel-home .save-note, #panel-levels .save-note, #panel-upgrades .save-note { color: #4b5969; font-size: 12px; line-height: 1.7; }
+
+.levels-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(270px, .8fr); gap: 22px; align-items: start; }
+.levels-map-panel { min-width: 0; border: 1px solid #d9c6ad; border-radius: 20px; padding: 22px; background: #fff; }
+.levels-map-panel .campaign-heading { margin-bottom: 14px; }
+.stage-legend { display: flex; flex-wrap: wrap; gap: 10px 15px; margin: 0 0 20px; padding: 10px 12px; border-radius: 9px; background: #f8f5f0; font-size: 12px; color: #4c5360; }
+.stage-legend > span { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.stage-legend > span::before { content: ""; width: 11px; height: 11px; border-radius: 3px; border: 1px solid #b74707; background: #b74707; flex-shrink: 0; }
+.stage-legend > .legend-available::before { border: 2px solid #1565bd; background: #fff; }
+.stage-legend > .legend-completed::before { border-color: #258353; background: #258353; }
+.stage-legend > .legend-locked::before { border-color: #87929f; background: #d4dbe3; }
+.levels-map-panel .chapter { margin-bottom: 20px; }
+.levels-map-panel .chapter:last-child { margin-bottom: 0; }
+.levels-map-panel .chapter-label { font-size: 13px; margin-bottom: 10px; color: #3c4859; }
+.levels-map-panel .chapter-dot { width: 9px; height: 9px; box-shadow: 0 0 0 1px #19253518; }
+.levels-map-panel .stage-grid { gap: 9px; }
+.levels-map-panel .stage-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 125px;
+  padding: 12px 11px;
+  border: 2px solid #1565bd;
+  border-radius: 12px;
+  background: #fff;
+  color: #263243;
+  opacity: 1;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.levels-map-panel .stage-card:not(:disabled):hover { background: #e8f2ff; border-color: #0d4688; box-shadow: 0 3px 9px #1565bd15; }
+.levels-map-panel .stage-card.completed { background: #f0f9f3; border-color: #258353; }
+.levels-map-panel .stage-card.completed:not(:disabled):hover { background: #e0f2e6; border-color: #17633a; }
+.levels-map-panel .stage-card.locked { background: #f0f2f5; border: 1px solid #c5cdd7; color: #505e6e; opacity: 1; }
+.levels-map-panel .stage-card.selected, .levels-map-panel .stage-card.selected:not(:disabled):hover { background: #b74707; border-color: #823004; color: #fff; box-shadow: 0 0 0 2px #ffd7b5, 0 4px 10px #9c4a151c; }
+.levels-map-panel .stage-card .level-num { margin-bottom: 6px; color: #566273; font-size: 11px; font-weight: 700; }
+.levels-map-panel .stage-card strong { font-size: 14px; margin-bottom: 6px; line-height: 1.45; }
+.levels-map-panel .stage-card small { color: #505e6e; font-size: 12px; line-height: 1.55; }
+.levels-map-panel .stage-card .stage-stars { margin-top: 7px; color: #8b5a00; font-size: 13px; line-height: 1.3; }
+.levels-map-panel .stage-card.selected .level-num, .levels-map-panel .stage-card.selected small, .levels-map-panel .stage-card.selected .stage-stars { color: #fff; }
+.levels-map-panel .stage-card.locked .level-num, .levels-map-panel .stage-card.locked small, .levels-map-panel .stage-card.locked .stage-stars { color: #5a6573; }
+.levels-map-panel .stage-card.boss::before { top: 9px; right: 7px; font-size: 10px; padding: 2px 4px; background: #ffe6b4; color: #794603; border: 1px solid #deb673; }
+.levels-map-panel .stage-card.selected.boss::before { color: #823004; background: #fff4e0; }
+.stage-state { display: inline-flex; align-items: center; align-self: flex-start; gap: 4px; margin-top: 7px; padding: 3px 6px; border-radius: 5px; background: #e8f2ff; color: #124f96; font-size: 11px; font-weight: 750; line-height: 1.5; }
+.stage-card.completed .stage-state { background: #d7efdf; color: #17633a; }
+.stage-card.locked .stage-state { background: #e0e5ec; color: #485767; }
+.stage-card.selected .stage-state { background: #fff; color: #9b3904; }
+.levels-map-panel .save-note { margin-top: 17px; }
+.level-detail-panel { position: sticky; top: 15px; border: 1px solid #d9a46c; border-top: 5px solid #b74707; border-radius: 20px; background: #fff; padding: 22px 23px; box-shadow: 0 6px 20px #9c4a1510; }
+.selection-marker { display: inline-flex; align-items: center; margin-bottom: 14px; padding: 5px 10px; border-radius: 6px; background: #b74707; color: #fff; font-size: 12px; font-weight: 750; }
+.level-detail-kicker { color: #903905; font-size: 12px; font-weight: 750; letter-spacing: .7px; margin-bottom: 10px; }
+.level-detail-title { color: #293343; font-size: 25px; font-weight: 850; letter-spacing: -.6px; margin: 0 0 12px; line-height: 1.35; }
+.level-detail-description { color: #4b5969; font-size: 14px; line-height: 1.8; margin: 0 0 18px; }
+.level-detail-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 19px 0; }
+.level-detail-facts > div { border: 1px solid #e7cfb5; border-radius: 9px; padding: 10px 11px; background: #fff8ed; }
+.level-detail-facts span, .level-detail-facts small { display: block; font-size: 12px; color: #66523d; margin-bottom: 5px; }
+.level-detail-facts b, .level-detail-facts strong { display: block; font-size: 14px; color: #754005; line-height: 1.5; }
+.level-detail-tip { color: #4b5969; font-size: 13px; line-height: 1.8; }
+.level-detail-actions { display: grid; gap: 12px; margin-top: 20px; }
+.level-detail-actions .primary { width: 100%; }
+.level-detail-actions .secondary { width: 100%; min-height: 44px; border: 2px solid #6f38ba; background: #fff; color: #5e2c9f; font-size: 14px; }
+.level-detail-actions .secondary:not(:disabled):hover { background: #efe5ff; }
+
+.shop-layout { display: grid; grid-template-columns: minmax(280px, .87fr) minmax(0, 1.13fr); gap: 22px; align-items: start; }
+.shop-weapon-panel { min-width: 0; padding: 22px; border: 1px solid #c8b5df; border-top: 5px solid #6f38ba; border-radius: 20px; background: #fff; }
+.shop-weapon-panel .workshop-title { margin-bottom: 16px; }
+.shop-weapon-panel .workshop-title h2 { font-size: 18px; color: #2d2340; }
+.shop-weapon-panel .gun-class { font-size: 12px; padding: 6px 9px; border-radius: 7px; background: #efe5ff; color: #5e2c9f; letter-spacing: 0; }
+.shop-weapon-preview { position: relative; min-width: 0; overflow: hidden; padding: 0; width: 100%; height: 245px; border: 2px solid #a785d2; border-radius: 16px; background: radial-gradient(ellipse at 50% 33%, #f3eaff, #d8c3f2); }
+.shop-weapon-preview > canvas, .shop-weapon-preview > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.shop-preview-caption { font-size: 13px; color: #5c4f6d; line-height: 1.7; margin: 11px 2px 0; }
+.shop-weapon-panel .weapon-stats { margin: 17px 0 0; gap: 9px; }
+.shop-weapon-panel .weapon-stats > div { padding: 12px 13px; background: #f6f1fd; border: 1px solid #d6c6e9; border-radius: 10px; }
+.shop-weapon-panel .weapon-stats span { font-size: 12px; color: #61516f; }
+.shop-weapon-panel .weapon-stats b { color: #5e2c9f; font-size: 23px; }
+.shop-weapon-panel .weapon-stats small { color: #61516f; font-size: 12px; }
+.shop-weapon-panel .save-note { margin-top: 16px; }
+.shop-upgrades { min-width: 0; }
+.shop-upgrades > h2 { margin: 0 0 13px; font-size: 18px; color: #2d2340; }
+.shop-upgrades .upgrade-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.shop-upgrades .upgrade-card { --branch: #6f38ba; --branch-soft: #efe5ff; --branch-edge: #bba0df; display: flex; flex-direction: column; min-width: 0; min-height: 215px; padding: 17px 15px 15px; border: 1px solid var(--branch-edge); border-top: 5px solid var(--branch); background: #fff; border-radius: 14px; }
+.shop-upgrades .upgrade-card[data-upgrade="pressure"] { --branch: #b74707; --branch-soft: #fff0dd; --branch-edge: #dba87f; }
+.shop-upgrades .upgrade-card[data-upgrade="reach"] { --branch: #1565bd; --branch-soft: #e8f2ff; --branch-edge: #98bfe6; }
+.shop-upgrades .upgrade-card[data-upgrade="nozzle"] { --branch: #6f38ba; --branch-soft: #efe5ff; --branch-edge: #bba0df; }
+.shop-upgrades .upgrade-card[data-upgrade="tank"] { --branch: #08776d; --branch-soft: #dff6f1; --branch-edge: #82bfb6; }
+.shop-upgrades .upgrade-card-head { gap: 8px; align-items: flex-start; flex-wrap: wrap; }
+.shop-upgrades .upgrade-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.shop-upgrades .upgrade-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; background: var(--branch-soft); color: var(--branch); }
+.shop-upgrades .upgrade-icon svg { width: 21px; height: 21px; display: block; }
+.shop-upgrades .upgrade-card h3 { font-size: 15px; color: #263243; line-height: 1.45; }
+.shop-upgrades .upgrade-level { font-size: 11px; font-weight: 750; padding: 4px 6px; border-radius: 5px; background: var(--branch-soft); color: var(--branch); white-space: nowrap; }
+.shop-upgrades .upgrade-card p { min-height: 43px; font-size: 13px; line-height: 1.7; color: #4b5969; margin: 11px 0 10px; }
+.shop-upgrades .upgrade-state { display: inline-flex; align-self: flex-start; padding: 4px 7px; margin: 0 0 11px; border-radius: 5px; background: var(--branch-soft); color: var(--branch); font-size: 12px; line-height: 1.5; font-weight: 650; }
+.shop-upgrades .upgrade-card[data-state="insufficient"] .upgrade-state, .shop-upgrades .upgrade-card[data-state="paused"] .upgrade-state { background: #e9edf2; color: #4b5969; }
+.shop-upgrades .upgrade-card[data-state="maxed"] .upgrade-state { background: #d7efdf; color: #17633a; }
+.shop-upgrades .upgrade-card button { margin-top: auto; padding: 10px 7px; min-height: 40px; font-size: 13px; border-radius: 9px; background: var(--branch); border: 1px solid var(--branch); color: #fff; font-weight: 750; }
+.shop-upgrades .upgrade-card button:not(:disabled):hover { filter: brightness(1.09); box-shadow: 0 3px 9px #19253520; }
+.shop-upgrades .upgrade-card button:disabled { color: #485767; background: #e7ecf2; border-color: #b9c4d1; opacity: 1; box-shadow: none; }
+.shop-upgrades .upgrade-flash { margin-top: 12px; min-height: 22px; color: #17633a; font-size: 13px; line-height: 1.7; }
+.shop-upgrades .upgrade-flash:empty { display: none; }
+.shop-next { margin-top: 17px; }
+.shop-next .home-primary { width: 100%; min-height: 47px; border-radius: 11px; font-weight: 750; font-size: 14px; }
+.shop-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 17px 18px; border: 1px solid #c8b5df; background: #fff; border-radius: 14px; margin-top: 20px; }
+.shop-footer > div strong { font-size: 14px; color: #452568; }
+.shop-footer > div p { font-size: 13px; line-height: 1.6; color: #5c4f6d; margin: 5px 0 0; }
+.shop-footer label { display: flex; align-items: center; gap: 9px; color: #51425f; font-size: 13px; }
+.shop-footer select { padding: 8px 10px !important; font-size: 13px !important; color: #452568 !important; border: 1px solid #a785d2 !important; border-radius: 8px !important; background: #fff !important; }
+.shop-footer .trial-btn { width: auto; margin: 0; padding: 10px 14px; min-height: 40px; font-size: 13px; border: 2px solid #6f38ba; border-radius: 9px; background: #efe5ff; color: #5e2c9f; font-weight: 750; }
+.shop-footer .trial-btn:not(:disabled):hover { background: #e0ccfc; }
+.home-preview .loading-note, .shop-weapon-preview .loading-note { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 18px; text-align: center; color: #314c6d; font-size: 14px; line-height: 1.8; background: #edf4fbe8; pointer-events: none; }
+.shop-weapon-preview .loading-note { background: #f1eafce8; color: #5e2c9f; }
+#campaign-session { max-width: 1132px; margin: 13px auto 0; padding: 13px 16px; border: 2px solid #bd7b25; background: #fff0cd; color: #754605; font-size: 13px; }
+#campaign-session button { font-size: 13px; font-weight: 650; padding: 9px 12px; }
+#campaign-session #campaign-resume { color: #fff; background: #1565bd; }
+#campaign-session #campaign-abandon { border: 1px solid #ad7e42; color: #754605; background: #fff; }
+
+#panel-home button:focus-visible, #panel-levels button:focus-visible, #panel-upgrades button:focus-visible, #panel-upgrades select:focus-visible, header nav button:focus-visible, .menu-extras summary:focus-visible { outline: 3px solid #1565bd; outline-offset: 3px; }
+#panel-levels button:focus-visible { outline-color: #b74707; }
+#panel-upgrades button:focus-visible, #panel-upgrades select:focus-visible { outline-color: #6f38ba; }
+#panel-home button:disabled, #panel-levels button:disabled, #panel-upgrades button:disabled { opacity: 1; cursor: default; }
+#panel-home .home-primary:disabled, #panel-levels .level-detail-actions button:disabled, #panel-upgrades .shop-next button:disabled, #panel-upgrades .trial-btn:disabled { background: #e7ecf2; color: #485767; border-color: #b9c4d1; box-shadow: none; }
+
+@media (max-width: 1000px) {
+  #panel-home, #panel-levels, #panel-upgrades { padding: 20px 20px 26px; }
+  .home-hero { gap: 28px; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); }
+  .home-preview { height: 345px; }
+  .home-copy h1, .home-copy .h1 { font-size: 44px; }
+  .levels-layout { grid-template-columns: minmax(0, 1.5fr) minmax(245px, .9fr); gap: 15px; }
+  .levels-map-panel { padding: 17px 15px; }
+  .levels-map-panel .stage-card { padding: 11px 8px; }
+  .levels-map-panel .stage-card strong { font-size: 13px; }
+  .levels-map-panel .stage-card small { font-size: 12px; }
+  .stage-legend { gap: 8px 12px; padding: 9px 10px; font-size: 12px; }
+  .level-detail-panel { padding: 21px 18px; }
+  .level-detail-title { font-size: 23px; }
+  .shop-layout { grid-template-columns: minmax(230px, .8fr) minmax(0, 1.2fr); gap: 16px; }
+  .shop-weapon-panel { padding: 17px; }
+  .shop-weapon-preview { height: 225px; }
+  .shop-upgrades .upgrade-card { padding: 15px 12px 12px; }
+  .shop-upgrades .upgrade-card h3 { font-size: 14px; }
+  .shop-upgrades .upgrade-card p { min-height: 65px; }
+  #campaign-session { margin-left: 20px; margin-right: 20px; }
+}
+@media (max-width: 760px) {
+  .home-hero { gap: 22px; padding-top: 3px; }
+  .home-copy h1, .home-copy .h1 { font-size: 38px; letter-spacing: -1px; }
+  .home-actions { margin-top: 23px; }
+  .home-preview { height: 320px; border-radius: 20px; }
+  .screen-toolbar { gap: 12px; margin-bottom: 20px; }
+  .screen-title h1 { font-size: 25px; }
+  .screen-wallet { min-width: 85px; padding: 9px 12px; }
+  .screen-wallet strong { font-size: 23px; }
+  .levels-map-panel .stage-grid { gap: 7px; }
+  .levels-map-panel .stage-card.boss::before { content: "★"; font-size: 11px; padding: 1px 3px; }
+  .shop-upgrades .upgrade-list { gap: 10px; }
+  .shop-upgrades .upgrade-card button { font-size: 12px; }
+  .shop-weapon-panel .weapon-stats b { font-size: 21px; }
+}
+@media (max-width: 660px) {
+  #panel-home, #panel-levels, #panel-upgrades { padding: 17px 10px 25px; }
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header { height: 54px; min-height: 54px; padding: 7px; gap: 6px; }
+  header nav { gap: 2px; padding: 2px; }
+  header nav button { padding: 6px 7px; gap: 4px; font-size: 12px; }
+  header nav .nav-icon svg { width: 13px; height: 13px; }
+  .menu-extras > summary { padding: 7px 5px; font-size: 12px; }
+  .menu-extras > summary::after { margin-left: 2px; }
+  .home-hero { grid-template-columns: 1fr; gap: 22px; padding: 6px 0 23px; }
+  .home-copy { padding: 3px 6px 0; }
+  .home-copy h1, .home-copy .h1 { margin: 14px 0 12px; font-size: 42px; letter-spacing: -1.4px; }
+  .home-copy > p { max-width: 420px; line-height: 1.8; }
+  .home-eyebrow { font-size: 12px; }
+  .home-actions { max-width: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 21px; }
+  .home-actions .home-primary { grid-column: 1 / -1; }
+  .home-actions .home-secondary { grid-column: 1 / -1; min-height: 44px; }
+  .home-preview { height: 300px; border-radius: 20px; }
+  .home-progress { gap: 8px; padding: 0 4px; }
+  .home-stat { padding: 11px 9px; }
+  .home-stat strong { font-size: 20px; }
+  .home-stat span { font-size: 12px; }
+  .screen-toolbar { flex-wrap: wrap; gap: 11px; margin-bottom: 16px; }
+  .screen-toolbar > button { width: 100%; padding: 0; border: 0; background: transparent; text-align: left; font-size: 13px; }
+  .screen-title { flex: 1; }
+  .screen-title h1 { font-size: 26px; }
+  .screen-title p { font-size: 13px; max-width: 250px; margin-top: 4px; }
+  .screen-wallet { margin-left: auto; min-width: 78px; padding: 7px 11px; border-radius: 11px; }
+  .screen-wallet strong { font-size: 23px; }
+  .screen-wallet small { font-size: 12px; }
+  .levels-layout { grid-template-columns: 1fr; gap: 17px; }
+  .level-detail-panel { order: 1; position: static; padding: 20px; border-radius: 18px; }
+  .levels-map-panel { order: 2; padding: 19px 14px; border-radius: 18px; }
+  .level-detail-kicker { font-size: 12px; margin-bottom: 8px; }
+  .level-detail-title { font-size: 24px; margin-bottom: 8px; }
+  .level-detail-description { margin-bottom: 12px; font-size: 14px; }
+  .level-detail-facts { margin: 14px 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .level-detail-facts > div { padding: 9px 10px; }
+  .level-detail-facts b, .level-detail-facts strong { font-size: 14px; }
+  .level-detail-actions { margin-top: 16px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 9px; }
+  .level-detail-actions button { min-height: 44px; padding: 10px 11px; font-size: 14px; }
+  .level-detail-actions .secondary { min-height: 44px; font-size: 13px; }
+  .levels-map-panel .stage-card { min-height: 129px; padding: 12px 10px; }
+  .levels-map-panel .stage-card strong { font-size: 14px; }
+  .levels-map-panel .stage-card.boss::before { content: "挑战"; font-size: 10px; }
+  .shop-layout { grid-template-columns: 1fr; gap: 20px; }
+  .shop-weapon-panel { padding: 18px; border-radius: 18px; }
+  .shop-weapon-preview { height: 230px; }
+  .shop-weapon-panel .weapon-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .shop-weapon-panel .weapon-stats > div { padding: 10px 8px; }
+  .shop-weapon-panel .weapon-stats span { font-size: 12px; }
+  .shop-weapon-panel .weapon-stats b { font-size: 20px; }
+  .shop-weapon-panel .weapon-stats small { display: block; font-size: 11px; margin: 4px 0 0; }
+  .shop-upgrades .upgrade-card { min-height: 215px; padding: 16px 14px 13px; border-radius: 14px; }
+  .shop-upgrades .upgrade-card-head { gap: 8px; }
+  .shop-upgrades .upgrade-card h3 { font-size: 15px; }
+  .shop-upgrades .upgrade-card p { min-height: 60px; }
+  .shop-upgrades .upgrade-card button { padding: 10px 6px; font-size: 13px; }
+  .shop-footer { padding: 15px 14px; gap: 13px; }
+  .shop-footer label { flex: 1; }
+  #campaign-session { margin: 10px 10px 0; font-size: 13px; flex-wrap: wrap; gap: 10px; }
+}
+@media (max-width: 420px) {
+  header nav button { font-size: 11px; padding: 6px 5px; }
+  header nav .nav-icon { display: none; }
+  .home-copy h1, .home-copy .h1 { font-size: 38px; }
+  .screen-title h1 { font-size: 24px; }
+  .screen-title p { max-width: 210px; }
+  .level-detail-actions { grid-template-columns: 1fr; }
+  .levels-map-panel .stage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .level-detail-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-weapon-panel .weapon-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-upgrades .upgrade-list { grid-template-columns: 1fr; }
+  .shop-upgrades .upgrade-card { min-height: 0; }
+  .shop-upgrades .upgrade-card-head { flex-wrap: nowrap; }
+  .shop-upgrades .upgrade-card p { min-height: 0; }
+  .shop-footer .trial-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .levels-map-panel .stage-card { transition: none; }
+}
+
+/* Keep the game actions visible in a narrow desktop side panel. */
+@media (max-width: 660px) {
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header { flex-direction: row; align-items: center; }
+  header nav { width: auto; }
+  .shop-upgrades { order: 1; }
+  .shop-weapon-panel { order: 2; }
+  .shop-upgrades .upgrade-card { min-height: 200px; }
+  .shop-upgrades .upgrade-card p { min-height: 44px; }
+}
+@media (min-width: 540px) and (max-width: 660px) {
+  .home-hero { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 18px; }
+  .home-copy h1, .home-copy .h1 { font-size: 36px; }
+  .home-copy > p { font-size: 13px; }
+  .home-eyebrow { font-size: 11px; letter-spacing: .2px; }
+  .home-actions button { font-size: 14px; min-height: 44px; padding: 10px 12px; }
+  .home-preview { height: 320px; }
+}
+@media (max-width: 539px) {
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header { height: auto; flex-wrap: wrap; padding: 8px 10px; }
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header .brand { flex: 1; }
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header nav { order: 3; width: 100%; }
+  body:is([data-screen="home"], [data-screen="levels"], [data-screen="upgrades"]) header nav button { flex: 1; }
+}
+
+/* Nonblocking goal feedback stays inside the battle HUD. */
+#mission-hud.completed { background: #e9fff1; color: #165a37; border: 2px solid #258353; border-radius: 12px; max-width: 340px; padding: 9px 12px; font-size: 12px; box-shadow: 0 3px 12px #165a3720; }
+#mission-hud.completed strong { color: #165a37; font-size: 13px; }
+@media (max-width: 620px) { #mission-hud.completed { max-width: 250px; font-size: 11px; } #mission-hud.completed strong { font-size: 12px; } }
+
+/* v0.10: the route is a launch menu; each unlocked card starts one round. */
+#panel-levels { max-width: 960px; padding-top: 14px; }
+#panel-levels .screen-toolbar { margin-bottom: 13px; }
+.route-shortcuts { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.route-shortcuts button { min-height: 44px; border-radius: 10px; padding: 10px 18px; font: inherit; font-weight: 750; }
+.route-shop { color: #5e2c9f; background: #fff; border: 2px solid #b39acf; }
+.route-shortcuts > span { margin-left: auto; color: #4b5969; font-size: 12px; white-space: nowrap; }
+#panel-levels .levels-map-panel { padding: 15px; }
+#panel-levels .chapter { margin-bottom: 13px; }
+#panel-levels .chapter:last-child { margin-bottom: 0; }
+#panel-levels .chapter-label { margin-bottom: 7px; font-size: 12px; }
+#panel-levels .stage-grid { gap: 9px; }
+#panel-levels .stage-card { min-height: 94px; padding: 10px 13px; }
+#panel-levels .stage-card .level-num { font-size: 11px; margin-bottom: 3px; }
+#panel-levels .stage-card strong { font-size: 14px; margin-bottom: 3px; }
+#panel-levels .stage-card small { font-size: 11px; line-height: 1.4; }
+#panel-levels .stage-card .stage-state { margin-top: 5px; font-size: 11px; }
+#panel-levels .stage-card .stage-stars { position: absolute; right: 11px; bottom: 10px; margin-top: 0; font-size: 11px; letter-spacing: 0; }
+#panel-levels .stage-card.boss::before { font-size: 8px; top: 9px; right: 10px; }
+@media (max-width: 660px) {
+  #panel-levels { padding: 12px 9px 18px; }
+  #panel-levels .levels-map-panel { padding: 12px; }
+  #panel-levels .stage-card { padding: 9px; min-height: 98px; }
+  #panel-levels .stage-card strong { font-size: 12px; }
+  #panel-levels .stage-card small { font-size: 10px; }
+  #panel-levels .stage-card .stage-stars { right: 8px; bottom: 9px; font-size: 10px; }
+  .route-shortcuts { gap: 8px; flex-wrap: wrap; }
+  .route-shortcuts button { font-size: 13px; padding: 10px 12px; }
+}
+@media (max-width: 420px) {
+  #panel-levels .stage-card .stage-stars { position: static; display: inline-block; margin-top: 3px; }
+  #panel-levels .stage-card { min-height: 114px; }
+  #panel-levels .stage-card.boss::before { display: none; }
+  .route-shortcuts > span { width: 100%; margin-left: 0; }
+}
+
+/* Compact menus keep the controls together without shrinking readable text. */
+#panel-home, #panel-levels, #panel-upgrades { padding-top: 14px; padding-bottom: 18px; }
+.home-hero { gap: 24px; padding: 0 0 16px; }
+.home-copy { padding: 4px 0; }
+.home-copy h1 { margin: 12px 0; font-size: 40px; }
+.home-copy h1 > span { margin-top: 8px; font-size: 13px; }
+.home-copy > p { font-size: 13px; line-height: 1.7; }
+.home-actions { margin-top: 18px; gap: 9px; }
+.home-actions button { min-height: 43px; padding: 9px 14px; font-size: 14px; }
+.home-small-actions { gap: 14px; margin-top: 15px; }
+.home-preview { height: 270px; border-radius: 18px; }
+.home-preview-caption { padding-top: 7px; font-size: 12px; }
+.home-stat { padding: 11px 14px; }
+.screen-toolbar { margin-bottom: 14px; }
+.screen-title h1 { font-size: 25px; }
+.screen-title p { font-size: 12px; }
+#panel-levels .levels-map-panel { padding: 12px; }
+#panel-levels .stage-card { min-height: 90px; padding: 8px 11px; }
+#panel-levels .stage-card .level-num { line-height: 1.2; margin-bottom: 2px; }
+#panel-levels .stage-card strong { line-height: 1.25; margin-bottom: 2px; }
+#panel-levels .stage-card small { line-height: 1.25; }
+#panel-levels .stage-card.boss::before { display: none; }
+#panel-levels .stage-card .stage-state { padding: 2px 5px; line-height: 1.25; }
+#panel-levels .route-shortcuts { margin-bottom: 12px; }
+#panel-levels .save-note { margin-top: 10px; }
+.shop-weapon-panel { padding: 14px; border-radius: 14px; }
+.shop-weapon-panel .workshop-title { margin-bottom: 10px; }
+.shop-weapon-preview { height: 200px; }
+.shop-weapon-panel .weapon-stats { margin-top: 10px; gap: 7px; }
+.shop-weapon-panel .weapon-stats > div { padding: 8px 10px; }
+.shop-weapon-panel .weapon-stats b { font-size: 20px; }
+.shop-layout { grid-template-columns: minmax(200px, .8fr) minmax(0, 1.2fr); gap: 14px; }
+.shop-upgrades .upgrade-card { min-height: 164px; padding: 10px; border-radius: 11px; border-top-width: 4px; }
+.shop-upgrades .upgrade-card-head { align-items: center; gap: 5px; }
+.shop-upgrades .upgrade-title { gap: 5px; }
+.shop-upgrades .upgrade-icon { width: 25px; height: 25px; border-radius: 7px; }
+.shop-upgrades .upgrade-icon svg { width: 18px; height: 18px; }
+.shop-upgrades .upgrade-card h3 { font-size: 13px; }
+.shop-upgrades .upgrade-level { font-size: 10px; padding: 3px 5px; }
+.shop-upgrades .upgrade-card p { min-height: 38px; font-size: 12px; line-height: 1.55; margin: 8px 0; }
+.shop-upgrades .upgrade-state { font-size: 11px; margin-bottom: 7px; padding: 3px 5px; }
+.shop-upgrades .upgrade-card button { min-height: 35px; font-size: 12px; padding: 7px 5px; }
+.shop-upgrades .upgrade-list { gap: 9px; }
+.shop-upgrades .campaign-heading { margin-bottom: 10px; }
+.shop-next { margin-top: 12px; }
+.shop-next .home-primary { min-height: 42px; }
+.shop-footer { margin-top: 10px; padding: 6px 12px; gap: 8px; }
+.shop-footer > div p { display: none; }
+.shop-footer > div strong { font-size: 12px; }
+#panel-levels .home-primary:disabled { background: #e7ecf2; color: #485767; border-color: #b9c4d1; box-shadow: none; }
+#panel-upgrades { padding-top: 10px; padding-bottom: 5px; }
+#panel-upgrades .screen-toolbar { margin-bottom: 8px; }
+@media (min-width: 540px) and (max-width: 760px) {
+  .home-copy h1 { font-size: 34px; }
+  .home-preview { height: 255px; }
+  .shop-layout { grid-template-columns: minmax(160px, .6fr) minmax(0, 1.4fr); gap: 10px; }
+  .shop-weapon-panel, .shop-upgrades { order: 0; }
+  .shop-weapon-panel { padding: 10px; }
+  .shop-weapon-panel .workshop-title { flex-wrap: wrap; gap: 5px; }
+  .shop-weapon-panel .workshop-title h2 { font-size: 14px; }
+  .shop-weapon-panel .gun-class { padding: 4px 6px; font-size: 10px; }
+  .shop-weapon-preview { height: 175px; }
+  .shop-weapon-panel .weapon-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .shop-weapon-panel .weapon-stats > div { padding: 7px 6px; }
+  .shop-weapon-panel .weapon-stats span { font-size: 10px; }
+  .shop-weapon-panel .weapon-stats b { font-size: 18px; }
+  .shop-upgrades .upgrade-card { min-height: 164px; }
+  .shop-upgrades .upgrade-card p { min-height: 38px; }
+}
+@media (max-width: 539px) {
+  .home-preview { height: 210px; }
+  .home-hero { gap: 14px; }
+  .home-copy h1 { font-size: 34px; }
+  .shop-layout { grid-template-columns: 1fr; }
+  .shop-upgrades { order: 1; }
+  .shop-weapon-panel { order: 2; }
+  .shop-weapon-preview { height: 160px; }
+  .shop-upgrades .upgrade-card { min-height: 159px; }
+  .shop-upgrades .upgrade-card p { min-height: 38px; }
+}
+

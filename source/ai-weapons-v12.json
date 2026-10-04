@@ -1,0 +1,742 @@
+{
+  "version": "v0.12 AI gun progression",
+  "samplesPerScenario": 32,
+  "totalSimulatedRounds": 256,
+  "note": "Paired deterministic CPU probes on the same core and v0.11 resistance/tactics. Only AI weapon equipment changes. The scripted player locks a visible target, pursues its inner side, uses a short aim lead and refills. Perfect world-coordinate aiming is not a human difficulty rating. Actual stage 11 player equipment is pressure 5, reach 1, nozzle 3, tank 4.",
+  "ordinaryThreeJetsFromLevel": 10,
+  "captainThreeJetsFromLevel": 6,
+  "rows": [
+    {
+      "level": 3,
+      "ranks": {
+        "pressure": 1,
+        "reach": 1,
+        "tank": 1
+      },
+      "version": "v0.11",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 12.27,
+      "averageClearSeconds": 12.27,
+      "averagePersonalKnockouts": 2.78,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 1.45,
+          "weapon": {
+            "range": 4.790909090909091,
+            "beamRadius": 0.18363636363636363,
+            "pushAcceleration": 23.727272727272727,
+            "waterCapacity": 127.9090909090909,
+            "waterUse": 18,
+            "refillRate": 47.81818181818182,
+            "passiveWaterRate": 0.4545454545454546,
+            "visualScale": 1.2654545454545454,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.3,
+          "weapon": {
+            "range": 4.790909090909091,
+            "beamRadius": 0.18363636363636363,
+            "pushAcceleration": 22.227272727272727,
+            "waterCapacity": 102.9090909090909,
+            "waterUse": 18,
+            "refillRate": 47.81818181818182,
+            "passiveWaterRate": 0.4545454545454546,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.3,
+          "weapon": {
+            "range": 4.790909090909091,
+            "beamRadius": 0.18363636363636363,
+            "pushAcceleration": 22.227272727272727,
+            "waterCapacity": 102.9090909090909,
+            "waterUse": 18,
+            "refillRate": 47.81818181818182,
+            "passiveWaterRate": 0.4545454545454546,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.39,
+        "beamRadius": 0.18,
+        "pushAcceleration": 26.2,
+        "waterCapacity": 124,
+        "waterUse": 16.49,
+        "refillRate": 53,
+        "passiveWaterRate": 9.75,
+        "visualScale": 1.1400000000000001,
+        "tier": 1,
+        "jetCount": 1,
+        "spreadAngle": 0,
+        "upgrades": {
+          "pressure": 1,
+          "reach": 1,
+          "nozzle": 0,
+          "tank": 1
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 3,
+      "ranks": {
+        "pressure": 1,
+        "reach": 1,
+        "tank": 1
+      },
+      "version": "v0.12",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 11.56,
+      "averageClearSeconds": 11.56,
+      "averagePersonalKnockouts": 2.81,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 1.45,
+          "weapon": {
+            "range": 5.218181818181818,
+            "beamRadius": 0.20954545454545453,
+            "pushAcceleration": 25.318181818181817,
+            "waterCapacity": 143.8181818181818,
+            "waterUse": 17.73,
+            "refillRate": 50.81818181818182,
+            "passiveWaterRate": 1.3545454545454547,
+            "tier": 1,
+            "visualScale": 1.2672727272727273,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.3,
+          "weapon": {
+            "range": 4.718181818181818,
+            "beamRadius": 0.18454545454545454,
+            "pushAcceleration": 21.318181818181817,
+            "waterCapacity": 101.81818181818181,
+            "waterUse": 18,
+            "refillRate": 47.81818181818182,
+            "passiveWaterRate": 0.4545454545454546,
+            "tier": 0,
+            "visualScale": 1.0072727272727273,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.3,
+          "weapon": {
+            "range": 4.718181818181818,
+            "beamRadius": 0.18454545454545454,
+            "pushAcceleration": 21.318181818181817,
+            "waterCapacity": 101.81818181818181,
+            "waterUse": 18,
+            "refillRate": 47.81818181818182,
+            "passiveWaterRate": 0.4545454545454546,
+            "tier": 0,
+            "visualScale": 1.0072727272727273,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.39,
+        "beamRadius": 0.18,
+        "pushAcceleration": 26.2,
+        "waterCapacity": 124,
+        "waterUse": 16.49,
+        "refillRate": 53,
+        "passiveWaterRate": 9.75,
+        "visualScale": 1.1400000000000001,
+        "tier": 1,
+        "jetCount": 1,
+        "spreadAngle": 0,
+        "upgrades": {
+          "pressure": 1,
+          "reach": 1,
+          "nozzle": 0,
+          "tank": 1
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 9,
+      "ranks": {
+        "pressure": 3,
+        "reach": 2,
+        "nozzle": 2,
+        "tank": 2
+      },
+      "version": "v0.11",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 24.14,
+      "averageClearSeconds": 24.14,
+      "averagePersonalKnockouts": 3.81,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 1.9,
+          "weapon": {
+            "range": 5.363636363636363,
+            "beamRadius": 0.19454545454545455,
+            "pushAcceleration": 28.90909090909091,
+            "waterCapacity": 136.63636363636363,
+            "waterUse": 18,
+            "refillRate": 53.27272727272727,
+            "passiveWaterRate": 1.8181818181818183,
+            "visualScale": 1.4018181818181819,
+            "jetCount": 3,
+            "spreadAngle": 0.12
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.59,
+          "weapon": {
+            "range": 5.363636363636363,
+            "beamRadius": 0.19454545454545455,
+            "pushAcceleration": 27.40909090909091,
+            "waterCapacity": 111.63636363636364,
+            "waterUse": 18,
+            "refillRate": 53.27272727272727,
+            "passiveWaterRate": 1.8181818181818183,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.59,
+          "weapon": {
+            "range": 5.363636363636363,
+            "beamRadius": 0.19454545454545455,
+            "pushAcceleration": 27.40909090909091,
+            "waterCapacity": 111.63636363636364,
+            "waterUse": 18,
+            "refillRate": 53.27272727272727,
+            "passiveWaterRate": 1.8181818181818183,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.83,
+        "beamRadius": 0.25,
+        "pushAcceleration": 30.6,
+        "waterCapacity": 138,
+        "waterUse": 15.979999999999999,
+        "refillRate": 56,
+        "passiveWaterRate": 10.5,
+        "visualScale": 1.54,
+        "tier": 3,
+        "jetCount": 3,
+        "spreadAngle": 0.14,
+        "upgrades": {
+          "pressure": 3,
+          "reach": 2,
+          "nozzle": 2,
+          "tank": 2
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 9,
+      "ranks": {
+        "pressure": 3,
+        "reach": 2,
+        "nozzle": 2,
+        "tank": 2
+      },
+      "version": "v0.12",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 23.55,
+      "averageClearSeconds": 23.55,
+      "averagePersonalKnockouts": 3.81,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 1.9,
+          "weapon": {
+            "range": 6.172727272727273,
+            "beamRadius": 0.2731818181818182,
+            "pushAcceleration": 32.77272727272727,
+            "waterCapacity": 173.27272727272728,
+            "waterUse": 17.189999999999998,
+            "refillRate": 62.27272727272727,
+            "passiveWaterRate": 3.918181818181818,
+            "tier": 3,
+            "visualScale": 1.6090909090909091,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.59,
+          "weapon": {
+            "range": 5.672727272727272,
+            "beamRadius": 0.24818181818181817,
+            "pushAcceleration": 28.772727272727273,
+            "waterCapacity": 131.27272727272728,
+            "waterUse": 17.46,
+            "refillRate": 59.27272727272727,
+            "passiveWaterRate": 3.0181818181818185,
+            "tier": 2,
+            "visualScale": 1.3490909090909091,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.59,
+          "weapon": {
+            "range": 5.672727272727272,
+            "beamRadius": 0.24818181818181817,
+            "pushAcceleration": 28.772727272727273,
+            "waterCapacity": 131.27272727272728,
+            "waterUse": 17.46,
+            "refillRate": 59.27272727272727,
+            "passiveWaterRate": 3.0181818181818185,
+            "tier": 2,
+            "visualScale": 1.3490909090909091,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.83,
+        "beamRadius": 0.25,
+        "pushAcceleration": 30.6,
+        "waterCapacity": 138,
+        "waterUse": 15.979999999999999,
+        "refillRate": 56,
+        "passiveWaterRate": 10.5,
+        "visualScale": 1.54,
+        "tier": 3,
+        "jetCount": 3,
+        "spreadAngle": 0.14,
+        "upgrades": {
+          "pressure": 3,
+          "reach": 2,
+          "nozzle": 2,
+          "tank": 2
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 11,
+      "ranks": {
+        "pressure": 5,
+        "reach": 1,
+        "nozzle": 3,
+        "tank": 4
+      },
+      "version": "v0.11",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 11.71,
+      "averageClearSeconds": 11.71,
+      "averagePersonalKnockouts": 2.88,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 5.554545454545455,
+            "beamRadius": 0.19818181818181818,
+            "pushAcceleration": 29.136363636363637,
+            "waterCapacity": 114.54545454545455,
+            "waterUse": 18,
+            "refillRate": 55.09090909090909,
+            "passiveWaterRate": 2.2727272727272725,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 5.554545454545455,
+            "beamRadius": 0.19818181818181818,
+            "pushAcceleration": 29.136363636363637,
+            "waterCapacity": 114.54545454545455,
+            "waterUse": 18,
+            "refillRate": 55.09090909090909,
+            "passiveWaterRate": 2.2727272727272725,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 5.554545454545455,
+            "beamRadius": 0.19818181818181818,
+            "pushAcceleration": 29.136363636363637,
+            "waterCapacity": 114.54545454545455,
+            "waterUse": 18,
+            "refillRate": 55.09090909090909,
+            "passiveWaterRate": 2.2727272727272725,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.59,
+        "beamRadius": 0.28500000000000003,
+        "pushAcceleration": 35,
+        "waterCapacity": 166,
+        "waterUse": 14.96,
+        "refillRate": 62,
+        "passiveWaterRate": 12,
+        "visualScale": 1.8800000000000001,
+        "tier": 5,
+        "jetCount": 3,
+        "spreadAngle": 0.165,
+        "upgrades": {
+          "pressure": 5,
+          "reach": 1,
+          "nozzle": 3,
+          "tank": 4
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 11,
+      "ranks": {
+        "pressure": 5,
+        "reach": 1,
+        "nozzle": 3,
+        "tank": 4
+      },
+      "version": "v0.12",
+      "samples": 32,
+      "clears": 32,
+      "clearPercent": 100,
+      "averageRoundSeconds": 10.97,
+      "averageClearSeconds": 10.97,
+      "averagePersonalKnockouts": 2.63,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 6.090909090909091,
+            "beamRadius": 0.2777272727272727,
+            "pushAcceleration": 32.09090909090909,
+            "waterCapacity": 145.0909090909091,
+            "waterUse": 17.189999999999998,
+            "refillRate": 64.0909090909091,
+            "passiveWaterRate": 4.072727272727272,
+            "tier": 3,
+            "visualScale": 1.5163636363636364,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 6.090909090909091,
+            "beamRadius": 0.2777272727272727,
+            "pushAcceleration": 32.09090909090909,
+            "waterCapacity": 145.0909090909091,
+            "waterUse": 17.189999999999998,
+            "refillRate": 64.0909090909091,
+            "passiveWaterRate": 4.072727272727272,
+            "tier": 3,
+            "visualScale": 1.5163636363636364,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.72,
+          "weapon": {
+            "range": 6.090909090909091,
+            "beamRadius": 0.2777272727272727,
+            "pushAcceleration": 32.09090909090909,
+            "waterCapacity": 145.0909090909091,
+            "waterUse": 17.189999999999998,
+            "refillRate": 64.0909090909091,
+            "passiveWaterRate": 4.072727272727272,
+            "tier": 3,
+            "visualScale": 1.5163636363636364,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 5.59,
+        "beamRadius": 0.28500000000000003,
+        "pushAcceleration": 35,
+        "waterCapacity": 166,
+        "waterUse": 14.96,
+        "refillRate": 62,
+        "passiveWaterRate": 12,
+        "visualScale": 1.8800000000000001,
+        "tier": 5,
+        "jetCount": 3,
+        "spreadAngle": 0.165,
+        "upgrades": {
+          "pressure": 5,
+          "reach": 1,
+          "nozzle": 3,
+          "tank": 4
+        }
+      },
+      "failedSeeds": []
+    },
+    {
+      "level": 12,
+      "ranks": {
+        "pressure": 5,
+        "reach": 4,
+        "nozzle": 4,
+        "tank": 4
+      },
+      "version": "v0.11",
+      "samples": 32,
+      "clears": 26,
+      "clearPercent": 81.3,
+      "averageRoundSeconds": 41.77,
+      "averageClearSeconds": 38.72,
+      "averagePersonalKnockouts": 4.25,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 2.1,
+          "weapon": {
+            "range": 5.6499999999999995,
+            "beamRadius": 0.19999999999999998,
+            "pushAcceleration": 31.5,
+            "waterCapacity": 141,
+            "waterUse": 18,
+            "refillRate": 56,
+            "passiveWaterRate": 2.5,
+            "visualScale": 1.47,
+            "jetCount": 3,
+            "spreadAngle": 0.12
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.74,
+          "weapon": {
+            "range": 5.6499999999999995,
+            "beamRadius": 0.19999999999999998,
+            "pushAcceleration": 30,
+            "waterCapacity": 116,
+            "waterUse": 18,
+            "refillRate": 56,
+            "passiveWaterRate": 2.5,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.74,
+          "weapon": {
+            "range": 5.6499999999999995,
+            "beamRadius": 0.19999999999999998,
+            "pushAcceleration": 30,
+            "waterCapacity": 116,
+            "waterUse": 18,
+            "refillRate": 56,
+            "passiveWaterRate": 2.5,
+            "visualScale": 1,
+            "jetCount": 1,
+            "spreadAngle": 0
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 6.61,
+        "beamRadius": 0.32,
+        "pushAcceleration": 35,
+        "waterCapacity": 166,
+        "waterUse": 14.96,
+        "refillRate": 62,
+        "passiveWaterRate": 12,
+        "visualScale": 1.9400000000000002,
+        "tier": 5,
+        "jetCount": 3,
+        "spreadAngle": 0.19,
+        "upgrades": {
+          "pressure": 5,
+          "reach": 4,
+          "nozzle": 4,
+          "tank": 4
+        }
+      },
+      "failedSeeds": [
+        2,
+        7,
+        15,
+        17,
+        24,
+        26
+      ]
+    },
+    {
+      "level": 12,
+      "ranks": {
+        "pressure": 5,
+        "reach": 4,
+        "nozzle": 4,
+        "tank": 4
+      },
+      "version": "v0.12",
+      "samples": 32,
+      "clears": 30,
+      "clearPercent": 93.8,
+      "averageRoundSeconds": 35.72,
+      "averageClearSeconds": 35.84,
+      "averagePersonalKnockouts": 4.31,
+      "enemyWeapons": [
+        {
+          "id": "ai1",
+          "isBoss": true,
+          "resistance": 2.1,
+          "weapon": {
+            "range": 6.65,
+            "beamRadius": 0.30500000000000005,
+            "pushAcceleration": 36.5,
+            "waterCapacity": 188,
+            "waterUse": 16.919999999999998,
+            "refillRate": 68,
+            "passiveWaterRate": 5.2,
+            "tier": 4,
+            "visualScale": 1.7800000000000002,
+            "jetCount": 3,
+            "spreadAngle": 0.18
+          }
+        },
+        {
+          "id": "ai2",
+          "isBoss": false,
+          "resistance": 1.74,
+          "weapon": {
+            "range": 6.15,
+            "beamRadius": 0.28,
+            "pushAcceleration": 32.5,
+            "waterCapacity": 146,
+            "waterUse": 17.189999999999998,
+            "refillRate": 65,
+            "passiveWaterRate": 4.3,
+            "tier": 3,
+            "visualScale": 1.52,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        },
+        {
+          "id": "ai3",
+          "isBoss": false,
+          "resistance": 1.74,
+          "weapon": {
+            "range": 6.15,
+            "beamRadius": 0.28,
+            "pushAcceleration": 32.5,
+            "waterCapacity": 146,
+            "waterUse": 17.189999999999998,
+            "refillRate": 65,
+            "passiveWaterRate": 4.3,
+            "tier": 3,
+            "visualScale": 1.52,
+            "jetCount": 3,
+            "spreadAngle": 0.16499999999999998
+          }
+        }
+      ],
+      "playerWeapon": {
+        "range": 6.61,
+        "beamRadius": 0.32,
+        "pushAcceleration": 35,
+        "waterCapacity": 166,
+        "waterUse": 14.96,
+        "refillRate": 62,
+        "passiveWaterRate": 12,
+        "visualScale": 1.9400000000000002,
+        "tier": 5,
+        "jetCount": 3,
+        "spreadAngle": 0.19,
+        "upgrades": {
+          "pressure": 5,
+          "reach": 4,
+          "nozzle": 4,
+          "tank": 4
+        }
+      },
+      "failedSeeds": [
+        7,
+        20
+      ]
+    }
+  ]
+}

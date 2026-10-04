@@ -1,0 +1,306 @@
+Water Crew v0.12 automated validation
+
+core_test.cjs
+PASS Three-second countdown freezes actors, water and match time
+PASS Equal fixed-step behavior at 30, 60 and 120 rendering FPS
+PASS Diagonal movement is normalized
+PASS 100 water drains in four seconds; holding empty never refills
+PASS Refill reaches 100 after two uninterrupted seconds; groups alternate
+PASS Preview is visible only in the last half-second; shooting overrides refill
+PASS Nearest single target blocks the rear target; actors beyond range are ignored
+PASS Final partial water step produces only the affordable impulse
+PASS Opposing simultaneous water forces cancel as vectors
+PASS Stationary edge target can be pushed out; reverse walking cannot cancel continuous hits
+PASS Lateral movement escapes a continuous stream and kick decays
+PASS Boundary grace is continuous, resets on return, and eliminates exactly once
+PASS Final same-step all-out is a locked draw with shared first place
+PASS Three simultaneous eliminations share second place and player wins
+PASS Timeout first processes this-step elimination then awards all survivors
+PASS Pause freezes simulation and accumulated time is bounded after long frames
+PASS Deterministic seeds and rotating player spawns; reset clears result
+AUTONOMOUS {"win":0,"shared":10,"draw":0,"refills":359,"aiStates":["交战","规避水流","边缘求生","出局","寻找补水"],"games":[{"seed":1,"result":"shared","duration":30,"playerRank":4},{"seed":2,"result":"shared","duration":30,"playerRank":4},{"seed":3,"result":"shared","duration":30,"playerRank":4},{"seed":4,"result":"shared","duration":30,"playerRank":4},{"seed":5,"result":"shared","duration":30,"playerRank":4},{"seed":6,"result":"shared","duration":30,"playerRank":4},{"seed":7,"result":"shared","duration":30,"playerRank":4},{"seed":8,"result":"shared","duration":30,"playerRank":4},{"seed":9,"result":"shared","duration":30,"playerRank":4},{"seed":10,"result":"shared","duration":30,"playerRank":4}]}
+PASS Ten autonomous rounds finish, all values finite, events stay bounded and AI refill
+PASS Easy is the default with UI metadata; standard retains all original parameters
+PASS Difficulty changes only when ready, preserves seed and explicit tuning, and persists on reset
+PASS Easy shooting is more mobile and AI is slower, while player movement keeps full speed
+PASS Easy reduces player knockback but still pushes a stationary player toward the edge
+PASS Easy recovers water only after 0.9 seconds off-trigger and does not recover while held empty
+PASS Easy fountain radius is larger and strong refill never stacks with passive recovery
+PASS Opening grace prevents accidental AI crossfire rather than absorbing damage or granting revival
+EASY_FIRST_8_SECONDS {"seeds":40,"survivors":40,"aiShootingSeconds":204.6,"aiHitSteps":9535,"aiTravelMeters":1928.66,"games":[{"seed":1,"alive":true,"playerRadius":4.08},{"seed":2,"alive":true,"playerRadius":5.61},{"seed":3,"alive":true,"playerRadius":4},{"seed":4,"alive":true,"playerRadius":4},{"seed":5,"alive":true,"playerRadius":4},{"seed":6,"alive":true,"playerRadius":4.61},{"seed":7,"alive":true,"playerRadius":4.05},{"seed":8,"alive":true,"playerRadius":4},{"seed":9,"alive":true,"playerRadius":4.28},{"seed":10,"alive":true,"playerRadius":6.27},{"seed":11,"alive":true,"playerRadius":4},{"seed":12,"alive":true,"playerRadius":4},{"seed":13,"alive":true,"playerRadius":4},{"seed":14,"alive":true,"playerRadius":4.31},{"seed":15,"alive":true,"playerRadius":4},{"seed":16,"alive":true,"playerRadius":4},{"seed":17,"alive":true,"playerRadius":4.23},{"seed":18,"alive":true,"playerRadius":4},{"seed":19,"alive":true,"playerRadius":4.05},{"seed":20,"alive":true,"playerRadius":7.02},{"seed":21,"alive":true,"playerRadius":4},{"seed":22,"alive":true,"playerRadius":4.1},{"seed":23,"alive":true,"playerRadius":4.99},{"seed":24,"alive":true,"playerRadius":4},{"seed":25,"alive":true,"playerRadius":4},{"seed":26,"alive":true,"playerRadius":4.77},{"seed":27,"alive":true,"playerRadius":4},{"seed":28,"alive":true,"playerRadius":4},{"seed":29,"alive":true,"playerRadius":4.04},{"seed":30,"alive":true,"playerRadius":4},{"seed":31,"alive":true,"playerRadius":4},{"seed":32,"alive":true,"playerRadius":4},{"seed":33,"alive":true,"playerRadius":4},{"seed":34,"alive":true,"playerRadius":4.1},{"seed":35,"alive":true,"playerRadius":4},{"seed":36,"alive":true,"playerRadius":4},{"seed":37,"alive":true,"playerRadius":4},{"seed":38,"alive":true,"playerRadius":4},{"seed":39,"alive":true,"playerRadius":4},{"seed":40,"alive":true,"playerRadius":4.73}]}
+PASS Forty easy seeds leave an idle player alive for the first eight seconds while AI moves and fights
+PASS Easy AI decisions are deterministic for the same seed and input
+PASS Easy pause freezes recovery delay, match time and AI cadence without catch-up
+PASS Easy timeout still processes eliminations first and locks the 45-second result
+EASY_FULL_ROUNDS [{"seed":1,"reason":"timeout","playerRank":4,"duration":45},{"seed":2,"reason":"timeout","playerRank":4,"duration":45},{"seed":3,"reason":"timeout","playerRank":4,"duration":45},{"seed":4,"reason":"timeout","playerRank":4,"duration":45},{"seed":5,"reason":"timeout","playerRank":4,"duration":45},{"seed":6,"reason":"timeout","playerRank":4,"duration":45},{"seed":7,"reason":"timeout","playerRank":4,"duration":45},{"seed":8,"reason":"timeout","playerRank":1,"duration":45},{"seed":9,"reason":"timeout","playerRank":1,"duration":45},{"seed":10,"reason":"timeout","playerRank":4,"duration":45}]
+PASS Ten full easy rounds complete with bounded events and no invalid state
+RESULT 30 gameplay checks passed.
+
+weapon_test_v6.cjs
+PASS Round configs snapshot metadata and upgrades; reset reuses them; null restores standard quick mode
+PASS Configure is rejected during countdown, play and pause without resetting the attempt
+PASS Three real rays hit three different actors with a single trigger cost
+PASS Three overlapping rays apply exactly one impulse to the same large target
+PASS Each actor has independent capacity and consumption; upgraded player pressure does not upgrade AI
+PASS Fountain and passive refill use each weapon rate and capacity
+PASS Range and width upgrades change real geometry while AI aims using its own range
+PASS Pressure improves kick speed modestly with a bounded cap; explicit per-enemy caps remain respected
+PASS Boss resistance scales actual force and body scale matches collision and ray radius
+PASS Final partial water remains exact with three rays and greater pressure
+PASS Real player knock-off awards one elimination; hits older than three seconds award none
+PASS Mixed AI combat meets the total elimination objective without falsely crediting P1
+PASS Last-hit credit transfers to the later actual shooter
+PASS Elimination goals record once while controls, water and the round timer keep running
+PASS One-round Boss goals require the designated boss, independent of credit and other AI
+PASS Clearing every AI completes survival immediately without waiting for the timer
+PASS Completed goals freeze on pause and retain success if P1 later falls
+PASS Defeating every AI automatically banks a campaign clear exactly once
+PASS Survival still fails if P1 falls on the timer deadline
+PASS Resetting or removing a stage clears completed goal metadata before a new attempt
+PASS Explicitly ending completed bonus play banks a paused clear once and refuses unfinished stages
+PASS Campaign player-out ends immediately, freezes failure and permits a clean configured retry
+PASS P1 death takes precedence over an objective completed in the same batch
+PASS Unmet objectives fail at timeout even if the player is alive
+PASS Ring turns the center off and alternates opposite outer pairs with correct preview
+PASS Pulse runs a true three-second center / three-second perimeter cycle
+PASS Pause freezes configured weapons, objectives, recovery and fountain schedules
+PASS Boss stays down for 1.3 seconds, respawns once and resets physical state without reviving other AI
+PASS Boss respawn countdown freezes during pause and failure cancels pending return
+PASS Actual gun knock-offs complete three Boss waves with exactly three credits and two respawns
+PASS Pending Boss waves reset cleanly and survive-mode boss appearances never respawn
+PASS Boss timeout does not count an unfinished next wave or resurrect it after result
+PASS Configured multi-jet simulation is deterministic and every live numerical value stays finite
+RESULT 33 weapon/campaign checks passed.
+
+campaign_test_v6.mjs
+PASS New campaign starts with only level 1 and exactly one affordable starter upgrade
+PASS All twelve stages have four real themes and different objective/fountain configurations
+PASS Stage opposition grows smoothly while the introductory round stays short
+PASS Locked or malformed levels cannot be selected or started
+PASS Starter pressure purchase spends real coins and increases physical and visual power
+PASS Maximum ranks are capped and their full cost is deducted without overspending
+PASS Second nozzle rank enables three independently aimed jets; tank lowers consumption
+PASS Upgrade purchases cannot alter an active round snapshot; quitting permits purchase again
+PASS Countdown, playing and paused states never issue rewards
+PASS First survival clear gives the promised reward and unlocks only the next stage
+PASS The same attempt cannot pay twice even after a save/reload
+PASS A preview config, canceled round or wrong session cannot fabricate progression
+PASS An uncompleted attempt replaced by a new round cannot award old results
+PASS Failure rewards participation and personal knockouts without granting stars or unlocking
+PASS Replay rewards are lower and cannot erase an earned star record or best time
+PASS All twelve stages unlock sequentially and final clear has no fictional level 13
+PASS Intermediate boss rounds issue no reward; final clear pays once and caps knockout coins
+PASS Coins, upgrades, selected level and stars survive an actual storage round trip
+PASS Corrupt JSON and an unrelated save schema recover as a fresh campaign
+PASS Invalid fields are clamped and an unbacked unlock index is ignored
+PASS Blocked local storage remains playable and honestly reports memory-only saves
+PASS Read-only snapshots cannot mutate the economy, configurations or progression
+PASS Maximum-gun preview provides three strong jets without spending or faking progress
+PASS Two pump upgrades improve pressure without granting a runaway advantage; saved high ranks use the same curve
+PASS Every upgrade rank adds controlled real benefit and tank efficiency cannot double sustained fire
+PASS Campaign tactics, prediction and refilling develop across chapters without changing quick-match defaults
+PASS Campaign rivals gain real footing by chapter and captains are firmer than ordinary opponents
+PASS Firmer opposition preserves existing currency, purchased gun power and save schema
+PASS AI guns visibly and physically advance by chapter; captains unlock three jets earlier
+PASS AI equipment is independent of purchases and cannot consume player coins or rewrite their ranks
+PASS Quota failure during a later purchase keeps earned progression and never throws
+PASS An early goal played through timeout retains fast-clear stars and best completion time
+PASS Continuing after a goal and later falling preserves earned stars and unlocks
+PASS A reached goal pays nothing while playing or paused and its final reward survives reload exactly once
+PASS Malformed completion timestamps and failure cannot manufacture fast-clear rewards
+Campaign checks: 35 passed
+
+visual_test_v6.mjs
+PASS The original nozzle stays .060 while upgrades enlarge water, highlights and splash
+PASS Invalid upgrade and Boss inputs stay finite and bounded
+PASS Each nozzle has stable ownership when actor and beam arrays are reordered
+PASS Six logical streams create six emitters, and invalid fourth nozzles allocate nothing
+PASS Stopped nozzles retain detached water history, then all reset on a new round
+PASS Changing the animated muzzle does not drag already emitted water with it
+PASS Theme changes alter actual lights, water and local materials, then restore spring exactly
+PASS Fountain IDs follow changed stage locations instead of silently deactivating
+PASS Equipment upgrades preserve the muzzle attachment while Boss identity is visible
+PASS A respawn event restores real animation actions and resets only the revived actors streams
+10 visual behavior checks passed (no WebGL context created)
+
+controls_test_v5.mjs
+PASS Aiming at a body corrects floor-ray parallax toward its actual position
+PASS A cursor clearly outside the body region keeps free aim
+PASS Manual assistance selects the opponent under the cursor, not the nearest opponent
+PASS Auto fire targets the nearest living opponent without a mouse pointer
+PASS Auto fire can reach a collision circle at the existing muzzle-plus-range limit
+PASS Auto fire does not aim at out-of-range or eliminated actors
+PASS Manual assistance also excludes eliminated and out-of-range bodies
+PASS Screen tolerance shrinks with smaller rendered characters
+PASS Invalid pointers preserve the actor facing instead of turning toward screen origin
+PASS An invalid camera projection falls back to the valid free aim
+PASS Overlapping targets, zero floor direction and failing cameras never produce NaN
+PASS Eliminated players and missing states cannot acquire a target
+PASS Resolving aim leaves the gameplay state intact
+PASS Auto aiming uses the upgraded player range without increasing rival range
+14 controls checks passed
+
+audio_test_v5.mjs
+PASS music is an embedded original MP3, requiring no file fetch
+PASS no audio nodes or autoplay before a real unlock
+PASS concurrent gesture unlock creates one context and decodes once
+PASS music plus low ambient start after unlock
+PASS a continuous frame loop never stacks music or ambient nodes
+PASS only active gun streams start and retain actor identity
+PASS held firing does not recreate persistent stream sources
+PASS releasing a gun immediately stops that stream
+PASS an empty tank cannot leave a water loop running
+PASS player refill has one separate bubble loop
+PASS leaving refill stops the refill loop
+PASS duplicate event sequence never duplicates countdown bells
+PASS one-shots clean up their voice nodes after ending
+PASS rapid hit events are mixed without an accumulating wall of noise
+PASS global mute immediately zeros the master and stops all sources
+PASS muted per-frame updates cannot restart sounds
+PASS unmuting restores only one music and one ambient voice
+PASS pause preserves music position and stops every active source
+PASS same-phase frames do not undo an explicit pause
+PASS a game pause-to-play transition resumes the preserved score
+PASS returning to the title releases manual pause for quiet menu music
+PASS backgrounding stops audio even if simulation still reports playing
+PASS foreground frames alone cannot resume hidden-tab audio
+PASS a fresh foreground user gesture safely restores audio
+PASS independent sliders clamp and zero their actual gain buses
+PASS volume inputs are safely clamped
+PASS result event and an explicit result call cannot stack stingers
+PASS result fanfare voices release after their tail
+PASS explicit stop is sticky until a user unlocks again
+PASS unlock can intentionally recover from stop
+PASS dispose is idempotent and removes listeners/nodes/context
+PASS a disposed instance cannot recreate audio
+PASS unsupported devices fail gracefully with no gameplay exception
+PASS music decode failures report a false result and visible diagnostic
+PASS disposing during asynchronous music decoding cannot start a late source
+PASS Upgraded water cannons deepen the same stream without stacking sources
+PASS A returning Boss plays one short round signal and deduplicates its event
+PASS A Boss defeat cannot play a premature return signal
+PASS A completed mission plays success after later falling and duplicate result events are ignored
+PASS A failed objective plays failure even when the player survives
+40 audio lifecycle checks passed.
+
+asset_test_v3.mjs
+PASS Blender character: actual curved geometry, 43 bones, 17 retained animation clips
+PASS Independent actor skeletons and actual running knee articulation
+PASS All 17 clips deform the new skinned character with finite vertices
+PASS Blender environment: bevelled stone, shaped flower/leaf meshes and four spout markers
+{
+  "character": {
+    "skins": 12,
+    "bones": 43,
+    "triangles": 52216,
+    "clips": 17
+  },
+  "environment": {
+    "meshes": 28,
+    "triangles": 211328,
+    "nozzles": 4
+  }
+}
+
+water_flow_test_v4.mjs
+Actual module: /Users/tao/Documents/Codex/2026-10-04/zhe-g/outputs/water-game-design/water-flow.js
+SHA256: 65f7a28da0dabe3a58dee3147bf5dc5712c1bf8e16df85565e21c605d5cbc2d8
+Three.js r180; no WebGL renderer created.
+PASS World-space packets retain launch position and momentum after turn and stop
+PASS Previously emitted packets keep their original trajectory during an active turn
+PASS Detached droplets preserve inertia and gravity after muzzle relocation
+PASS Zero dt pauses packet/drop/ripple simulation and rendered attributes
+PASS Hit packets reach their captured target endpoint without changing game input
+PASS Continuous jet follows a genuine downward-accelerated ballistic arc
+PASS WaterJet reset immediately empties history, droplets, ripples and draw range
+PASS WaterJet reset does not resume stale emission without a new setEmission call
+PASS All real dynamic attributes and instance matrices stay finite during varied motion
+PASS Invalid, negative and oversized dt are clamped before simulation
+PASS Fountain starts from emission time, keeps airborne water after stop, then drains
+PASS Fountain zero dt preserves all motion, uniforms and ripple buffers
+PASS Fountain reset immediately clears visible old GPU water, foam and ripples
+PASS Repeated fountain on/off periods always finish draining
+PASS Droplets beyond the raised arena land on the lower pool instead of a floating floor
+PASS Dispose removes every effect object and disposes all allocated geometry/materials
+
+16 passed; 0 failed. Visual QA and shader compilation require the browser.
+
+menu_preview_test_v7.mjs
+PASS An upgrade chosen before ready appears after the real 43-bone GLB loads
+PASS Equipment appearance cannot move the original right-hand attachment or muzzle socket
+PASS Returning to the basic weapon restores all visible gun and tank upgrade changes
+PASS Water radius, highlights and detached droplet scaling use the runtime upgrade values
+PASS The shooting preview emits the equipped nozzle count, all from the animated muzzle
+PASS Upgrades retain the original five animation choices and running bone movement
+PASS Repeated menu renders preserve detached water and do not reallocate the same equipment
+PASS A preview is an isolated copy and malformed inputs never allocate extra nozzles
+PASS Disposal releases every preview nozzle, including nozzles hidden by a downgrade
+9 actual model/equipment preview checks passed (no WebGL context created)
+
+objective_continuation_test_v9.mjs
+PASS Actual water knock-off latches the campaign goal without a result or payment
+PASS After achievement the player still moves, sprays, spends water and advances the timer
+PASS Paused bonus play cannot issue premature rewards or advance the achieved round
+PASS Explicit settlement of a paused achieved round banks real progress and its fast-clear stars
+PASS The settled real round cannot pay twice, including after a storage reload
+PASS A real water sweep automatically settles and banks a cleared stage without manual confirmation
+6 objective continuation integration checks passed.
+
+ai_tactics_test_v10.cjs
+PASS Tactical profile values clamp safely and quick play keeps legacy behavior
+PASS A new visible stream cannot bypass the finite AI reaction interval
+PASS Advanced AI leaves a visible jet sideways and releases the trigger to regain running speed
+PASS Early AI still attacks during evasion, making tactical growth gradual
+PASS A distant, blocked or off-axis visible stream causes no invented threat
+PASS Edge prediction retreats before crossing the boundary and stops shooting
+PASS Sidestep chooses the free side instead of running into a nearby actor
+PASS AI aims at a short velocity lead sampled at its reaction tick
+PASS AI seeks the target inner side rather than pushing a rival toward the center
+PASS AI attacks only when its own finite rays reach the selected opponent
+PASS AI prefers a slightly farther fountain clear of an observed jet
+PASS Empty tactical AI uses the real fountain rate and never receives instant full water
+PASS Two pressure upgrades increase initial force without doubling the victim velocity cap
+PASS Level-zero workshop trials remain playable after clearing their targets
+PASS Pending Boss waves block automatic clear, then the final real wave settles exactly once
+PASS Same-step player and opponent clearance remains failure without prior goal completion
+PASS Advanced tactics stay deterministic, finite and within water and kick limits through real combat
+RESULT 17 tactical AI / automatic-clear checks passed.
+
+resistance_test_v11.cjs
+PASS Real applied water impulses decrease for 1.0 / 1.2 / 1.5 / 1.8 resistance
+RESISTANCE_PHYSICS_1_SECOND [{"resistance":1,"displacement":3.8032936524129415,"kick":4.5,"water":100},{"resistance":1.2,"displacement":3.2380393023700753,"kick":3.973048212003658,"water":100},{"resistance":1.5,"displacement":2.5904314418960617,"kick":3.1784385696029256,"water":100},{"resistance":1.8,"displacement":2.1586928682467166,"kick":2.648698808002437,"water":100}]
+PASS One second of equal continuous shooting gives progressively less physical displacement and kick
+PASS Higher pressure still moves a resistant opponent farther rather than making upgrades cosmetic
+PASS Three overlapping jets retain one resisted impulse per victim and one trigger water cost
+PASS Resistance preserves real hit feedback, hit credit, AI resources, collision size and player attributes
+PASS Opponent-on-opponent streams obey the same resistance, water use and hit-source rules
+PASS Increasing AI resistance does not reduce the force applied to the player
+PASS A resistant opponent at the edge can still be physically knocked off and automatically settle once
+PASS Quick play retains normal resistance and finite resource consumption
+RESULT 9 physical-resistance checks passed.
+
+ai_weapon_test_v12.mjs
+PASS Real campaign AI actors receive their chapter equipment tier, stream size and finite reservoirs
+PASS Ordinary AI emits one real jet early and three separate real jets from chapter four
+PASS A chapter two captain already emits three jets while its two rivals still emit one
+PASS Three overlapping AI rays apply one resisted impulse and one water cost to a single victim
+PASS Upgraded AI stream applies its real stronger pressure and larger radius to another AI
+PASS AI spray respects the player push factor and has no separate player-only damage multiplier
+PASS Even a final upgraded AI tank empties; holding the dry trigger cannot refill or keep a stream alive
+PASS AI fountain refilling uses the upgraded reservoir rate and never overfills the tank
+PASS Away from fountains upgraded AI rest recovery waits for the same delay and stays bounded
+AI weapon physics checks: 9 passed
+
+ai_weapon_visual_test_v12.mjs
+AI_RENDERED_EQUIPMENT [{"level":1,"tier":0,"barrel":1,"lip":1,"tank":1,"lights":0,"ringGlow":0,"metal":0.02},{"level":4,"tier":1,"barrel":1.0307636363636363,"lip":1.0307636363636363,"tank":1.034181818181818,"lights":1,"ringGlow":0.4,"metal":0.64},{"level":7,"tier":2,"barrel":1.0615272727272727,"lip":1.0615272727272727,"tank":1.0683636363636364,"lights":2,"ringGlow":0.4,"metal":0.64},{"level":10,"tier":3,"barrel":1.092290909090909,"lip":1.092290909090909,"tank":1.1025454545454545,"lights":3,"ringGlow":0.4,"metal":0.64}]
+PASS Chapter AI upgrades enlarge actual muzzle and backpack meshes and add pump tier lights
+PASS Boss models receive the next gun tier early and keep their independent crown and body silhouette
+PASS Real late Boss rays produce three independent upgraded water emitters from the equipment muzzle
+PASS Upgraded Boss equipment and stream size survive real round defeat and respawn without downgrade
+PASS Player purchases do not secretly enlarge an AI gun or its rendered water
+PASS All four triple-jet guns retain distinct emitter ownership when the beam order changes
+RESULT 6 real AI-equipment / water-rendering checks passed (no WebGL context created).
+
+
+TOTAL PASS lines: 238
+

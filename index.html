@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>水枪推推乐 · 水枪远征</title>
+<style>
+:root{--ink:#203d49;--muted:#728992;--paper:#fbf9f3;--cream:#f4eee3;--mint:#8ad5cc;--blue:#248fce;--coral:#f2776b;--yellow:#e6b843;--purple:#9072ca;--line:#dce5df;--danger:#db5c52}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button:disabled{opacity:.4;cursor:default}
+header{max-width:1440px;margin:auto;padding:22px 36px 18px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px}.brand-icon{width:42px;height:42px;display:grid;place-items:center;background:var(--mint);border-radius:14px;color:var(--ink);font-size:23px;font-weight:900;transform:rotate(-7deg)}.brand strong{display:block;font-size:18px;letter-spacing:1px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2.2px;margin-top:5px}
+nav{display:flex;gap:5px;background:#eeeee6;border-radius:24px;padding:5px}nav button{border:0;background:transparent;padding:9px 20px;border-radius:19px;color:var(--muted);font-size:13px;white-space:nowrap}nav button.active{background:white;color:var(--ink);box-shadow:0 2px 4px #23423c0c;font-weight:700}.version{font-size:12px;color:var(--muted);letter-spacing:1px}
+main{max-width:1440px;margin:auto;padding:0 36px 34px}.section-intro{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:13px 0 16px}.section-intro h1{margin:0;font-size:27px;letter-spacing:-.6px}.section-intro p{margin:7px 0 0;color:var(--muted);font-size:13px}.pill{padding:7px 12px;border:1px solid var(--line);border-radius:24px;font-size:11px;white-space:nowrap;color:var(--muted)}[hidden]{display:none!important}
+.arena-wrap{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#e6f4ef,#c9e7e4);overflow:hidden;border-radius:24px;border:1px solid #d0e5de;box-shadow:0 14px 36px #305c4e0e;user-select:none;touch-action:none;isolation:isolate}#arena{width:100%;height:100%;display:block}#arena:focus{outline:0}.hud{position:absolute;inset:0;pointer-events:none;z-index:2}.hud-top{position:absolute;left:24px;top:22px;display:flex;gap:8px;align-items:center}.identity-dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:white;font-size:11px;font-weight:800;background:var(--blue);border:2px solid #fff8;box-shadow:0 2px 8px #2c53621c}.identity-dot.out{background:#b4c2bf!important;color:#e9eeeb}.small-hud{margin-left:6px;font-size:11px;color:#52746e;background:#ffffff94;border-radius:20px;padding:8px 12px;backdrop-filter:blur(12px)}.timer{position:absolute;top:18px;left:50%;transform:translateX(-50%);text-align:center;background:#fffc;padding:10px 29px 9px;border-radius:18px;box-shadow:0 4px 15px #45685a12;min-width:115px}.timer strong{font-size:32px;font-weight:900;line-height:1;display:block;letter-spacing:-1px;font-variant-numeric:tabular-nums}.timer span{font-size:10px;color:#66817c;display:block;letter-spacing:1px;margin-top:5px}.timer.warning strong{color:var(--danger)}.hud-tools{position:absolute;top:23px;right:24px;display:flex;gap:7px;pointer-events:auto}.icon-btn{border:1px solid #ffffff66;background:#ffffffb0;color:var(--ink);border-radius:14px;padding:9px 13px;backdrop-filter:blur(12px);font-size:12px}
+.water-hud{position:absolute;bottom:22px;left:24px;width:246px;background:#ffffffd9;backdrop-filter:blur(14px);padding:15px 17px;border-radius:18px;box-shadow:0 3px 12px #48745a10}.water-line{display:flex;align-items:center;justify-content:space-between;font-weight:700;margin-bottom:10px}.water-line b{font-variant-numeric:tabular-nums;font-size:16px}.water-line small{font-weight:400;color:var(--muted);font-size:10px}.water-track{height:8px;border-radius:9px;background:#e2ece9;overflow:hidden}.water-fill{height:100%;background:var(--blue);border-radius:9px;transition:width .08s}.water-fill.low{background:var(--coral)}.water-message{font-size:10px;line-height:1.5;color:#6c837e;min-height:15px;margin-top:9px}.water-message.danger{color:var(--danger)}.footer-help{position:absolute;right:24px;bottom:24px;text-align:right;font-size:10px;line-height:1.9;color:#54766f}.footer-help span{background:#ffffff9c;border-radius:12px;padding:8px 12px;display:inline-block}.key{display:inline-block;min-width:18px;padding:0 4px;margin:0 2px;border:1px solid #ccdcd6;border-radius:4px;color:var(--ink);font-size:10px;line-height:17px;background:#fffc}
+.actor-label{position:absolute;display:flex;align-items:center;justify-content:center;min-width:28px;height:23px;padding:0 7px;border-radius:8px;background:#ffffffdf;color:var(--ink);font-size:10px;font-weight:900;transform:translate(-50%,-100%);box-shadow:0 2px 6px #20423613}.actor-label.p1{background:var(--blue);color:white;border:2px solid white}.actor-label.hit{transform:translate(-50%,-100%) scale(1.08)}.crosshair{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border:2px solid #203d4977;border-radius:50%;display:none;pointer-events:none}.crosshair:before,.crosshair:after{content:"";position:absolute;background:#203d4999;left:9px;top:-5px;width:2px;height:6px;box-shadow:0 26px 0 #203d4999}.crosshair:after{transform:rotate(90deg);transform-origin:1px 17px}.message{position:absolute;left:50%;bottom:25px;transform:translateX(-50%);padding:9px 15px;border-radius:20px;background:#203d49dc;color:white;font-size:12px;max-width:50%;text-align:center;display:none}.observer{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);pointer-events:auto;background:#ffffffec;box-shadow:0 3px 15px #244e3f15;border-radius:15px;padding:12px 15px;display:flex;gap:13px;align-items:center;font-size:12px}.observer button{border:0;background:var(--blue);color:white;border-radius:9px;padding:8px 14px;font-size:11px}
+.overlay{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;padding:20px;background:#d9ede723;backdrop-filter:blur(2px)}.overlay.backdrop{background:#1e40356b;backdrop-filter:blur(5px)}.dialog{background:#fffaf2f7;max-width:470px;width:100%;text-align:center;border-radius:26px;padding:32px 35px;box-shadow:0 20px 60px #30504c22;border:1px solid #ffffffee}.eyebrow{color:#6c958b;letter-spacing:3px;font-size:10px;margin-bottom:10px;text-transform:uppercase}.dialog h2{font-size:38px;margin:0 0 12px;letter-spacing:-1px;line-height:1.15}.dialog p{font-size:13px;line-height:1.85;color:#648076;margin:0 0 19px}.dialog .primary{padding:13px 32px;border:0;background:var(--blue);color:white;font-weight:800;border-radius:14px;box-shadow:0 5px 0 #176c9f;font-size:14px;min-width:176px}.dialog .primary:active{transform:translateY(3px);box-shadow:0 2px 0 #176c9f}.dialog .secondary{padding:12px 22px;border:1px solid #d9e1d6;background:transparent;color:var(--ink);font-weight:600;border-radius:14px;font-size:13px}.dialog-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.mini-rules{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:21px;color:#81938a;font-size:11px}.mini-rules b{font-weight:700;color:#506b60;margin-right:4px}.color-crew{display:flex;justify-content:center;gap:8px;margin-bottom:18px}.crew-dot{width:25px;height:25px;border-radius:8px;background:var(--blue);border:3px solid #ffffffe0;box-shadow:0 2px 4px #304c4510}.countdown-display{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:3;font-size:100px;font-weight:900;color:white;text-shadow:0 6px 0 #31778555;display:none}.rank-list{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:20px 0}.rank-card{border:1px solid #dde7de;background:#fff9;border-radius:14px;padding:11px 6px;font-size:10px;color:#748b82}.rank-card b{display:block;color:var(--ink);font-size:20px;margin:4px 0}.rank-card.p1{border-color:#80badc;background:#eaf4f9}.rank-card .rank-dot{display:inline-block;width:15px;height:15px;border-radius:50%;margin-bottom:4px}.tutorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;margin:20px 0}.tutorial-grid div{padding:11px 13px;border:1px solid #e2e9df;border-radius:12px}.tutorial-grid strong{font-size:12px;display:block;margin-bottom:5px}.tutorial-grid small{font-size:11px;color:#7b9083;line-height:1.5}.audio-setting{display:flex;align-items:center;gap:12px;margin:20px 0;color:#799088;font-size:12px}.audio-setting input{flex:1;accent-color:var(--blue)}.fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:var(--cream);padding:25px;text-align:center;color:var(--ink);z-index:8}
+.bottom-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 4px;color:var(--muted);font-size:11px}.bottom-meta strong{color:#4d7566;font-weight:500}.dot-status{width:6px;height:6px;background:#6ca998;display:inline-block;border-radius:50%;margin-right:7px}.design-hero{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(230px,.75fr);gap:28px;align-items:start;margin-top:22px}.design-hero img{width:100%;display:block;border-radius:20px;border:1px solid #e0e7dc}.design-hero aside{padding-top:10px}.design-hero h2{font-size:27px;margin:7px 0 14px}.design-hero p{font-size:13px;line-height:1.9;color:var(--muted)}.design-hero .tiny{font-size:11px;color:#9ba99b;margin-top:18px}.swatches{display:flex;gap:8px;margin:24px 0}.swatch{flex:1;min-width:0}.swatch i{display:block;width:100%;height:36px;border-radius:11px;background:var(--blue)}.swatch span{display:block;font-size:10px;margin-top:8px;color:var(--muted)}.design-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin:35px 0}.design-detail-grid h3{font-size:15px;margin:12px 0}.design-detail-grid p{font-size:12px;line-height:1.9;color:var(--muted);margin:0}.section-num{font-size:10px;letter-spacing:2px;color:#87a799}.production-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin:28px 0}.production-grid h2{font-size:21px;margin:0 0 15px}.production-grid p{line-height:1.85;color:var(--muted);font-size:13px}.spec-table{width:100%;border-collapse:collapse;font-size:12px}.spec-table th,.spec-table td{text-align:left;padding:12px 6px;border-bottom:1px solid var(--line);line-height:1.65}.spec-table th{font-weight:700;font-size:11px;color:#7e9585}.spec-table td:last-child{color:var(--muted)}.flow{display:flex;gap:10px;align-items:stretch;margin:30px 0;flex-wrap:wrap}.flow div{flex:1;min-width:160px;padding:18px;border-top:3px solid var(--mint);background:#f1f3e9;border-radius:0 0 13px 13px}.flow b{font-size:13px;display:block;margin-bottom:8px}.flow span{font-size:11px;line-height:1.7;color:var(--muted)}.download-link{display:inline-block;margin-top:16px;color:var(--blue);text-decoration:none;border-bottom:1px solid #a3cfe6;padding-bottom:4px;font-size:12px}
+@media(min-width:1450px){main,header{max-width:1440px}}@media(max-width:900px){header,main{padding-left:20px;padding-right:20px}.version{display:none}.section-intro h1{font-size:23px}.arena-wrap{aspect-ratio:16/10}.footer-help{display:none}.hud-top{left:14px;top:15px}.hud-tools{right:14px;top:15px}.timer{top:12px;min-width:86px;padding:8px 18px}.timer strong{font-size:27px}.water-hud{left:14px;bottom:14px;width:210px;padding:12px}.dialog{padding:22px;max-width:430px}.dialog h2{font-size:32px}.design-hero{grid-template-columns:1fr}.design-detail-grid{gap:20px}.production-grid{gap:25px}.pill{display:none}}
+@media(max-width:620px){header{padding-top:16px;flex-direction:column;gap:15px;align-items:start}nav{width:100%;justify-content:space-between}nav button{flex:1;padding:8px 6px}main{padding-bottom:20px}.section-intro{margin-top:6px}.section-intro h1{font-size:22px}.section-intro p{font-size:11px}.arena-wrap{aspect-ratio:4/5;border-radius:20px}.hud-top{gap:4px;left:10px}.identity-dot{width:21px;height:21px;font-size:9px}.small-hud{font-size:9px;padding:5px 7px;margin-left:2px}.hud-tools{right:10px;top:61px}.icon-btn{font-size:10px;padding:7px 9px}.timer{left:auto;right:10px;transform:none;min-width:64px;padding:6px 13px}.timer strong{font-size:24px}.timer span{font-size:8px}.water-hud{left:10px;bottom:10px;width:180px;padding:10px 12px}.water-line{font-size:11px}.water-message{font-size:9px}.dialog{padding:25px 22px}.dialog h2{font-size:32px}.mini-rules{font-size:10px;gap:8px}.bottom-meta{font-size:10px;flex-wrap:wrap}.message{bottom:100px;max-width:85%}.observer{bottom:100px;white-space:nowrap}.design-detail-grid,.production-grid{grid-template-columns:1fr}.design-hero h2{font-size:24px}.flow div{min-width:45%}.rank-list{gap:4px}.rank-card{padding:8px 3px}.tutorial-grid{gap:6px}.tutorial-grid div{padding:9px}.countdown-display{font-size:70px}}
+
+/* Version 0.3: foreground the Blender arena and skinned character motion. */
+body{background:#f5f5ef}header,main{max-width:1680px}header{padding:12px 24px 10px;gap:18px}.brand{gap:10px}.brand-icon{width:32px;height:32px;border-radius:10px;font-size:21px}.brand strong{font-size:16px}.brand small{font-size:9px;margin-top:3px;letter-spacing:1.6px}nav{padding:4px}nav button{padding:8px 16px;font-size:12px}.version{font-size:10px}main{padding:0 24px 18px}.section-intro{margin:6px 0 10px;align-items:center}.section-intro h1{font-size:19px;letter-spacing:0}.section-intro p{font-size:12px;margin-top:3px}.arena-wrap{height:clamp(460px,72vh,740px);aspect-ratio:auto;border-radius:16px;background:#899c72;border-color:#bbcab2;box-shadow:0 8px 24px #334b3820}.bottom-meta{padding:9px 3px;font-size:11px}.overlay:not(.backdrop){background:#183e1f13;backdrop-filter:none}.dialog{max-width:430px;padding:25px 29px;border-radius:22px;box-shadow:0 15px 45px #152d3530}.dialog h2{font-size:35px}.dialog p{margin-bottom:16px}.color-crew{margin-bottom:12px}.model-status{display:block;margin:13px 0 0!important;font-size:11px!important;line-height:1.7!important;color:#69816d!important;min-height:19px}.model-status.failed{color:var(--danger)!important}.model-status.ready{color:#3f7862!important}.footer-help{display:block}.concept-initial{padding:10px 15px;background:#eeeddf;border:1px solid #e0dfce;border-radius:12px;color:#7f795b;font-size:12px;line-height:1.7;margin:12px 0 16px}.character-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:22px;margin-top:16px}.character-stage{position:relative;height:clamp(460px,68vh,690px);border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#dfe9da,#bccdb9);border:1px solid #cbd5c4}.character-stage canvas{width:100%;height:100%;display:block}.character-stage-tag{position:absolute;left:20px;top:18px;font-size:11px;letter-spacing:.6px;color:#58715e;background:#ffffffac;padding:8px 12px;border-radius:18px;pointer-events:none}.character-note{padding:14px 2px}.character-note h2{font-size:23px;line-height:1.35;margin:10px 0 14px}.character-note p{font-size:12px;color:var(--muted);line-height:1.9;margin:0 0 18px}.motion-buttons{display:grid;gap:9px}.motion-buttons button{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:13px 15px;border-radius:12px;background:#fffaf2;border:1px solid #d9dfce;color:var(--ink);font-size:13px;font-weight:600}.motion-buttons button small{color:#8a9a83;font-size:10px;font-weight:400}.motion-buttons button.active{background:#e5f2f4;border-color:#8dbecc;box-shadow:inset 3px 0 var(--blue)}.character-asset{display:block;font-size:11px!important;line-height:1.7!important;color:#728672!important;margin-top:18px!important}.character-asset.failed{color:var(--danger)!important}
+@media(min-width:1450px){header,main{max-width:1680px}}@media(max-width:900px){header,main{padding-left:16px;padding-right:16px}.arena-wrap{height:clamp(460px,72vh,740px);aspect-ratio:auto}.character-layout{grid-template-columns:minmax(0,1fr) 235px;gap:16px}.character-note h2{font-size:21px}.footer-help{display:block;font-size:9px;right:14px;bottom:14px}.section-intro h1{font-size:18px}nav button{padding:8px 12px}}
+@media(max-width:620px){header{padding-top:10px;gap:10px}main{padding-bottom:15px}nav button{padding:8px 4px;font-size:11px}.section-intro h1{font-size:18px}.section-intro p{font-size:10px}.arena-wrap{height:clamp(460px,72vh,740px);aspect-ratio:auto;border-radius:14px}.footer-help{display:block;bottom:116px;right:10px;font-size:9px}.footer-help span{padding:6px 8px}.character-layout{grid-template-columns:1fr}.character-stage{height:480px}.character-note{padding:0 2px}.motion-buttons{grid-template-columns:repeat(5,1fr);gap:6px}.motion-buttons button{justify-content:center;padding:10px 3px;font-size:11px}.motion-buttons small{display:none}.dialog{padding:23px 20px}.dialog h2{font-size:31px}}
+#start-overlay{align-items:flex-end;background:none;padding:20px}#start-overlay .dialog{max-width:560px;padding:14px 22px;background:#fffaf2ed;border-radius:18px}#start-overlay .eyebrow,#start-overlay .color-crew,#start-overlay .mini-rules{display:none}#start-overlay .dialog h2{font-size:23px;margin:0 0 6px}#start-overlay .dialog p{font-size:11px;line-height:1.6;margin:0 0 10px}#start-overlay .dialog-actions{margin:0}#start-overlay .primary,#start-overlay .secondary{padding:10px 18px}#start-overlay .model-status{margin-top:7px!important}
+
+/* v0.3: one compact toolbar, followed by a viewport-sized game stage. */
+html{min-height:100%;background:#edf1e9}body{margin:0;background:#edf1e9}header{max-width:none;min-height:42px;height:42px;margin:0;padding:5px 12px;gap:12px;border-bottom:1px solid #d4dfcf;background:#f7f9f1;flex-direction:row;flex-wrap:nowrap;align-items:center}.brand{gap:7px;flex-shrink:0}.brand-icon{width:26px;height:26px;border-radius:8px;font-size:19px}.brand strong{font-size:14px;letter-spacing:.3px}.brand small{display:none}nav{padding:2px;margin-left:auto;gap:2px;background:#e8eee2;border-radius:17px;width:auto}nav button{padding:6px 12px;font-size:11px;border-radius:14px}.version{font-size:10px;letter-spacing:0;color:#84937d;white-space:nowrap}main{max-width:none;width:100%;padding:6px 8px 2px;margin:0}#panel-play{position:relative}#panel-play>.section-intro{position:absolute;width:1px;height:1px;padding:0;margin:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.arena-wrap{width:100%;height:calc(100vh - 70px);height:calc(100svh - 70px);min-height:300px;max-height:none;aspect-ratio:auto;border-radius:12px;box-shadow:0 3px 14px #334b3814;border:1px solid #b8c9ad}.bottom-meta{height:19px;padding:3px 3px 0;gap:8px;line-height:1.3;font-size:9px}.bottom-meta strong{font-size:9px}.bottom-meta>span{max-width:75%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.hud-top{top:13px;left:16px;gap:6px}.timer{top:11px;min-width:88px;padding:8px 20px 7px;border-radius:16px}.timer strong{font-size:32px}.hud-tools{top:13px;right:16px}.icon-btn{padding:8px 11px;font-size:11px}.water-hud{left:16px;bottom:16px;width:232px;padding:13px 15px;border-radius:16px}.water-line{margin-bottom:8px}.water-message{margin-top:7px}.footer-help{display:block;right:16px;bottom:16px;font-size:10px}.message{bottom:24px}.observer{bottom:22px}#panel-character,#panel-concept,#panel-production{max-width:1360px;margin:0 auto;padding:13px 14px 20px}#panel-character .section-intro,#panel-concept .section-intro,#panel-production .section-intro{margin:4px 0 13px}.character-layout{margin-top:12px}.character-stage{height:calc(100vh - 121px);height:calc(100svh - 121px);min-height:400px;max-height:none}.character-note{padding-top:6px}.character-stage-tag{top:14px;left:15px}.production-grid{margin-top:20px}.pipeline-intro{padding:14px 16px;border-radius:12px;background:#e8eee2;border:1px solid #d5dfce;color:#4d6550;line-height:1.8;font-size:12px;margin:14px 0 24px}#start-overlay{padding:16px}#start-overlay .dialog{max-width:460px;padding:12px 18px;background:#fffaf2ee;box-shadow:0 8px 30px #21372835}#start-overlay .dialog h2{font-size:21px}#start-overlay .dialog p{font-size:11px;margin-bottom:8px}#start-overlay .model-status{font-size:10px!important}#start-overlay .primary,#start-overlay .secondary{padding:9px 16px;font-size:12px}#start-overlay .primary{min-width:140px}
+@media(min-width:1450px){header,main{max-width:none}}@media(max-width:900px){header{padding:5px 10px;gap:8px}main{padding:6px 7px 2px}.arena-wrap{height:calc(100vh - 70px);height:calc(100svh - 70px);min-height:300px;max-height:none;aspect-ratio:auto}.version{display:none}nav button{padding:6px 10px}.footer-help{display:block;right:13px;bottom:14px}.hud-top{left:13px;top:13px}.hud-tools{right:13px;top:13px}.water-hud{left:13px;bottom:14px;width:215px}.character-layout{grid-template-columns:minmax(0,1fr) 230px}.character-stage{height:calc(100svh - 121px);min-height:400px}.bottom-meta{font-size:9px}}
+@media(max-width:620px){header{height:40px;min-height:40px;gap:6px;padding:5px 7px;flex-direction:row;align-items:center}.brand-icon{display:none}.brand strong{font-size:12px;letter-spacing:0}nav{width:auto;padding:1px;gap:0;justify-content:flex-end}nav button{flex:none;padding:6px 6px;font-size:10px}main{padding:4px 5px 2px}.arena-wrap{height:calc(100vh - 64px);height:calc(100svh - 64px);min-height:300px;max-height:none;aspect-ratio:auto;border-radius:10px}.bottom-meta{height:18px;padding-top:3px;font-size:8px;flex-wrap:nowrap}.bottom-meta strong{font-size:8px;white-space:nowrap}.bottom-meta>span{max-width:68%}.hud-top{left:10px;top:12px;gap:3px}.identity-dot{width:21px;height:21px;font-size:9px}.small-hud{position:absolute;left:0;top:26px;margin:0;padding:5px 7px;font-size:9px;white-space:nowrap}.timer{left:50%;right:auto;transform:translateX(-50%);top:10px;min-width:66px;padding:6px 13px}.timer strong{font-size:25px}.timer span{font-size:8px}.hud-tools{right:9px;top:12px;gap:4px}.icon-btn{padding:6px 7px;font-size:9px;border-radius:11px}.water-hud{left:9px;bottom:11px;width:181px;padding:10px 11px}.water-line{font-size:11px;margin-bottom:7px}.water-line b{font-size:14px}.water-message{font-size:9px;margin-top:6px}.footer-help{display:block;right:9px;bottom:11px;font-size:9px;line-height:1.8;max-width:116px}.footer-help span{padding:6px 7px}.key{font-size:9px;line-height:16px;margin:0 1px}.message{bottom:108px;max-width:85%;font-size:11px}.observer{bottom:108px;white-space:nowrap;font-size:11px}#start-overlay{padding:12px}#start-overlay .dialog{padding:12px 13px;max-width:340px}#start-overlay .dialog h2{font-size:20px}.character-layout{grid-template-columns:1fr}.character-stage{height:calc(100svh - 180px);min-height:350px}.character-note{padding:0 2px}#panel-character,#panel-concept,#panel-production{padding:12px 7px 16px}.motion-buttons{grid-template-columns:repeat(5,1fr);gap:5px}.motion-buttons button{font-size:11px;padding:10px 3px}.motion-buttons small{display:none}.character-note h2{font-size:19px;margin:9px 0}.character-note p{font-size:11px;margin-bottom:12px}.character-asset{margin-top:12px!important}}
+@media(max-width:365px){.brand strong{font-size:11px}nav button{font-size:9px;padding:6px 5px}.water-hud{width:165px}.footer-help{max-width:112px}.hud-top{left:8px}.hud-tools{right:8px}.icon-btn{padding:6px}.timer{min-width:61px;padding:6px 10px}.identity-dot{width:20px;height:20px}}
+/* Playability and sound controls. */
+.difficulty-setting{margin:16px 0 13px;text-align:left}.difficulty-setting label{display:block;font-size:11px;font-weight:700;margin:0 0 7px}.difficulty-setting select{width:100%;border:1px solid #ccdcd2;border-radius:11px;background:#f5f8f0;padding:10px 12px;color:var(--ink);font:inherit}.difficulty-note{margin:7px 0!important;color:#637b6b!important;font-size:11px!important;line-height:1.6!important}.assist-setting{display:flex;align-items:center;gap:7px;color:#45655b;font-size:12px;margin:10px 0 15px;text-align:left}.assist-setting input{accent-color:#248fce;width:16px;height:16px}.audio-setting{display:grid;grid-template-columns:50px 1fr 32px;align-items:center;gap:12px;margin:14px 0;font-size:12px}.audio-setting input{width:100%;accent-color:#248fce}.audio-setting output{font-variant-numeric:tabular-nums;color:#768d7c;font-size:11px}.sound-hint{font-size:11px!important;color:#788b7d!important;margin:11px 0!important}.aim-target{position:absolute;width:42px;height:25px;transform:translate(-50%,-50%);border:2px solid #fff2a8;border-radius:50%;box-shadow:0 0 0 2px #dbb74b66;display:none;pointer-events:none}.aim-target:after{content:'锁定';position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:9px;white-space:nowrap;color:#ffe8a1;text-shadow:0 1px 3px #233a28}
+@media(max-width:900px){.difficulty-setting{margin:11px 0 9px}.difficulty-setting select{padding:8px 10px}.difficulty-note{font-size:10px!important}.assist-setting{margin:8px 0 12px}}
+/* Campaign map and workshop. */
+#panel-campaign{max-width:1250px;margin:auto;padding:20px 20px 28px}.campaign-hero{display:flex;gap:20px;align-items:center;justify-content:space-between;margin-bottom:19px}.campaign-hero h1{font-size:29px;letter-spacing:-.8px;margin:4px 0 8px}.campaign-hero p{font-size:12px;color:#718573;margin:0;line-height:1.7}.campaign-kicker{font-size:10px;letter-spacing:2px;color:#5d8b70}.coin-wallet{flex-shrink:0;background:#fff5d7;border:1px solid #ead9a0;border-radius:18px;padding:12px 18px;display:flex;gap:13px;align-items:center}.coin-wallet i{width:29px;height:29px;border-radius:50%;font-size:17px;display:grid;place-items:center;background:#f7d873;color:#88712c;font-style:normal;border:2px solid #fef2bd}.coin-wallet strong{font-size:24px;line-height:1;font-variant-numeric:tabular-nums}.coin-wallet small{display:block;color:#927f4b;font-size:10px;margin-bottom:4px}.campaign-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr);gap:18px}.campaign-panel{background:#fbfcf6;border:1px solid #d5dfcf;border-radius:19px;padding:19px}.campaign-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.campaign-heading h2{font-size:16px;margin:0}.campaign-heading span{font-size:10px;color:#80917c}.chapter{margin-bottom:14px}.chapter-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#667d66;margin:0 0 8px}.chapter-dot{width:7px;height:7px;border-radius:50%;background:var(--chapter,#80b58e)}.stage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.stage-card{background:#f2f5eb;border:1px solid #dce4d5;border-radius:13px;padding:12px 9px;text-align:left;color:#3c554c;position:relative;min-height:92px}.stage-card.selected{background:#e4f3f0;border-color:#76b7a8;box-shadow:inset 0 0 0 1px #76b7a8}.stage-card.locked{opacity:.45;cursor:default}.stage-card.boss:before{content:'挑战';position:absolute;top:9px;right:8px;font-size:8px;background:#f5d992;color:#8c702c;padding:2px 4px;border-radius:4px}.stage-card .level-num{font-size:10px;color:#8d9b7e;display:block;margin-bottom:6px}.stage-card strong{display:block;font-size:12px;margin-bottom:6px}.stage-card small{font-size:9px;color:#778b71;line-height:1.6;display:block}.stage-card .stage-stars{letter-spacing:2px;color:#d6af49;font-size:11px;margin-top:7px;display:block}.stage-detail{padding:14px 15px;background:#e8efdf;border-radius:13px;margin-top:7px}.stage-detail h3{font-size:15px;margin:0 0 7px}.stage-detail p{font-size:11px;color:#64765d;line-height:1.7;margin:0}.stage-detail .primary{background:#258b9c;color:#fff;border:0;border-radius:11px;font-weight:700;box-shadow:0 3px 0 #1b6d7b;margin-top:13px;width:100%;padding:12px 15px;font-size:13px}.save-note{font-size:10px;color:#7e8e74;line-height:1.6;margin:11px 0 0}.workshop-title{display:flex;align-items:center;justify-content:space-between;gap:8px}.workshop-title h2{font-size:18px;margin:0}.gun-class{font-size:9px;letter-spacing:.8px;background:#e3efe9;color:#538577;padding:5px 7px;border-radius:7px}.weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0}.weapon-stats div{background:#eef3e9;border-radius:10px;padding:10px 11px}.weapon-stats span{display:block;font-size:9px;color:#84927c;margin-bottom:4px}.weapon-stats b{font-size:16px;font-variant-numeric:tabular-nums}.weapon-stats small{font-size:10px;color:#708571;margin-left:4px}.upgrade-list{display:grid;gap:8px}.upgrade-card{border:1px solid #dbe3d2;border-radius:12px;padding:12px;background:#f7f9f0}.upgrade-card-head{display:flex;justify-content:space-between;gap:9px;align-items:center}.upgrade-card h3{font-size:13px;margin:0}.upgrade-level{font-size:9px;color:#7c9178;white-space:nowrap}.upgrade-card p{font-size:10px;line-height:1.7;margin:7px 0 9px;color:#72856b}.upgrade-card button{width:100%;padding:8px 10px;background:#e3f0e9;border:1px solid #bdd4c5;border-radius:8px;font-size:11px;color:#3f7162;font-weight:700}.upgrade-card button:disabled{opacity:.45}.upgrade-flash{min-height:20px;font-size:11px;line-height:1.7;color:#4c8c70;margin-top:10px}.trial-btn{width:100%;padding:9px 12px;border-radius:10px;font-size:11px;background:#eff4ed;border:1px dashed #bccdb6;color:#688262;margin-top:6px}.campaign-session{padding:13px 16px;border-radius:13px;background:#fff3d7;border:1px solid #e8d5a0;margin-bottom:16px;display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12px}.campaign-session button{padding:7px 10px;font-size:11px;border:0;border-radius:8px;background:#fffaf0;color:#7c693d}.mission-hud{position:absolute;left:16px;top:52px;background:#ffffffe3;padding:8px 11px;border-radius:12px;color:#557063;font-size:10px;max-width:300px;line-height:1.7;box-shadow:0 3px 10px #334e2310}.mission-hud strong{display:block;color:#28473e;font-size:11px}.campaign-reward{display:flex;justify-content:center;gap:16px;align-items:center;background:#f4ecd5;padding:12px;border-radius:12px;margin:14px 0;color:#8b7440}.campaign-reward b{font-size:21px}.campaign-reward span{font-size:11px}.result-extra{display:flex;gap:8px;margin-top:10px}.result-extra button{flex:1;padding:9px 12px;font-size:12px}.stage-card:focus-visible{outline-offset:2px}
+@media(max-width:900px){#panel-campaign{padding:16px 12px}.campaign-layout{grid-template-columns:minmax(0,1fr) 270px;gap:12px}.campaign-panel{padding:14px}.campaign-hero h1{font-size:24px}.stage-card{padding:10px 7px}.stage-card strong{font-size:11px}.mission-hud{max-width:230px;font-size:9px;top:50px}nav button{padding:6px 9px;font-size:10px}}
+@media(max-width:660px){.campaign-layout{grid-template-columns:1fr}.campaign-hero{gap:10px}.campaign-hero h1{font-size:23px}.coin-wallet{padding:10px 12px}.coin-wallet strong{font-size:20px}.campaign-session{align-items:flex-start;flex-wrap:wrap}.stage-card{min-height:96px}.mission-hud{top:48px;max-width:180px;font-size:8px}.mission-hud strong{font-size:9px}.brand strong{font-size:11px}nav{gap:0}nav button{padding:6px 7px;font-size:9px}}
+</style>
+<link rel="stylesheet" href="menu-screens-v7.css">
+</head>
+<body data-screen="home">
+<header>
+ <div class="brand"><div class="brand-icon" aria-hidden="true">≈</div><div><strong>水枪推推乐</strong><small>浅水喷泉对战</small></div></div>
+ <nav aria-label="游戏菜单"><button data-tab="home" class="active" aria-pressed="true"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8"/></svg></span>主菜单</button><button data-tab="levels" aria-pressed="false"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2ZM9 3v16M15 5v16"/></svg></span>选择关卡</button><button data-tab="upgrades" aria-pressed="false"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4a6 6 0 0 1-8 8L5 20a2 2 0 0 1-3-3l8-8a6 6 0 0 1 8-8l-4 4 3 3Z"/></svg></span>水枪工坊</button></nav>
+ <details class="menu-extras" id="menu-extras"><summary>更多</summary><div class="menu-extra-links"><button id="extra-quick">快速对战</button><button data-tab="character">人物动作</button><button data-tab="concept">概念初稿</button><button data-tab="production">制作设计</button></div></details>
+ <div class="version">试玩版 0.12</div>
+</header>
+<main>
+<div class="campaign-session menu-live-banner" id="campaign-session" hidden><span id="session-label">挑战已暂停。</span><div><button id="campaign-resume">继续挑战</button><button id="campaign-abandon">结束本次挑战</button></div></div>
+<section id="panel-home" class="home-menu">
+ <div class="home-hero"><div class="home-copy"><div class="home-eyebrow">WATER CREW · 夏日水花小队</div><h1>水枪<br>推推乐<span>一场越喷越痛快的水花远征</span></h1><p>冲走对手，赚取金币，装上更强的水炮。<br>从花园初练，一路挑战到月光决赛。</p><div class="home-actions"><button class="home-primary" id="home-start">开始闯关 <span aria-hidden="true">→</span></button><button class="home-secondary" id="home-shop">升级水枪</button></div><div class="home-small-actions"><button data-tab="levels">选择关卡</button><button id="home-quick">快速对战</button><details class="home-help"><summary>操作指南</summary><p>WASD / 方向键移动；按住空格自动瞄准喷水，或鼠标瞄准、按住左键。松开喷水，在亮起的喷泉旁补水。Esc 暂停；闯关时完成左上角目标才算通过。</p></details></div></div><div class="home-preview-card"><div class="home-preview" id="home-preview-host"><span class="loading-note" id="home-model-note">小队正在集合…</span></div><div class="home-preview-caption"><span>你的水花队员</span><strong id="home-gun-name">清泉水枪</strong></div></div></div>
+ <div class="home-progress"><div class="home-stat"><span>远征进度</span><strong id="home-progress">0 / 12</strong></div><div class="home-stat"><span>升级金币</span><strong data-coins>35</strong></div><div class="home-stat"><span>水枪成长</span><strong id="home-upgrade-count">0 / 17</strong></div></div><p class="save-note" data-save-note>进度自动保存在本机。</p>
+</section>
+<section id="panel-levels" class="menu-screen" hidden>
+ <div class="screen-toolbar"><button class="menu-back" data-tab="home">← 主菜单</button><div class="screen-title"><h1>选择关卡</h1><p>点关卡，直接开玩。</p></div><div class="screen-wallet"><small>升级金币</small><strong data-coins>35</strong></div></div>
+ <div class="route-shortcuts"><button class="home-primary" id="campaign-start" disabled>小队集合中…</button><button class="route-shop" id="levels-shop">升级水枪</button><span id="campaign-progress">已通关 0 / 12</span></div>
+ <div class="levels-map-panel"><div id="level-map" class="stage-grid"></div></div><p class="save-note" id="campaign-save-note">点已通过的关卡即可重玩；灰色关卡逐关解锁。</p>
+</section>
+<section id="panel-upgrades" class="menu-screen" hidden>
+ <div class="screen-toolbar"><button class="menu-back" data-tab="home">← 主菜单</button><div class="screen-title"><h1>水枪工坊</h1><p>把通关金币变成更痛快的水花。</p></div><div class="screen-wallet"><small>可用金币</small><strong data-coins>35</strong></div></div>
+ <div class="shop-layout"><div class="shop-weapon-panel"><div class="workshop-title"><h2>当前装备</h2><span class="gun-class" id="gun-class">清泉水枪</span></div><div class="shop-weapon-preview" id="shop-preview-host"><span class="loading-note" id="shop-model-note">正在准备装备…</span></div><div class="weapon-stats" id="weapon-stats"></div></div><div class="shop-upgrades"><div class="campaign-heading"><h2>选择升级</h2><span>四条成长路线</span></div><div class="upgrade-list" id="upgrade-list"></div><div class="upgrade-flash" id="upgrade-flash" role="status"></div><div class="shop-next"><button class="home-primary" id="shop-levels">升级好了，继续闯关 →</button><p class="save-note" data-save-note>每次购买自动保存。</p></div></div></div>
+ <div class="shop-footer"><div><strong>满级试枪 · 不计进度</strong><p>体验三束大水花，本次不计金币与关卡进度。</p></div><label for="trial-theme">试枪场景 <select id="trial-theme"><option value="spring">晨光</option><option value="sunset">落日</option><option value="lagoon">海湾</option><option value="moon">月夜</option></select></label><button class="trial-btn" id="max-weapon-trial" disabled>满级试枪</button></div>
+</section>
+<section id="panel-play" hidden>
+ <div class="section-intro"><div><h1>湿石花园 · 喷泉对战</h1><p>移动、瞄准，把对手推过边缘。留在场上的队员获胜。</p></div><span class="pill" id="gameplay-pill">轻松模式 · 45 秒一局</span></div>
+ <div class="arena-wrap" id="arena-wrap">
+  <canvas id="arena" tabindex="0" aria-label="水枪推推乐三维场地，使用 WASD 移动、鼠标瞄准、按住左键或空格喷水"></canvas>
+  <div class="hud">
+   <div class="hud-top"><span class="identity-dot" data-player="0" style="background:#248fce">P1</span><span class="identity-dot" data-player="1" style="background:#f2776b">2</span><span class="identity-dot" data-player="2" style="background:#e6b843">3</span><span class="identity-dot" data-player="3" style="background:#9072ca">4</span><span class="small-hud" id="alive-count">存活 4 / 4</span></div>
+   <div class="timer" id="timer"><strong id="time-left">45</strong><span>剩余时间</span></div>
+   <div class="hud-tools"><button class="icon-btn" id="sound-btn" aria-pressed="true">声音 开</button><button class="icon-btn" id="trial-demo-btn" hidden>停止演示</button><button class="icon-btn" id="pause-btn">暂停 Ⅱ</button></div>
+   <div class="water-hud"><div class="water-line"><span id="water-title">P1 水量</span><span><b id="water-number">100</b> <small>/ <span id="water-capacity">100</span></small></span></div><div class="water-track" role="progressbar" aria-label="玩家水量" id="water-progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div class="water-fill" id="water-fill" style="width:100%"></div></div><div class="water-message" id="water-message">松开喷水可慢慢回水，喷泉补水更快</div></div>
+   <div class="footer-help"><span><b class="key">W A S D</b> 移动　鼠标瞄准<br><b class="key">空格</b> 自动瞄准喷水　<b class="key">Esc</b> 暂停</span></div>
+   <div class="mission-hud" id="mission-hud" hidden><strong id="mission-title"></strong><span id="mission-progress" role="status" aria-live="polite"></span></div><div id="actor-labels"></div><div class="crosshair" id="crosshair"></div><div class="aim-target" id="aim-target"></div><div class="message" id="message" role="status"></div>
+   <div class="observer" id="observer" hidden><span id="observer-text">你已出局</span><button id="observer-restart">再来一局</button></div>
+  </div>
+  <div class="overlay" id="start-overlay"><div class="dialog"><div class="eyebrow">花园喷泉</div><div class="color-crew" aria-hidden="true"><i class="crew-dot"></i><i class="crew-dot" style="background:var(--coral)"></i><i class="crew-dot" style="background:var(--yellow)"></i><i class="crew-dot" style="background:var(--purple)"></i></div><h2>水枪推推乐</h2><p>你是蓝色的 P1。<br>WASD 移动，按住空格瞄准近处对手喷水。<br>也可以用鼠标瞄准，按住左键喷水。</p><div class="difficulty-setting"><label for="difficulty">对局难度</label><select id="difficulty"><option value="easy" selected>轻松 · 适合先熟悉操作</option><option value="standard">标准 · 更激烈的对抗</option></select><p class="difficulty-note" id="difficulty-note">电脑轮流进攻，开局有适应时间，停火可慢慢回水。</p></div><label class="assist-setting"><input id="aim-assist" type="checkbox" checked>鼠标辅助瞄准</label><div class="dialog-actions"><button class="primary" id="start-btn" disabled>正在载入角色…</button><button class="secondary" id="how-btn">操作说明</button></div><p class="model-status" id="model-loading-status" role="status" aria-live="polite">正在载入角色与骨骼动作…</p><div class="mini-rules"><span><b>4</b>名队员</span><span><b id="mini-duration">45</b>秒一局</span><span>满水可喷<b id="mini-water-time">5.6</b>秒</span></div></div></div>
+  <div class="countdown-display" id="countdown" aria-live="polite"></div>
+  <div class="overlay backdrop" id="pause-overlay" hidden><div class="dialog"><div class="eyebrow">对局暂停</div><h2>稍作休息</h2><p>时间和对局都已暂停。</p><div class="dialog-actions"><button class="primary" id="resume-btn">继续游戏</button><button class="secondary" id="restart-btn">重新开始</button></div><div class="audio-setting"><label for="music-volume">音乐</label><input id="music-volume" aria-label="背景音乐音量" type="range" min="0" max="100" value="52"><output id="music-volume-value">52</output></div><div class="audio-setting"><label for="sfx-volume">音效</label><input id="sfx-volume" aria-label="音效音量" type="range" min="0" max="100" value="78"><output id="sfx-volume-value">78</output></div><p class="sound-hint">轻快配乐 · 喷水与命中 · 喷泉环境声</p><button class="secondary" id="pause-title-btn">返回标题</button><button class="secondary" id="pause-how-btn">操作说明</button></div></div>
+  <div class="overlay backdrop" id="how-overlay" hidden><div class="dialog"><div class="eyebrow">操作说明</div><h2>开喷前，记住这些</h2><div class="tutorial-grid"><div><strong>① 自由移动</strong><small>WASD / 方向键<br>朝屏幕方向移动</small></div><div><strong>② 瞄准喷水</strong><small>鼠标瞄准 + 按住左键<br>或按住空格自动瞄准近处对手</small></div><div><strong>③ 松开补水</strong><small>轻松模式停火自动慢慢回水<br>亮起的喷泉圈可以快速补满</small></div><div><strong>④ 守住边缘</strong><small>越过平台边缘会出局<br>闯关完成左上角任务才过关</small></div></div><button class="primary" id="close-how-btn">明白了</button></div></div>
+  <div class="overlay backdrop" id="result-overlay" hidden><div class="dialog"><div class="eyebrow" id="result-eyebrow">本局结束</div><h2 id="result-title">你赢了！</h2><p id="result-subtitle">最后一位留在场上。</p><div class="rank-list" id="rank-list"></div><div class="campaign-reward" id="campaign-reward" hidden><b id="result-coins"></b><span id="result-stars"></span></div><div class="dialog-actions"><button class="primary" id="result-next" hidden>下一关</button><button class="primary" id="result-restart">再来一局</button><button class="secondary" id="result-title-btn">返回标题</button></div></div></div>
+  <div class="fallback" id="fallback"><div><h2 id="load-error-title">游戏资源加载失败</h2><p id="load-error-message">请刷新页面重试，或检查本地游戏服务是否正常。</p><button class="secondary" id="fallback-concept">查看概念初稿</button></div></div>
+ </div>
+ <div class="bottom-meta"><strong><i class="dot-status"></i>可交互游戏样机</strong><span id="game-asset-caption">正在准备角色…</span><span id="music-status" role="status">音乐待播放</span></div>
+</section>
+<section id="panel-character" hidden>
+ <div class="section-intro"><div><h1>人物动作</h1><p>近距离查看同一角色模型的待机、跑步、喷水、受击和落水动作。</p></div><span class="pill">角色与骨骼动作预览</span></div>
+ <div class="character-layout"><div class="character-stage" id="character-preview-host"><canvas id="character-canvas" aria-label="游戏角色三维动作预览"></canvas><div class="character-stage-tag">角色样板 / 动作预览</div></div><aside class="character-note"><div class="section-num">角色 · 骨骼动作</div><h2>先看清人物，<br>再看动作。</h2><p>这里展示游戏实际使用的角色模型与骨骼动作。切换动作，观察肩膀架枪、手脚运动和身体重心。</p><div class="motion-buttons" role="group" aria-label="选择人物动作"><button data-motion="idle" class="active" aria-pressed="true" disabled>待机<small>循环</small></button><button data-motion="run" aria-pressed="false" disabled>跑步<small>循环</small></button><button data-motion="shoot" aria-pressed="false" disabled>喷水<small>持续</small></button><button data-motion="hit" aria-pressed="false" disabled>受击<small>受击反馈</small></button><button data-motion="fall" aria-pressed="false" disabled>落水<small>出局演出</small></button></div><small class="character-asset" id="character-asset-name" role="status" aria-live="polite">正在载入角色…</small></aside></div>
+</section>
+<section id="panel-concept" hidden>
+ <div class="section-intro"><div><h1>美术方向 · 初稿</h1><p>保存最初的色彩与玩具主题探索，供设计过程参考。</p></div><span class="pill">首轮概念稿</span></div>
+ <div class="concept-initial">这张图为第一轮概念探索。本版游戏已经转向湿石花园喷泉，当前角色、动作、镜头和场景效果请查看“喷泉对战”和“人物动作”。</div><div class="design-hero"><img loading="lazy" src="concept.png" alt="原创四位玩具水枪队员在奶白圆形喷泉平台战斗的场景概念图"><aside><div class="section-num">初稿 · 视觉方向</div><h2>轻快，清晰，<br>像玩具一样亲近。</h2><p>奶白平台托住鲜明的角色色。薄荷水面与柔和阴影表达夏日感，细节集中在小人的轮廓、水枪与背罐。</p><div class="swatches"><div class="swatch"><i></i><span>P1 蓝</span></div><div class="swatch"><i style="background:var(--coral)"></i><span>AI 珊瑚</span></div><div class="swatch"><i style="background:var(--yellow)"></i><span>AI 黄</span></div><div class="swatch"><i style="background:var(--purple)"></i><span>AI 紫</span></div></div><p class="tiny">初稿不代表本版游戏效果。五喷泉位置、判定与镜头以实际游戏及 PRD 为准。</p></aside></div>
+ <div class="design-detail-grid"><article><div class="section-num">01 · 原始角色方向</div><h3>一套角色，四种身份</h3><p>1.4 米高的短肢玩具小人，圆头、护目镜、圆角水枪、透明背罐。四名队员共用骨架和动作，颜色之外保留编号和地面标记。</p></article><article><div class="section-num">02 · 场地</div><h3>看得见的边缘</h3><p>7 米半径的浅水圆台与下层水池形成落差。五个补水口中央与外围轮换激活；外围装饰低矮、稀疏，不遮挡角色和落水。</p></article><article><div class="section-num">03 · 反馈</div><h3>命中和水量都要易读</h3><p>枪口、水流、命中水花和后仰在同一方向响应。空水给明确文案；补水显示水位上升；边缘警告只提示，不更改角色属性。</p></article></div>
+</section>
+<section id="panel-production" hidden>
+ <div class="section-intro"><div><h1>制作与资源</h1><p>Blender 制作资产，Three.js 运行场景；玩法逻辑与显示资源分别管理。</p></div><span class="pill">试玩版 0.12 · 独立菜单与闯关成长</span></div>
+ <div class="pipeline-intro">本版的圆润角色和花园场景均在 Blender 中建模，导出真实 GLB，由 Three.js 加载运行。角色保留 Quaternius 的 CC0 骨架与 17 段动作；喷泉、水面反射、溢流和喷水反馈由运行时驱动。水流保留出射速度，随重力回落；停火后空中的水会继续飞行。当前可直接试玩，专用水枪动作与更精细的水体表现仍需继续制作和验收。</div>
+ <div class="production-grid"><article><h2>闯关与成长</h2><table class="spec-table"><thead><tr><th>系统</th><th>本版玩法</th></tr></thead><tbody><tr><td>战役</td><td>12 关、4 个主题章节；生存、击落和队长挑战，逐关解锁</td></tr><tr><td>水枪</td><td>高压泵、远射管、散射喷头、水箱共 17 次升级；喷头 Lv.2 开启三束喷射</td></tr><tr><td>成长反馈</td><td>推力、射程、水束宽度、续航实际提升；装备、飞溅和水炮声同步加强</td></tr><tr><td>后期挑战</td><td>电脑速度、瞄准和水枪渐强；第 3/6/9/12 关队长需要击落 1/2/2/3 轮</td></tr><tr><td>补水</td><td>中央/外围交替、外围轮换和脉冲喷泉；松开喷水才能补水</td></tr><tr><td>奖励</td><td>通关赚金币、评星和解锁；失败也有参与奖励，重玩继续升级</td></tr><tr><td>存档</td><td>本机保存金币、装备和通关进度；满级试枪不计进度</td></tr><tr><td>快速对战</td><td>保留轻松 45 秒与标准 30 秒的四人对抗，使用基础水枪</td></tr></tbody></table></article><article><h2>资产与接入</h2><table class="spec-table"><thead><tr><th>内容</th><th>本版方式与制作边界</th></tr></thead><tbody><tr><td>角色</td><td>Blender 原创圆润角色，真实蒙皮骨架，四种身份配色</td></tr><tr><td>骨骼动作</td><td>保留 Quaternius 的 17 段动作；预览提供待机、跑步、喷水、受击、落水五种状态</td></tr><tr><td>水枪</td><td>独立程序道具，挂到右手骨骼，水流跟随实际枪口</td></tr><tr><td>花园场景</td><td>Blender 资产导出 GLB，由 Three.js 实际导入，不用渲染图替代模型</td></tr><tr><td>动态反馈</td><td>水柱、水流、水滴、波纹和命中反馈由运行时状态控制</td></tr><tr><td>专用动作</td><td>横移、后退、补水、落水挣扎、上下身瞄准仍需专业动画制作</td></tr><tr><td>声音与界面</td><td>原创海岛风循环配乐；喷水、命中、补水、落水、结算音效与喷泉环境声</td></tr></tbody></table></article></div>
+ <div class="flow"><div><b>01 · 资产制作</b><span>在 Blender 中管理场景尺寸、材质、节点和可编辑源文件，导出 GLB。</span></div><div><b>02 · 运行接入</b><span>Three.js 加载角色与场景，骨骼动画与装备挂点驱动可见动作。</span></div><div><b>03 · 手感调整</b><span>在完整对局中检查命中、补水、横向躲避、击退和镜头可读性。</span></div><div><b>04 · 制作验收</b><span>检查四人同屏表现、专用动作、资源授权、目标设备性能及异常流程。</span></div></div>
+ <p style="color:var(--muted);font-size:12px;line-height:1.9">角色几何与花园场景为本项目在 Blender 中原创制作。骨架与 17 段动作来自 Quaternius Toon Shooter Game Kit，授权 CC0。现有 Death 片段用于倒地，再叠加程序出界落水位移，不等同于专用落水挣扎动画。本项目为独立试玩样板，完整水枪专用动画与角色细节仍需继续制作。首轮概念图保留为历史探索，当前效果以“喷泉对战”和“人物动作”为准。<a href="https://quaternius.com/packs/toonshootergamekit.html" target="_blank" rel="noreferrer">骨骼动作来源与授权</a></p>
+</section>
+</main>
+<script>
+(function (global) {
+  'use strict';
+
+  const DEFAULTS = Object.freeze({
+    arenaRadius: 7, spawnRadius: 4, actorRadius: 0.35,
+    moveSpeed: 3.2, shootingMoveFactor: 0.7, moveResponse: 0.035,
+    turnSpeed: Math.PI * 4, range: 5, beamRadius: 0.18, muzzleOffset: 0.35,
+    pushAcceleration: 24, damping: 5, maxKickSpeed: 4.5, maxSpeed: 6.5,
+    waterCapacity: 100, waterUse: 25, refillRate: 50, refillRadius: 1.2,
+    outerFountainRadius: 2.8, fountainPeriod: 4, fountainPreview: 0.5,
+    roundDuration: 30, countdownDuration: 3, outsideGrace: 0.10,
+    fixedStep: 1 / 60, maxFrameDelta: 0.25, maxAccumulatedTime: 0.25,
+    hitFeedback: 0.12, aiReaction: 0.25, aiAimError: 7 * Math.PI / 180,
+    aiTargetPeriod: 0.5, aiTargetHold: 1, aiLowWater: 25, aiFullWater: 80,
+    aiEdgeMargin: 1.2, aiPrediction: 0.35, maxEvents: 80,
+    playerShootingMoveFactor: null, playerPushFactor: 1,
+    passiveWaterDelay: 0.9, passiveWaterRate: 0,
+    aiMoveFactor: 1, aiBurstDuration: 0, aiBurstRest: 0,
+    aiOpeningGrace: 0, aiPlayerTargetLimit: 0, aiPlayerTargetPenalty: 0
+  });
+  const DIFFICULTIES = Object.freeze({
+    easy: Object.freeze({ id: 'easy', label: '轻松', roundDuration: 45,
+      description: '45秒上手局：电脑行动更慢、射击有间隙，前4秒不会向你开火；停火0.9秒后缓慢回水。',
+      params: Object.freeze({ roundDuration: 45, playerShootingMoveFactor: 0.9,
+        playerPushFactor: 0.65, waterUse: 18, refillRadius: 1.5,
+        passiveWaterDelay: 0.9, passiveWaterRate: 8, aiMoveFactor: 0.72,
+        aiReaction: 0.4, aiAimError: 12 * Math.PI / 180,
+        aiBurstDuration: 0.75, aiBurstRest: 0.85,
+        aiOpeningGrace: 4, aiPlayerTargetLimit: 1, aiPlayerTargetPenalty: 0.75 }) }),
+    standard: Object.freeze({ id: 'standard', label: '标准', roundDuration: 30,
+      description: '原版30秒挑战：电脑速度相同、持续射击；停火后需要到喷泉补水。',
+      params: Object.freeze({}) })
+  });
+  const EPS = 1e-9;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const len = (x, y) => Math.hypot(x, y);
+  function normalize(x, y) {
+    const n = len(x, y);
+    return n > EPS ? { x: x / n, y: y / n } : { x: 0, y: 0 };
+  }
+  function limit(x, y, max) {
+    const n = len(x, y);
+    return n > max ? { x: x / n * max, y: y / n * max } : { x, y };
+  }
+  function angleDelta(a, b) {
+    return Math.atan2(Math.sin(b - a), Math.cos(b - a));
+  }
+  function hashSeed(seed) {
+    if (typeof seed === 'number' && Number.isFinite(seed)) return seed >>> 0;
+    let h = 2166136261;
+    for (const c of String(seed)) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+    return h >>> 0;
+  }
+  function copyData(value) {
+    if (Array.isArray(value)) return value.map(copyData);
+    if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, copyData(entry)]));
+    return value;
+  }
+  function numeric(value, fallback, min, max) {
+    return clamp(Number.isFinite(value) ? value : fallback, min, max);
+  }
+
+  /** Pure gameplay, independent of meshes, animation, camera and rendering.
+   * Input moveX/moveY and aimX/aimY are world-space vectors on the x/y plane.
+   * Returned state is a live read-only-by-convention view; renderers must not mutate it.
+   */
+  class WaterGameCore {
+    constructor(options = {}) {
+      const { seed, difficulty, params, ...legacyParams } = options;
+      this.difficulty = Object.hasOwn(DIFFICULTIES, difficulty) ? difficulty : 'easy';
+      this._quickDifficulty = this.difficulty;
+      this._roundConfig = null;
+      this._paramOverrides = { ...(params || legacyParams) };
+      this.params = { ...DEFAULTS, ...DIFFICULTIES[this.difficulty].params, ...this._paramOverrides };
+      this._eventSeq = 0;
+      this._roundSeq = 0;
+      this.reset(options.seed === undefined ? 1 : options.seed);
+    }
+
+    getDifficulty() { return this.difficulty; }
+
+    getDifficultyInfo() {
+      const { id, label, description } = DIFFICULTIES[this.difficulty];
+      return { id, label, description, roundDuration: this.params.roundDuration };
+    }
+
+    getDifficultyOptions() { return WaterGameCore.getDifficultyOptions(); }
+
+    setDifficulty(difficulty) {
+      if (this.phase !== 'ready' || this._roundConfig || !Object.hasOwn(DIFFICULTIES, difficulty)) return false;
+      if (difficulty === this.difficulty) return true;
+      this.difficulty = difficulty;
+      this._quickDifficulty = difficulty;
+      this.params = { ...DEFAULTS, ...DIFFICULTIES[difficulty].params, ...this._paramOverrides };
+      this.reset(this.seed);
+      return true;
+    }
+
+    /** Campaign configs are snapshots; changing a shop object cannot alter a live round. */
+    configureRound(config, seed = this.seed + 1) {
+      if (this.phase !== 'ready' && this.phase !== 'result') return false;
+      if (config != null && (typeof config !== 'object' || Array.isArray(config))) return false;
+      if (config == null) {
+        this._roundConfig = null;
+        this.difficulty = this._quickDifficulty;
+      } else {
+        if (!this._roundConfig) this._quickDifficulty = this.difficulty;
+        this._roundConfig = copyData(config);
+        this.difficulty = 'easy';
+      }
+      this.params = { ...DEFAULTS, ...DIFFICULTIES[this.difficulty].params, ...this._paramOverrides,
+        ...(this._roundConfig?.params || {}) };
+      return this.reset(seed);
+    }
+
+    _weapon(overrides = {}) {
+      const p = this.params;
+      return {
+        range: numeric(overrides.range, p.range, .1, 30),
+        beamRadius: numeric(overrides.beamRadius, p.beamRadius, .01, 2),
+        pushAcceleration: numeric(overrides.pushAcceleration, p.pushAcceleration, 0, 200),
+        waterCapacity: numeric(overrides.waterCapacity, p.waterCapacity, 1, 10000),
+        waterUse: numeric(overrides.waterUse, p.waterUse, .1, 1000),
+        passiveWaterRate: numeric(overrides.passiveWaterRate, p.passiveWaterRate, 0, 500),
+        refillRate: numeric(overrides.refillRate, p.refillRate, 0, 1000),
+        jetCount: Math.round(numeric(overrides.jetCount, 1, 1, 3)),
+        spreadAngle: numeric(overrides.spreadAngle, .14, 0, Math.PI / 3),
+        visualScale: numeric(overrides.visualScale, 1, .1, 3),
+        tier: Math.round(numeric(overrides.tier, 0, 0, 99))
+      };
+    }
+
+    _enemyProfile(index) {
+      const profiles = this._roundConfig?.enemyProfiles;
+      let source = {};
+      if (Array.isArray(profiles)) source = profiles.find(profile => profile?.id === 'ai' + index) ||
+        (profiles[index - 1]?.id == null ? profiles[index - 1] : null) || {};
+      else if (profiles && typeof profiles === 'object') source = profiles['ai' + index] || {};
+      const p = this.params;
+      return { ...copyData(source), id: 'ai' + index,
+        moveFactor: numeric(source.moveFactor, 1, 0, 3),
+        pushResistance: numeric(source.pushResistance, 1, .1, 10),
+        scale: numeric(source.scale, 1, .5, 2.5),
+        role: source.isBoss || source.role === 'boss' ? 'boss' : source.role || 'rival',
+        reaction: numeric(source.reaction, p.aiReaction, p.fixedStep, 2),
+        aimError: numeric(source.aimError, p.aiAimError, 0, Math.PI / 2),
+        tacticalLevel: numeric(source.tacticalLevel, 0, 0, 1),
+        aimLead: numeric(source.aimLead, 0, 0, .5),
+        edgeMargin: numeric(source.edgeMargin, p.aiEdgeMargin, .25, 3),
+        prediction: numeric(source.prediction, p.aiPrediction, .05, 1),
+        preferredRange: numeric(source.preferredRange, 2.2, .8, 20),
+        burstDuration: numeric(source.burstDuration, p.aiBurstDuration, 0, 10),
+        burstRest: numeric(source.burstRest, p.aiBurstRest, 0, 10) };
+    }
+
+    reset(seed = this.seed + 1) {
+      this.seed = hashSeed(seed);
+      this._rngState = this.seed;
+      this.roundId = ++this._roundSeq;
+      this.phase = 'ready';
+      this._resumePhase = null;
+      this.countdown = this.params.countdownDuration;
+      this.timeElapsed = 0;
+      this.timeLeft = this.params.roundDuration;
+      this.simTime = 0;
+      this._accumulator = 0;
+      this._fountainGroup = 0;
+      this.events = [];
+      this.beams = [];
+      this.result = null;
+      this.stage = this._roundConfig?.stage ? copyData(this._roundConfig.stage) : null;
+      this.stageGoalCompleted = false;
+      this.objectiveCompletedAt = null;
+      this._bossDefeats = 0; this._bossRespawnAt = null;
+      this.actors = [];
+      this.fountains = [{ id: 'center', x: 0, y: 0, group: 0 }];
+      for (let i = 0; i < 4; i++) {
+        const a = i * Math.PI / 2;
+        this.fountains.push({ id: 'outer' + i, x: Math.cos(a) * this.params.outerFountainRadius,
+          y: Math.sin(a) * this.params.outerFountainRadius, group: 1 });
+      }
+      // Consecutive integer seeds rotate the player's slot clockwise.
+      const playerSlot = this.seed % 4;
+      const playerWeapon = this._weapon(this._roundConfig?.playerWeapon);
+      for (let i = 0; i < 4; i++) {
+        const a = Math.PI / 4 + ((playerSlot + i) % 4) * Math.PI / 2;
+        const x = Math.cos(a) * this.params.spawnRadius;
+        const y = Math.sin(a) * this.params.spawnRadius;
+        const profile = i ? this._enemyProfile(i) : null;
+        const weapon = i ? this._weapon(profile.weapon) : { ...playerWeapon };
+        // Pressure improves the initial impulse; it must not also multiply the
+        // victim's speed limit until retreating becomes physically impossible.
+        const campaignKickCap = this.stage && i && this.params.damping > EPS ?
+          this.params.maxKickSpeed + clamp((playerWeapon.pushAcceleration / Math.max(EPS, this.params.pushAcceleration) - 1) * .6, 0, .9) : this.params.maxKickSpeed;
+        const kickCap = numeric(i ? profile.kickCap : this._roundConfig?.playerWeapon?.kickCap,
+          campaignKickCap, .1, 40);
+        this.actors.push({
+          id: i === 0 ? 'p1' : 'ai' + i, index: i, isPlayer: i === 0,
+          name: i === 0 ? 'P1' : 'AI ' + i, x, y, angle: Math.atan2(-y, -x),
+          weapon, enemyProfile: profile, role: i ? profile.role : 'player',
+          spawnVersion: 0,
+          actorRadius: this.params.actorRadius * (i ? profile.scale : 1), kickCap,
+          maxSpeed: this.stage ? Math.max(this.params.maxSpeed, kickCap) : this.params.maxSpeed,
+          water: weapon.waterCapacity, alive: true, kx: 0, ky: 0,
+          vx: 0, vy: 0, mx: 0, my: 0, shooting: false, hit: 0,
+          refilling: false, regenerating: false, refillSource: null,
+          rank: null, outsideTime: 0, eliminatedAt: null,
+          aiState: i ? '交战' : null, targetId: null,
+          stats: { shootingTime: 0, hitTime: 0, refillTime: 0, refillVisits: 0, regenTime: 0, eliminations: 0 },
+          lastHitBy: null, lastHitAt: -1e9,
+          _reaction: this._random() * (i ? profile.reaction : this.params.aiReaction),
+          _targetTimer: 0, _targetHold: 0, _refillIntent: false,
+          _command: { moveX: 0, moveY: 0, aimX: -x, aimY: -y, shoot: false },
+          _stuckTime: 0, _lastDecisionX: x, _lastDecisionY: y,
+          _hitEventAt: -10, _dry: false, _restTime: 0,
+          _burstPhase: ((this.seed % 13) / 13 + Math.max(0, i - 1) / 3) *
+            (i ? profile.burstDuration + profile.burstRest : 0)
+        });
+      }
+      this._updateFountains();
+      this._event('reset', { seed: this.seed, roundId: this.roundId });
+      return this.getState();
+    }
+
+    start() {
+      if (this.phase !== 'ready') return false;
+      this.phase = 'countdown';
+      this._accumulator = 0;
+      this._event('countdown', { value: Math.ceil(this.countdown) });
+      return true;
+    }
+
+    togglePause() {
+      if (this.phase === 'paused') {
+        this.phase = this._resumePhase;
+        this._resumePhase = null;
+        this._accumulator = 0;
+        this._event('resume');
+        return true;
+      }
+      if (this.phase !== 'playing' && this.phase !== 'countdown') return false;
+      this._resumePhase = this.phase;
+      this.phase = 'paused';
+      this._accumulator = 0;
+      this.beams = [];
+      for (const a of this.actors) a.shooting = false;
+      this._event('pause');
+      return true;
+    }
+
+    /** Explicitly leaving bonus play banks a goal that was already earned. */
+    endCompletedStage() {
+      if (!this.stage || !this.stageGoalCompleted || (this.phase !== 'playing' && this.phase !== 'paused')) return false;
+      this._finish('player-finish', true);
+      return true;
+    }
+
+    update(realDeltaSeconds, input = {}) {
+      if (this.phase !== 'playing' && this.phase !== 'countdown') return this.getState();
+      const dt = Number.isFinite(realDeltaSeconds) ? clamp(realDeltaSeconds, 0, this.params.maxFrameDelta) : 0;
+      this._accumulator = Math.min(this.params.maxAccumulatedTime, this._accumulator + dt);
+      const command = this._sanitizeInput(input);
+      while (this._accumulator + EPS >= this.params.fixedStep &&
+        (this.phase === 'playing' || this.phase === 'countdown')) {
+        this._accumulator -= this.params.fixedStep;
+        this._fixedStep(this.params.fixedStep, command);
+      }
+      if (this.phase === 'result') this._accumulator = 0;
+      return this.getState();
+    }
+
+    getState() {
+      return { phase: this.phase, pausedFrom: this._resumePhase, countdown: this.countdown,
+        timeLeft: this.timeLeft, timeElapsed: this.timeElapsed, simTime: this.simTime,
+        roundId: this.roundId, seed: this.seed, params: this.params,
+        difficulty: this.difficulty, difficultyInfo: this.getDifficultyInfo(), stage: this.stage,
+        fountains: this.fountains, actors: this.actors, beams: this.beams,
+        events: this.events, eventSeq: this._eventSeq, result: this.result,
+        stageGoalCompleted: this.stageGoalCompleted, objectiveCompletedAt: this.objectiveCompletedAt,
+        aliveCount: this.actors.filter(a => a.alive).length,
+        fountainGroup: this._fountainGroup,
+        fountainPattern: this._fountainPattern || 'alternating',
+        fountainSwitchIn: this._fountainPeriod - Math.max(0, this.timeElapsed -
+          Math.floor((this.timeElapsed + EPS) / this._fountainPeriod) * this._fountainPeriod),
+        bossDefeats: this._bossDefeats,
+        bossRespawnIn: this._bossRespawnAt == null ? null : Math.max(0, this._bossRespawnAt - this.timeElapsed),
+        objectiveProgress: this._objectiveProgress() };
+    }
+
+    _sanitizeInput(input) {
+      const finite = v => Number.isFinite(v) ? v : 0;
+      const move = limit(finite(input.moveX), finite(input.moveY), 1);
+      return { moveX: move.x, moveY: move.y, aimX: finite(input.aimX),
+        aimY: finite(input.aimY), shoot: !!input.shoot };
+    }
+
+    _random() {
+      this._rngState = (this._rngState + 0x6D2B79F5) >>> 0;
+      let t = this._rngState;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+
+    _event(type, data = {}) {
+      this.events.push({ seq: ++this._eventSeq, time: this.simTime,
+        roundTime: this.timeElapsed, roundId: this.roundId, type, ...data });
+      if (this.events.length > this.params.maxEvents) this.events.splice(0, this.events.length - this.params.maxEvents);
+    }
+
+    _updateFountains() {
+      const p = this.params;
+      const pattern = ['ring', 'pulse'].includes(this.stage?.fountainPattern) ? this.stage.fountainPattern : 'alternating';
+      const period = pattern === 'pulse' ? 3 : p.fountainPeriod;
+      this._fountainPattern = pattern; this._fountainPeriod = period;
+      const cycle = Math.floor((this.timeElapsed + EPS) / period), group = cycle % 2;
+      const until = period - Math.max(0, this.timeElapsed - cycle * period);
+      for (const f of this.fountains) {
+        const fountainGroup = pattern === 'ring' ? (f.id === 'center' ? -1 : Number(f.id.slice(5)) % 2) : f.group;
+        f.active = fountainGroup === group;
+        f.preview = until <= p.fountainPreview + EPS && fountainGroup === 1 - group;
+        f.radius = p.refillRadius;
+      }
+      if (group !== this._fountainGroup) this._event('fountain-swap', { group });
+      this._fountainGroup = group;
+    }
+
+    _objectiveProgress() {
+      if (!this.stage) return null;
+      const objective = this.stage.objective || { type: 'survive' };
+      const type = objective.type || 'survive';
+      const aiEliminated = this.actors.filter(a => !a.isPlayer && !a.alive).length;
+      const boss = this.actors.find(a => !a.isPlayer && (objective.bossId ? a.id === objective.bossId : a.role === 'boss'));
+      const count = type === 'eliminate' ? Math.max(1, Math.floor(objective.count || 1)) :
+        type === 'boss' ? this._bossRounds() : this.params.roundDuration;
+      const current = type === 'eliminate' ? aiEliminated : type === 'boss' ? this._bossDefeats : this.timeElapsed;
+      return { type, current, count, bossId: boss?.id || objective.bossId || null,
+        completed: this.stageGoalCompleted || (type === 'survive' && this.actors[0]?.alive && current + EPS >= count),
+        completedAt: this.objectiveCompletedAt,
+        aiEliminated, playerEliminations: this.actors[0]?.stats.eliminations || 0 };
+    }
+
+    _bossRounds() { return Math.round(numeric(this.stage?.objective?.bossRounds, 1, 1, 20)); }
+
+    _bossActor() {
+      if (this.stage?.objective?.type !== 'boss') return null;
+      const id = this.stage.objective.bossId;
+      return this.actors.find(a => !a.isPlayer && (id ? a.id === id : a.role === 'boss')) || null;
+    }
+
+    _respawnBoss() {
+      const a = this._bossActor(), player = this.actors[0];
+      if (!a || a.alive || !player.alive || this.timeLeft <= EPS || this._bossRespawnAt == null ||
+        this.timeElapsed + EPS < this._bossRespawnAt) return;
+      this._bossRespawnAt = null;
+      const radius = 2.7 + this._random() * .6;
+      const angle = len(player.x, player.y) > .1 ? Math.atan2(-player.y, -player.x) : player.angle + Math.PI;
+      let position = null, bestClearance = -Infinity;
+      for (const offset of [0, Math.PI / 6, -Math.PI / 6, Math.PI / 3, -Math.PI / 3]) {
+        const candidate = { x: Math.cos(angle + offset) * radius, y: Math.sin(angle + offset) * radius };
+        const clearance = Math.min(...this.actors.filter(other => other !== a && other.alive).map(other =>
+          len(candidate.x - other.x, candidate.y - other.y) - a.actorRadius - other.actorRadius));
+        if (clearance > bestClearance) { position = candidate; bestClearance = clearance; }
+        if (clearance >= .2) break;
+      }
+      Object.assign(a, { x: position.x, y: position.y, alive: true, water: a.weapon.waterCapacity,
+        kx: 0, ky: 0, vx: 0, vy: 0, mx: 0, my: 0, shooting: false,
+        hit: 0, refilling: false, regenerating: false, refillSource: null,
+        rank: null, outsideTime: 0, eliminatedAt: null, aiState: '交战', targetId: null,
+        lastHitBy: null, lastHitAt: -1e9, _reaction: 0, _targetTimer: 0, _targetHold: 0,
+        _refillIntent: false, _stuckTime: 0, _lastDecisionX: position.x, _lastDecisionY: position.y,
+        _hitEventAt: -10, _dry: false, _restTime: 0 });
+      a.angle = Math.atan2(player.y - a.y, player.x - a.x);
+      a._command = { moveX: 0, moveY: 0, aimX: player.x - a.x, aimY: player.y - a.y, shoot: false };
+      a.spawnVersion++;
+      const round = this._bossDefeats + 1, total = this._bossRounds();
+      this._event('respawn', { actorId: a.id, x: a.x, y: a.y, round, total, spawnVersion: a.spawnVersion });
+      this._event('boss-round', { actorId: a.id, round, total, phase: 'start' });
+    }
+
+    _fixedStep(dt, playerInput) {
+      const p = this.params;
+      this.simTime += dt;
+      if (this.phase === 'countdown') {
+        const before = Math.ceil(this.countdown - EPS);
+        this.countdown = Math.max(0, this.countdown - dt);
+        const after = Math.ceil(this.countdown - EPS);
+        if (after > 0 && before !== after) this._event('countdown', { value: after });
+        if (this.countdown <= EPS) {
+          this.countdown = 0;
+          this.phase = 'playing';
+          this._event('play');
+        }
+        return;
+      }
+
+      const commands = new Map();
+      for (const a of this.actors) {
+        if (!a.alive) continue;
+        a.hit = Math.max(0, a.hit - dt);
+        commands.set(a.id, a.isPlayer ? playerInput : this._aiCommand(a, dt));
+      }
+      const shots = [];
+      for (const a of this.actors) {
+        if (!a.alive) continue;
+        const c = commands.get(a.id);
+        if (len(c.aimX, c.aimY) > EPS) {
+          const desired = Math.atan2(c.aimY, c.aimX);
+          a.angle += clamp(angleDelta(a.angle, desired), -p.turnSpeed * dt, p.turnSpeed * dt);
+        }
+        const wasShooting = a.shooting;
+        const weapon = a.weapon;
+        // Holding an empty trigger never starts automatic water recovery.
+        a._restTime = c.shoot ? 0 : a._restTime + dt;
+        const activeTime = c.shoot && a.water > EPS ? Math.min(dt, a.water / weapon.waterUse) : 0;
+        a.shooting = activeTime > EPS;
+        a.water = clamp(a.water - activeTime * weapon.waterUse, 0, weapon.waterCapacity);
+        a.stats.shootingTime += activeTime;
+        if (a.shooting && !wasShooting) this._event('shot-start', { actorId: a.id });
+        if (!a.shooting && wasShooting) this._event('shot-stop', { actorId: a.id });
+        if (c.shoot && a.water <= EPS && !a._dry) this._event('dry', { actorId: a.id });
+        a._dry = c.shoot && a.water <= EPS;
+        const shootingFactor = a.isPlayer && p.playerShootingMoveFactor != null ?
+          p.playerShootingMoveFactor : p.shootingMoveFactor;
+        const movementFactor = 1 - (1 - shootingFactor) * activeTime / dt;
+        const moveSpeed = p.moveSpeed * (a.isPlayer ? 1 : p.aiMoveFactor * a.enemyProfile.moveFactor);
+        const blend = 1 - Math.exp(-dt / Math.max(EPS, p.moveResponse));
+        a.mx += (c.moveX * moveSpeed * movementFactor - a.mx) * blend;
+        a.my += (c.moveY * moveSpeed * movementFactor - a.my) * blend;
+        if (activeTime > EPS) shots.push({ actor: a, duration: activeTime });
+      }
+
+      const forces = new Map();
+      this.beams = [];
+      // Resolve all rays from one positional snapshot: actor order cannot affect hits.
+      for (const shot of shots) {
+        const a = shot.actor;
+        const hits = new Map();
+        for (const [jetIndex, angle] of this._jetAngles(a, a.angle).entries()) {
+          const { x, y, dx, dy, target, endDistance } = this._traceShot(a, angle, a.angle);
+          const push = a.weapon.pushAcceleration * (target?.isPlayer ? p.playerPushFactor : 1) /
+            (target?.enemyProfile?.pushResistance || 1);
+          const beam = { actorId: a.id, targetId: target ? target.id : null, jetIndex,
+            radius: a.weapon.beamRadius, force: push, applied: false,
+            x1: x, y1: y, x2: x + dx * endDistance, y2: y + dy * endDistance,
+            dx, dy, length: endDistance, duration: shot.duration };
+          this.beams.push(beam);
+          if (target) {
+            const alignment = Math.abs(angleDelta(a.angle, angle)), prior = hits.get(target.id);
+            if (!prior || alignment < prior.alignment) hits.set(target.id, { target, dx, dy, push, beam, alignment });
+          }
+        }
+        if (hits.size) a.stats.hitTime += shot.duration;
+        // Several jets from the same gun can hit several actors, but never triple one impulse.
+        for (const { target, dx, dy, push, beam } of hits.values()) {
+          if (!forces.has(target.id)) forces.set(target.id, []);
+          forces.get(target.id).push({ x: dx * push,
+            y: dy * push, duration: shot.duration });
+          beam.applied = true;
+          target.hit = p.hitFeedback;
+          target.lastHitBy = a.id; target.lastHitAt = this.timeElapsed + dt;
+          if (this.timeElapsed - target._hitEventAt >= 0.12) {
+            this._event('hit', { actorId: target.id, sourceId: a.id, x: target.x, y: target.y });
+            target._hitEventAt = this.timeElapsed;
+          }
+        }
+      }
+
+      for (const a of this.actors) {
+        if (!a.alive) continue;
+        const decay = Math.exp(-p.damping * dt);
+        let kx = a.kx * decay, ky = a.ky * decay;
+        for (const f of forces.get(a.id) || []) {
+          // Exact integration also handles the final partial water step.
+          const weight = p.damping > EPS ? (1 - Math.exp(-p.damping * f.duration)) / p.damping *
+            Math.exp(-p.damping * (dt - f.duration)) : f.duration;
+          kx += f.x * weight;
+          ky += f.y * weight;
+        }
+        const kick = limit(kx, ky, a.kickCap);
+        a.kx = kick.x; a.ky = kick.y;
+        const velocity = limit(a.mx + a.kx, a.my + a.ky, a.maxSpeed);
+        a.vx = velocity.x; a.vy = velocity.y;
+        a.x += a.vx * dt; a.y += a.vy * dt;
+      }
+      this._separateActors();
+
+      const eliminated = [];
+      for (const a of this.actors) {
+        if (!a.alive) continue;
+        a.outsideTime = len(a.x, a.y) > p.arenaRadius ? a.outsideTime + dt : 0;
+        if (a.outsideTime + EPS >= p.outsideGrace) eliminated.push(a);
+      }
+      const survivors = this.actors.filter(a => a.alive).length - eliminated.length;
+      for (const a of eliminated) {
+        a.alive = false; a.rank = survivors + 1; a.eliminatedAt = this.timeElapsed + dt;
+        a.shooting = false; a.refilling = false; a.regenerating = false;
+        a.refillSource = null; a.vx = 0; a.vy = 0;
+        a.aiState = a.isPlayer ? null : '出局'; a.targetId = null;
+        const credited = a.lastHitBy && a.eliminatedAt - a.lastHitAt <= 3 + EPS ?
+          this.actors.find(source => source.id === a.lastHitBy && source !== a) : null;
+        if (credited) credited.stats.eliminations++;
+        this._event('elimination', { actorId: a.id, rank: a.rank, x: a.x, y: a.y,
+          sourceId: credited?.id || null });
+        if (a === this._bossActor()) {
+          this._bossDefeats++;
+          const total = this._bossRounds();
+          this._bossRespawnAt = this._bossDefeats < total ? a.eliminatedAt + 1.3 : null;
+          this._event('boss-round', { actorId: a.id, round: this._bossDefeats, total, phase: 'defeated' });
+        }
+      }
+      this.beams = this.beams.filter(b => this.actors.find(a => a.id === b.actorId).alive);
+      this.timeElapsed = Math.min(p.roundDuration, this.timeElapsed + dt);
+      this.timeLeft = Math.max(0, p.roundDuration - this.timeElapsed);
+      if (this.stage) {
+        // Process the whole elimination batch before recording a goal: falling in
+        // the first completion step loses, but an already earned clear stays earned.
+        if (!this.actors[0].alive) { this._finish('player-out', this.stageGoalCompleted); return; }
+        this._respawnBoss();
+        const progress = this._objectiveProgress();
+        if (progress.type !== 'survive' && !this.stageGoalCompleted && progress.current + EPS >= progress.count) {
+          this.stageGoalCompleted = true;
+          this.objectiveCompletedAt = this.timeElapsed;
+          this._event('objective-complete', { completedAt: this.objectiveCompletedAt,
+            objectiveProgress: this._objectiveProgress() });
+        }
+        // No opponent remains to play against. Bank a real campaign clear
+        // immediately, while keeping the workshop's level-0 trial unrestricted.
+        // A defeated Boss with another wave due is still an active opponent.
+        if (Number(this.stage.levelId) > 0 && this._bossRespawnAt == null &&
+          this.actors.slice(1).every(a => !a.alive) &&
+          (this.stageGoalCompleted || progress.type === 'survive')) {
+          this._finish('all-opponents-out', true); return;
+        }
+        if (this.timeLeft <= EPS) {
+          this.timeLeft = 0; this._finish('timeout', this.stageGoalCompleted || progress.completed); return;
+        }
+      } else {
+        if (survivors <= 1) {
+          this._finish(survivors ? 'last-standing' : 'all-out');
+          return;
+        }
+        if (this.timeLeft <= EPS) {
+          this.timeLeft = 0;
+          this._finish('timeout');
+          return;
+        }
+      }
+
+      for (const a of this.actors) {
+        if (!a.alive) continue;
+        const wasRefilling = a.refilling;
+        const c = commands.get(a.id) || a._command;
+        const weapon = a.weapon;
+        a.refilling = !c.shoot && a.water < weapon.waterCapacity - EPS && this.fountains.some(f =>
+          f.active && len(a.x - f.x, a.y - f.y) <= p.refillRadius);
+        const wasRegenerating = a.regenerating;
+        const recoveryTime = clamp(a._restTime - p.passiveWaterDelay, 0, dt);
+        a.regenerating = !c.shoot && !a.refilling && weapon.passiveWaterRate > 0 &&
+          recoveryTime > EPS && a.water < weapon.waterCapacity - EPS;
+        a.refillSource = a.refilling ? 'fountain' : a.regenerating ? 'rest' : null;
+        if (a.refilling) {
+          a.water = Math.min(weapon.waterCapacity, a.water + weapon.refillRate * dt);
+          a.stats.refillTime += dt;
+        }
+        if (a.regenerating) {
+          a.water = Math.min(weapon.waterCapacity, a.water + weapon.passiveWaterRate * recoveryTime);
+          a.stats.regenTime += recoveryTime;
+        }
+        if (a.regenerating !== wasRegenerating) this._event(a.regenerating ? 'regen-start' : 'regen-stop', { actorId: a.id });
+        if (a.refilling && !wasRefilling) {
+          a.stats.refillVisits++;
+          this._event('refill-start', { actorId: a.id });
+        }
+        if (!a.refilling && wasRefilling) this._event('refill-stop', { actorId: a.id });
+        // A depleted partial step contributes force above but shows no continuing stream.
+        if (a.water <= EPS && a.shooting) {
+          a.shooting = false;
+          this._event('shot-stop', { actorId: a.id });
+        }
+      }
+      this.beams = this.beams.filter(b => this.actors.find(a => a.id === b.actorId).shooting);
+      // Integrate the interval with its starting group; show the new group at 4, 8, ... .
+      this._updateFountains();
+    }
+
+    _jetAngles(a, angle) {
+      const count = a.weapon.jetCount;
+      return Array.from({ length: count }, (_, index) => angle +
+        (count === 1 ? 0 : (index * 2 / (count - 1) - 1) * a.weapon.spreadAngle));
+    }
+
+    _traceShot(a, angle, muzzleAngle = angle) {
+      const p = this.params, dx = Math.cos(angle), dy = Math.sin(angle);
+      const x = a.x + Math.cos(muzzleAngle) * p.muzzleOffset, y = a.y + Math.sin(muzzleAngle) * p.muzzleOffset;
+      let target = null, endDistance = a.weapon.range;
+      for (const b of this.actors) {
+        if (b === a || !b.alive) continue;
+        const rx = b.x - x, ry = b.y - y, projected = rx * dx + ry * dy;
+        const perpendicular2 = Math.max(0, rx * rx + ry * ry - projected * projected);
+        const combined = b.actorRadius + a.weapon.beamRadius;
+        if (perpendicular2 > combined * combined) continue;
+        const half = Math.sqrt(Math.max(0, combined * combined - perpendicular2));
+        if (projected + half < 0) continue;
+        const entry = Math.max(0, projected - half);
+        if (entry <= a.weapon.range && (entry < endDistance - EPS || (!target && entry <= endDistance + EPS))) {
+          target = b; endDistance = entry;
+        }
+      }
+      return { x, y, dx, dy, target, endDistance };
+    }
+
+    _separateActors() {
+      const alive = this.actors.filter(a => a.alive);
+      const offsets = new Map(alive.map(a => [a.id, { x: 0, y: 0 }]));
+      for (let i = 0; i < alive.length; i++) for (let j = i + 1; j < alive.length; j++) {
+        const a = alive[i], b = alive[j];
+        const radius = a.actorRadius + b.actorRadius;
+        const dx = b.x - a.x, dy = b.y - a.y, d = len(dx, dy);
+        if (d >= radius) continue;
+        const dir = d > EPS ? { x: dx / d, y: dy / d } :
+          { x: Math.cos((a.index + b.index) * 2.4), y: Math.sin((a.index + b.index) * 2.4) };
+        const push = (radius - d) / 2;
+        offsets.get(a.id).x -= dir.x * push; offsets.get(a.id).y -= dir.y * push;
+        offsets.get(b.id).x += dir.x * push; offsets.get(b.id).y += dir.y * push;
+      }
+      for (const a of alive) { a.x += offsets.get(a.id).x; a.y += offsets.get(a.id).y; }
+    }
+
+    _finish(reason, cleared) {
+      if (this.result) return;
+      this._bossRespawnAt = null;
+      if (this.stage && cleared && !this.stageGoalCompleted) {
+        // Survival can also complete early when the arena has been cleared.
+        this.stageGoalCompleted = true;
+        this.objectiveCompletedAt = this.timeElapsed;
+      }
+      const alive = this.actors.filter(a => a.alive);
+      for (const a of alive) a.rank = 1;
+      const objectiveProgress = this._objectiveProgress();
+      const winners = this.stage ? (cleared ? ['p1'] : []) : alive.map(a => a.id);
+      this.result = { type: this.stage ? (cleared ? 'win' : 'loss') :
+        winners.length === 0 ? 'draw' : winners.length === 1 ? 'win' : 'shared',
+        reason, winners, playerWon: winners.includes('p1'),
+        playerRank: this.actors[0].rank, duration: this.timeElapsed,
+        cleared: this.stage ? !!cleared : winners.includes('p1'), objectiveProgress,
+        stageGoalCompleted: this.stageGoalCompleted, objectiveCompletedAt: this.objectiveCompletedAt,
+        completedAt: this.objectiveCompletedAt,
+        playerEliminations: this.actors[0].stats.eliminations,
+        aiEliminated: this.actors.filter(a => !a.isPlayer && !a.alive).length,
+        ranks: this.actors.map(a => ({ actorId: a.id, rank: a.rank, alive: a.alive })) };
+      this.phase = 'result';
+      this._resumePhase = null;
+      this._accumulator = 0;
+      this.beams = [];
+      for (const a of this.actors) {
+        a.shooting = false; a.refilling = false; a.regenerating = false;
+        a.refillSource = null; a.vx = 0; a.vy = 0;
+        a.mx = 0; a.my = 0; a.kx = 0; a.ky = 0;
+      }
+      this._event('result', { result: this.result });
+    }
+
+    _aiCommand(a, dt) {
+      const p = this.params, profile = a.enemyProfile;
+      a._reaction -= dt; a._targetTimer -= dt; a._targetHold = Math.max(0, a._targetHold - dt);
+      const eligible = b => b !== a && b.alive && (!b.isPlayer ||
+        (this.timeElapsed + EPS >= p.aiOpeningGrace &&
+          (!p.aiPlayerTargetLimit || this.actors.filter(other => !other.isPlayer && other !== a &&
+            other.alive && other.targetId === b.id).length < p.aiPlayerTargetLimit)));
+      const oldTarget = this.actors.find(b => b.id === a.targetId && eligible(b));
+      if (!oldTarget) a._reaction = 0;
+      if (a._reaction > EPS) return this._gateAICommand(a, a._command, dt);
+      a._reaction = profile.reaction;
+      const moved = len(a.x - a._lastDecisionX, a.y - a._lastDecisionY);
+      a._stuckTime = moved < 0.06 && len(a._command.moveX, a._command.moveY) > 0.3 ?
+        a._stuckTime + profile.reaction : 0;
+      a._lastDecisionX = a.x; a._lastDecisionY = a.y;
+
+      if (!oldTarget || (a._targetTimer <= EPS && a._targetHold <= EPS)) {
+        a._targetTimer = p.aiTargetPeriod;
+        let best = null, score = -Infinity;
+        for (const b of this.actors) {
+          if (!eligible(b)) continue;
+          const distance = len(b.x - a.x, b.y - a.y);
+          const value = 3.5 - distance * 0.55 + len(b.x, b.y) * 0.25 + this._random() * 0.8 -
+            (b.isPlayer ? p.aiPlayerTargetPenalty : 0);
+          if (value > score) { score = value; best = b; }
+        }
+        if (best && best.id !== a.targetId) { a.targetId = best.id; a._targetHold = p.aiTargetHold; }
+        if (!best) a.targetId = null;
+      }
+      const target = this.actors.find(b => b.id === a.targetId && b.alive);
+      const toward = target ? normalize(target.x - a.x, target.y - a.y) : normalize(-a.x, -a.y);
+      const tactics = profile.tacticalLevel;
+      // Aiming uses only the velocity visible at this reaction tick, with a
+      // short capped lead. The AI never reads the player's next input.
+      const aimDirection = target && tactics > 0 ? normalize(target.x - a.x + target.vx * profile.aimLead,
+        target.y - a.y + target.vy * profile.aimLead) : toward;
+      const noise = (this._random() * 2 - 1) * profile.aimError;
+      const aimAngle = Math.atan2(aimDirection.y, aimDirection.x) + noise;
+      const command = { moveX: 0, moveY: 0, aimX: Math.cos(aimAngle), aimY: Math.sin(aimAngle),
+        shoot: !!target && a.water > EPS && len(target.x - a.x, target.y - a.y) <= a.weapon.range + p.muzzleOffset &&
+          Math.abs(angleDelta(a.angle, aimAngle)) < 0.28 };
+      const radial = len(a.x, a.y);
+      const predicted = len(a.x + a.vx * (tactics ? profile.prediction : p.aiPrediction),
+        a.y + a.vy * (tactics ? profile.prediction : p.aiPrediction));
+      const inward = normalize(-a.x, -a.y);
+      if (a.water < p.aiLowWater / p.waterCapacity * a.weapon.waterCapacity) a._refillIntent = true;
+      if (a.water >= p.aiFullWater / p.waterCapacity * a.weapon.waterCapacity) a._refillIntent = false;
+
+      // AI reads visible streams from the previous physical step, never future player input.
+      let threat = null;
+      for (const b of this.beams) {
+        if (b.actorId === a.id) continue;
+        const rx = a.x - b.x1, ry = a.y - b.y1;
+        const along = rx * b.dx + ry * b.dy;
+        const across = Math.abs(rx * b.dy - ry * b.dx);
+        const warningWidth = tactics ? a.actorRadius + b.radius + .12 + tactics * .22 : .8;
+        if (along >= -0.3 && along <= b.length + a.actorRadius + (tactics ? .4 : .8) && across < warningWidth) {
+          threat = b; break;
+        }
+      }
+      let movement;
+      if (radial > p.arenaRadius - (tactics ? profile.edgeMargin : p.aiEdgeMargin) || predicted > p.arenaRadius - 0.25) {
+        a.aiState = '边缘求生';
+        movement = inward;
+        if (tactics) {
+          // Release the trigger to recover full running speed; add a sideways
+          // step out of the visible stream rather than pulling against it.
+          if (tactics >= .5 || predicted > p.arenaRadius - .25) command.shoot = false;
+          if (threat) {
+            const sidestep = this._safeSidestep(a, threat.dx, threat.dy, profile.prediction);
+            movement = normalize(inward.x + sidestep.x * tactics * 1.15,
+              inward.y + sidestep.y * tactics * 1.15);
+          }
+        }
+      } else if (threat || a.hit > 0) {
+        a.aiState = '规避水流';
+        const incoming = !threat && tactics && len(a.kx, a.ky) > EPS ? normalize(a.kx, a.ky) : toward;
+        const dx = threat ? threat.dx : incoming.x, dy = threat ? threat.dy : incoming.y;
+        if (tactics) {
+          const tangent = this._safeSidestep(a, dx, dy, profile.prediction);
+          movement = normalize(tangent.x + inward.x * (.3 + tactics * .25),
+            tangent.y + inward.y * (.3 + tactics * .25));
+          // A short evasive reaction costs attack time, not extra water or an
+          // invisible shield. Once the stream misses, normal attacks resume.
+          if (tactics >= .65) command.shoot = false;
+        } else {
+          let tangent = { x: -dy, y: dx };
+          if (tangent.x * inward.x + tangent.y * inward.y < 0) tangent = { x: -tangent.x, y: -tangent.y };
+          movement = normalize(tangent.x + inward.x * 0.4, tangent.y + inward.y * 0.4);
+        }
+      } else if (a._refillIntent) {
+        a.aiState = '寻找补水'; command.shoot = false;
+        const active = this.fountains.filter(f => f.active).sort((f, g) =>
+          this._refillCost(a, f, tactics) - this._refillCost(a, g, tactics));
+        const f = active[0];
+        movement = f && len(f.x - a.x, f.y - a.y) > p.refillRadius * 0.65 ?
+          normalize(f.x - a.x, f.y - a.y) : { x: 0, y: 0 };
+      } else {
+        a.aiState = '交战';
+        const sign = a.index % 2 ? 1 : -1;
+        const tangent = { x: -toward.y * sign, y: toward.x * sign };
+        // Acquire the target's inner side so the stream pushes toward the edge.
+        // This is a positional preference; all actor attributes remain identical.
+        const outward = target && len(target.x, target.y) > 0.5 ?
+          normalize(target.x, target.y) : toward;
+        const attackRange = tactics ? Math.min(profile.preferredRange, a.weapon.range * .7) : 2.2;
+        const stationX = target ? target.x - outward.x * attackRange : 0;
+        const stationY = target ? target.y - outward.y * attackRange : 0;
+        const stationDistance = len(stationX - a.x, stationY - a.y);
+        const station = stationDistance > 0.35 ? normalize(stationX - a.x, stationY - a.y) : { x: 0, y: 0 };
+        const strafe = .15 + tactics * (stationDistance < 1.5 ? .3 : .12);
+        movement = limit(station.x + tangent.x * strafe, station.y + tangent.y * strafe, 1);
+        if (tactics && stationDistance < 1.5) a.aiState = '侧翼压制';
+        if (tactics && command.shoot) {
+          const nextAngle = a.angle + clamp(angleDelta(a.angle, aimAngle), -p.turnSpeed * dt, p.turnSpeed * dt);
+          // Don't drain the tank into an intervening actor or empty space. This
+          // is the same finite ray geometry used by player and AI weapons.
+          command.shoot = this._jetAngles(a, nextAngle).some(angle =>
+            this._traceShot(a, angle, nextAngle).target?.id === target.id);
+        }
+      }
+      // Gentle local avoidance; body collisions themselves have no attacking velocity.
+      for (const b of this.actors) {
+        if (b === a || !b.alive) continue;
+        const dx = a.x - b.x, dy = a.y - b.y, distance = len(dx, dy);
+        const avoidRadius = a.actorRadius + b.actorRadius + .4;
+        if (distance > EPS && distance < avoidRadius) {
+          movement.x += dx / distance * (avoidRadius - distance) * 0.7;
+          movement.y += dy / distance * (avoidRadius - distance) * 0.7;
+        }
+      }
+      if (a._stuckTime >= 1) {
+        movement = normalize(inward.x + (this._random() - 0.5), inward.y + (this._random() - 0.5));
+        a._stuckTime = 0;
+      }
+      movement = limit(movement.x, movement.y, 1);
+      command.moveX = movement.x; command.moveY = movement.y;
+      a._command = command;
+      return this._gateAICommand(a, command, dt);
+    }
+
+    _safeSidestep(a, dx, dy, prediction) {
+      const choices = [{ x: -dy, y: dx }, { x: dy, y: -dx }];
+      const horizon = Math.max(.15, prediction), speed = this.params.moveSpeed * this.params.aiMoveFactor * a.enemyProfile.moveFactor;
+      const score = dir => {
+        const x = a.x + (a.vx + dir.x * speed) * horizon;
+        const y = a.y + (a.vy + dir.y * speed) * horizon;
+        let cost = len(x, y);
+        for (const other of this.actors) {
+          if (other === a || !other.alive) continue;
+          const clearance = len(x - other.x, y - other.y) - a.actorRadius - other.actorRadius;
+          cost += Math.max(0, .5 - clearance) * 2;
+        }
+        return cost;
+      };
+      return score(choices[0]) <= score(choices[1]) ? choices[0] : choices[1];
+    }
+
+    _refillCost(a, fountain, tactics) {
+      const distance = len(fountain.x - a.x, fountain.y - a.y);
+      if (!tactics) return distance;
+      let danger = 0;
+      for (const beam of this.beams) {
+        if (beam.actorId === a.id) continue;
+        const rx = fountain.x - beam.x1, ry = fountain.y - beam.y1;
+        const along = rx * beam.dx + ry * beam.dy;
+        const across = Math.abs(rx * beam.dy - ry * beam.dx);
+        if (along >= 0 && along <= beam.length + this.params.refillRadius && across < this.params.refillRadius + beam.radius) danger += 5;
+      }
+      for (const other of this.actors) {
+        if (other === a || !other.alive) continue;
+        if (len(fountain.x - other.x, fountain.y - other.y) < this.params.refillRadius + other.actorRadius) danger += 1.3;
+      }
+      return distance + danger * tactics;
+    }
+
+    _gateAICommand(a, command, dt) {
+      if (!command.shoot) return command;
+      const p = this.params, profile = a.enemyProfile, cycle = profile.burstDuration + profile.burstRest;
+      if (profile.burstDuration > 0 && cycle > 0 &&
+        (this.timeElapsed + a._burstPhase) % cycle >= profile.burstDuration) return { ...command, shoot: false };
+      if (this.timeElapsed + EPS < p.aiOpeningGrace) {
+        // The same public ray geometry guards against accidental opening crossfire.
+        const desired = Math.atan2(command.aimY, command.aimX);
+        const nextAngle = a.angle + clamp(angleDelta(a.angle, desired), -p.turnSpeed * dt, p.turnSpeed * dt);
+        if (this._jetAngles(a, nextAngle).some(angle => this._traceShot(a, angle, nextAngle).target?.isPlayer)) {
+          return { ...command, shoot: false };
+        }
+      }
+      return command;
+    }
+  }
+
+  WaterGameCore.DEFAULTS = DEFAULTS;
+  WaterGameCore.DIFFICULTIES = DIFFICULTIES;
+  WaterGameCore.getDifficultyOptions = () => Object.values(DIFFICULTIES).map(({ id, label, description, roundDuration }) =>
+    ({ id, label, description, roundDuration }));
+  global.WaterGameCore = WaterGameCore;
+  if (typeof module !== 'undefined' && module.exports) module.exports = WaterGameCore;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>window.WATER_CHARACTER_URL="assets/character-v3.glb";window.WATER_ENVIRONMENT_URL="assets/environment-v3.glb";</script>
+<script src="game-visuals-v3.js"></script>
+<script>
+
+
+
+
+
+(function(){
+'use strict';
+const $=id=>document.getElementById(id), canvas=$('arena'), wrap=$('arena-wrap');
+const game=new WaterGameCore({difficulty:'easy'}), renderer=new WaterRenderer(canvas), audio=new GameAudio(), campaign=new Campaign();
+let modelReady=false, characterViewer=null, characterMotion='idle', characterFailure=false;
+window.waterGame=game;window.waterRenderer=renderer;window.waterAudio=audio;window.waterCampaign=campaign;
+const keys=new Set();let shoot=false,pointer={x:0,y:0,valid:false},round=1,last=performance.now(),lastPhase='',helpReturn='start',lastEvent=0,messageUntil=0;
+let soundEnabled=true, assist=true, aimTargetId=null,mode='quick',activeStage=null,lastOutcome=null,trialDemo=false,currentScreen='home';
+const colors=['#248fce','#f2776b','#e6b843','#9072ca'];
+function audioInit(){audio.unlock().then(ok=>{if(ok===false){$('music-status').textContent='声音未能启用，请重试';}}).catch(()=>{$('music-status').textContent='声音未能启用，请重试';});}
+function clearInput(){keys.clear();shoot=false;aimTargetId=null;}
+function syncDifficulty(){const p=game.params,info=game.getDifficultyInfo();$('gameplay-pill').textContent=info.label+'模式 · '+p.roundDuration+' 秒一局';$('mini-duration').textContent=p.roundDuration;$('mini-water-time').textContent=(p.waterCapacity/p.waterUse).toFixed(1).replace('.0','');$('difficulty-note').textContent=info.description;}
+$('difficulty').onchange=e=>{game.setDifficulty(e.target.value);assist=e.target.value==='easy';$('aim-assist').checked=assist;syncDifficulty();};
+$('aim-assist').onchange=e=>assist=e.target.checked;
+syncDifficulty();
+const chapterNames=['花园初练','落日水战','海湾冲浪','月光决赛'];
+const chapterColors=['#84b38b','#dfaf78','#7db5bf','#a18abb'];
+function hasResumableGame(){return ['playing','countdown','paused'].includes(game.phase);}
+function isLiveAttempt(){return activeStage&&hasResumableGame();}
+function flash(text){$('upgrade-flash').textContent=text;}
+function renderCampaign(){
+ const saved=campaign.getState(),levels=campaign.getLevels(),weapon=campaign.getWeapon(),live=hasResumableGame();
+ document.querySelectorAll('[data-coins]').forEach(el=>el.textContent=saved.coins);const cleared=levels.filter(l=>l.stars>0).length;$('campaign-progress').textContent='已通关 '+cleared+' / 12';$('home-progress').textContent=cleared+' / 12';$('home-upgrade-count').textContent=Object.values(saved.upgrades).reduce((a,b)=>a+b,0)+' / 17';const route=campaignRouteLevel();$('home-start').innerHTML=(live?'继续当前对战':!modelReady?'小队集合中…':cleared===12?'重玩第 12 关':cleared>0?'继续第 '+route+' 关':'开始第 1 关')+' <span aria-hidden="true">→</span>';$('home-start').disabled=!modelReady;$('shop-levels').textContent=live?'继续当前对战 →':'开始第 '+route+' 关 →';$('shop-levels').disabled=!modelReady;
+ $('campaign-session').hidden=!live||currentScreen==='play';$('session-label').textContent=mode==='campaign'&&game.getState().stageGoalCompleted?'任务已达成，可以继续开喷，或结算领取奖励。':mode==='campaign'?'第 '+(game.getState().stage?.levelId||saved.selectedLevel)+' 关已暂停。继续挑战，或结束后升级。':mode==='trial'?'试枪已暂停。可以继续体验，或返回菜单。':'快速对战已暂停。可以继续对战，或结束本局。';$('campaign-resume').textContent=mode==='campaign'?'继续本关':mode==='trial'?'继续试枪':'继续对战';$('campaign-abandon').textContent=mode==='campaign'&&game.getState().stageGoalCompleted?'结算本局':'结束本次挑战';
+ const saveText=saved.saveStatus==='memory-only'?'当前浏览器无法保存，本次进度仅保留到关闭页面。':'金币、装备与通关进度自动保存在本机。';document.querySelectorAll('[data-save-note]').forEach(el=>el.textContent=saveText);$('campaign-save-note').textContent=live?'先继续或结束当前挑战，再开始新关卡。':'点关卡即可开玩；灰色关卡逐关解锁，绿色关卡可以重玩。';
+ $('level-map').replaceChildren();
+ for(const level of levels){const c=Math.floor((level.id-1)/3);
+  const id=level.id,button=document.createElement('button'),selected=id===route;
+  const stageState=selected?'selected':!level.unlocked?'locked':level.stars>0?'completed':'available';
+  const statusText=!level.unlocked?'未解锁':selected?(cleared===12?'▶ 重玩':'▶ 继续挑战'):level.stars>0?'✓ 重玩':'▶ 开始';
+  button.className='stage-card'+(selected?' selected':'')+(!level.unlocked?' locked':level.stars>0?' completed':' available')+(id%3===0?' boss':'');
+  button.dataset.state=stageState;button.disabled=!level.unlocked||live||!modelReady;
+  button.setAttribute('aria-label','第 '+id+' 关 '+level.name+' '+statusText);
+  
+  const num=document.createElement('span');num.className='level-num';num.textContent=String(id).padStart(2,'0')+' · '+chapterNames[c];
+  const title=document.createElement('strong');title.textContent=level.name;
+  const info=document.createElement('small');info.textContent=!level.unlocked?'完成上一关解锁':level.type==='survive'?'生存 · '+level.duration+' 秒':level.type==='boss'?'队长 · '+level.bossRounds+' 轮':'击落 · '+level.count+' 人';
+  const state=document.createElement('span');state.className='stage-state';state.textContent=statusText;
+  if(!level.unlocked){const lock=document.createElement('span');lock.setAttribute('aria-hidden','true');lock.innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';state.prepend(lock);}
+  const stars=document.createElement('span');stars.className='stage-stars';stars.textContent=level.unlocked?'★'.repeat(level.stars)+'☆'.repeat(3-level.stars):'';
+  button.append(num,title,info,state,stars);
+  button.onclick=()=>{if(campaign.selectLevel(id))enterCampaignLevel(id);};$('level-map').append(button);
+ }
+ $('campaign-start').textContent=live?'先继续当前对战':modelReady?'直接进入第 '+route+' 关 →':'小队集合中…';$('campaign-start').disabled=!modelReady||live;
+ const gunName=weapon.jetCount>=3?'三束水炮':weapon.tier>=3?'高压水枪':'清泉水枪';$('gun-class').textContent=gunName;$('home-gun-name').textContent=gunName;$('weapon-stats').innerHTML='<div><span>水压推力</span><b>'+weapon.pushAcceleration.toFixed(1)+'</b></div><div><span>射程</span><b>'+weapon.range.toFixed(1)+'</b><small>米</small></div><div><span>喷射水束</span><b>'+weapon.jetCount+'</b><small>束</small></div><div><span>水箱容量</span><b>'+Math.round(weapon.waterCapacity)+'</b><small>点</small></div>';if(characterViewer?.setWeapon)characterViewer.setWeapon(weapon);
+ const upgradeIcons={
+  pressure:'<path d="M3 8h8M3 12h5M3 16h8M14 5l7 7-7 7M10 12h11"/>',
+  reach:'<path d="M3 12h18M17 8l4 4-4 4M7 4v3M12 4v3M7 17v3M12 17v3"/>',
+  nozzle:'<path d="M3 12h7M10 12l10-7M10 12h11M10 12l10 7"/><circle cx="4" cy="12" r="2"/>',
+  tank:'<path d="M12 2C9 6 5 10 5 14a7 7 0 0 0 14 0c0-4-4-8-7-12Z"/><path d="M8 14a4 4 0 0 0 4 4"/>'
+ };
+ $('upgrade-list').replaceChildren();
+ for(const up of campaign.getUpgrades()){
+  const maxed=up.rank>=up.maxRank,available=up.canBuy&&!live;
+  const status=maxed?'maxed':live?'paused':available?'available':'insufficient';
+  const card=document.createElement('div');card.className='upgrade-card';card.dataset.upgrade=up.id;card.dataset.state=status;
+  const head=document.createElement('div');head.className='upgrade-card-head';
+  const title=document.createElement('div');title.className='upgrade-title';
+  const icon=document.createElement('span');icon.className='upgrade-icon';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+upgradeIcons[up.id]+'</svg>';
+  const name=document.createElement('h3');name.textContent=up.name;title.append(icon,name);
+  const rank=document.createElement('span');rank.className='upgrade-level';rank.textContent='Lv.'+up.rank+' / '+up.maxRank;head.append(title,rank);
+  const desc=document.createElement('p');desc.textContent=up.nextDescription||up.description;
+  const state=document.createElement('span');state.className='upgrade-state';state.textContent=maxed?'✓ 已满级':live?'对战暂停中 · 结束后可升级':available?'↑ 可以升级':'还差 '+Math.max(0,up.cost-saved.coins)+' 金币';
+  const button=document.createElement('button');button.textContent=maxed?'已装备满级效果':live?'请先结束当前对战':available?'立即升级 · '+up.cost+' 金币':'金币不足 · '+up.cost+' 金币';
+  button.disabled=!available;button.setAttribute('aria-label',maxed?up.name+'已满级':live?'结束当前对战后升级'+up.name:available?'升级'+up.name+' '+up.cost+'金币':up.name+'金币不足，还差'+Math.max(0,up.cost-saved.coins)+'金币');
+  button.onclick=()=>{const purchase=campaign.purchaseUpgrade(up.id);flash(purchase.success?up.name+'已升级！下一局火力增强。':purchase.reason||'暂时无法升级');audioInit();if(purchase.success)audio.result(true);renderCampaign();};
+  card.append(head,desc,state,button);$('upgrade-list').append(card);
+ }
+ $('max-weapon-trial').disabled=!modelReady||live;
+}
+function enterCampaignLevel(id=campaign.getState().selectedLevel){if(!modelReady||hasResumableGame())return;const config=campaign.startLevel(id);if(!config){flash('请先完成前一关。');return;}mode='campaign';activeStage=config.stage;lastOutcome=null;clearInput();pointer.valid=false;audioInit();game.reset(round++);game.configureRound(config,round++);game.start();lastPhase='';lastEvent=0;assist=true;$('aim-assist').checked=true;hideOverlays();$('observer').hidden=true;tab('play');$('gameplay-pill').textContent='第 '+id+' 关 · '+config.params.roundDuration+' 秒';canvas.focus({preventScroll:true});renderCampaign();}
+function enterTrial(){if(!modelReady||hasResumableGame())return;mode='trial';trialDemo=true;activeStage=null;lastOutcome=null;const preview=campaign.getLevelConfig(12);preview.playerWeapon=campaign.getMaxWeapon();preview.params={...preview.params,roundDuration:30,aiOpeningGrace:30,aiMoveFactor:.38,aiBurstRest:2};preview.stage={...preview.stage,id:'trial',levelId:0,name:'满级试枪',theme:$('trial-theme').value,objective:{type:'survive'}};clearInput();pointer.valid=false;audioInit();game.reset(round++);game.configureRound(preview,round++);game.start();lastPhase='';lastEvent=0;assist=true;hideOverlays();$('observer').hidden=true;tab('play');canvas.focus({preventScroll:true});}
+function resetSession(){clearInput();campaign.abandonAttempt();activeStage=null;lastOutcome=null;game.reset(round++);game.configureRound(null,round++);mode='quick';trialDemo=false;lastPhase='';lastEvent=0;hideOverlays();$('observer').hidden=true;syncDifficulty();}
+function returnToWorkshop(){if(game.phase==='result')resetSession();tab('upgrades');}
+function restartCurrent(){const kind=mode,id=game.getState().stage?.levelId||campaign.getState().selectedLevel;resetSession();if(kind==='campaign')enterCampaignLevel(id);else if(kind==='trial')enterTrial();else begin();}
+function openQuick(){if(hasResumableGame()){tab('home');return;}resetSession();tab('play');$('start-overlay').hidden=false;}
+$('trial-demo-btn').onclick=()=>{trialDemo=!trialDemo;$('trial-demo-btn').textContent=trialDemo?'停止演示':'自动试喷';canvas.focus({preventScroll:true});};
+function campaignRouteLevel(){return campaign.getState().highestUnlocked;}
+function continueCampaign(){if(!modelReady)return;if(hasResumableGame()){tab('play');if(game.phase==='paused')resume();return;}if(game.phase==='result')resetSession();enterCampaignLevel(campaignRouteLevel());}
+$('home-start').onclick=continueCampaign;$('home-shop').onclick=()=>tab('upgrades');$('home-quick').onclick=openQuick;$('extra-quick').onclick=()=>{$('menu-extras').open=false;openQuick();};$('levels-shop').onclick=()=>tab('upgrades');$('shop-levels').onclick=continueCampaign;
+$('campaign-start').onclick=()=>enterCampaignLevel(campaignRouteLevel());$('max-weapon-trial').onclick=enterTrial;
+$('campaign-resume').onclick=()=>{tab('play');if(game.phase==='paused')resume();};
+$('campaign-abandon').onclick=()=>{if(mode==='campaign'&&game.endCompletedStage()){audioInit();tab('play');return;}resetSession();tab(currentScreen==='play'?'home':currentScreen);flash('本次挑战已结束，已有金币和升级保留。');};
+$('result-next').onclick=()=>{const next=lastOutcome?.nextLevel;if(next){resetSession();enterCampaignLevel(next);}};
+function hideOverlays(){['start-overlay','pause-overlay','how-overlay','result-overlay'].forEach(id=>$(id).hidden=true);}
+function begin(){if(!modelReady||hasResumableGame())return;mode='quick';activeStage=null;lastOutcome=null;audioInit();clearInput();pointer.valid=false;campaign.abandonAttempt();game.reset(round++);game.configureRound(null,round++);game.start();lastEvent=0;lastPhase='';hideOverlays();$('observer').hidden=true;}
+function pause(){const s=game.getState();if(s.phase==='playing'||s.phase==='countdown'){clearInput();game.togglePause();hideOverlays();$('pause-overlay').hidden=false;audio.pause();}}
+function resume(){audioInit();game.togglePause();hideOverlays();clearInput();canvas.focus({preventScroll:true});}
+function toTitle(){if(game.phase==='result'){const destination=mode==='quick'?'home':'upgrades';resetSession();tab(destination);}else tab('home');}
+function showHelp(origin){helpReturn=origin;clearInput();hideOverlays();$('how-overlay').hidden=false;}
+function assetLabel(){const info=renderer.assetInfo||{};return typeof info==='string'?info:(info.displayName||info.name||info.title||info.modelName||'游戏角色');}
+function characterError(){characterFailure=true;['home-model-note','shop-model-note'].forEach(id=>{$(id).hidden=false;$(id).textContent='队员载入失败，请刷新重试。';});$('character-asset-name').textContent='动作预览加载失败，请刷新页面重试。';$('character-asset-name').classList.add('failed');document.querySelectorAll('[data-motion]').forEach(b=>b.disabled=true);}
+function ensureCharacterViewer(){
+ if(!modelReady||characterViewer||characterFailure)return;
+ try{characterViewer=new CharacterViewer($('character-canvas'),renderer.assetInfo);window.characterViewer=characterViewer;characterViewer.setMotion(currentScreen==='character'?characterMotion:'idle');characterViewer.setWeapon?.(campaign.getWeapon());$('character-asset-name').textContent=assetLabel()+' · 角色与骨骼动作';document.querySelectorAll('[data-motion]').forEach(b=>b.disabled=false);characterViewer.ready.then(()=>{$('home-model-note').hidden=true;$('shop-model-note').hidden=true;characterViewer.resize();}).catch(characterError);}
+ catch(e){characterError();}
+}
+function mountPreview(name){const hosts={home:'home-preview-host',upgrades:'shop-preview-host',character:'character-preview-host'};if(!hosts[name])return;$(hosts[name]).append($('character-canvas'));ensureCharacterViewer();if(characterViewer){characterViewer.setMotion(name==='character'?characterMotion:'idle');characterViewer.setWeapon?.(campaign.getWeapon());characterViewer.resize();requestAnimationFrame(()=>characterViewer.resize());}}
+function modelError(){const f=$('fallback');f.querySelector('h2').textContent='角色资源未能载入';f.querySelector('p').textContent='请刷新页面重试，也可先查看人物与制作设计。';modelReady=false;$('start-btn').disabled=true;$('start-btn').textContent='角色加载失败';$('model-loading-status').textContent='角色模型加载失败，请刷新页面重试。';$('model-loading-status').className='model-status failed';$('game-asset-caption').textContent='角色模型加载失败';$('character-asset-name').textContent='角色模型加载失败，请刷新页面重试。';$('character-asset-name').classList.add('failed');$('fallback').style.display='flex';}
+function tab(name){if(name!=='play'&&game.phase==='result')resetSession();if(name!=='play')pause();clearInput();currentScreen=name;document.body.dataset.screen=name;window.scrollTo(0,0);$('menu-extras').open=false;$('pause-title-btn').textContent='返回主菜单';document.querySelectorAll('[data-tab]').forEach(b=>{const active=b.dataset.tab===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active)});['home','levels','upgrades','play','character','concept','production'].forEach(x=>$('panel-'+x).hidden=x!==name);renderCampaign();if(name==='play'){renderer.resize();requestAnimationFrame(()=>renderer.resize());}else mountPreview(name);}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
+document.querySelectorAll('[data-motion]').forEach(b=>b.addEventListener('click',()=>{if(!modelReady)return;characterMotion=b.dataset.motion;ensureCharacterViewer();if(!characterViewer)return;characterViewer.setMotion(characterMotion);document.querySelectorAll('[data-motion]').forEach(x=>{const active=x.dataset.motion===characterMotion;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active)});}));
+Promise.resolve(renderer.ready).then(()=>{if(renderer.modelLoaded!==true)throw new Error('Character model not loaded');modelReady=true;$('start-btn').disabled=false;$('start-btn').textContent='开始游戏';renderCampaign();$('model-loading-status').textContent='角色已就绪 · 开始后播放音乐';$('model-loading-status').className='model-status ready';$('game-asset-caption').textContent=assetLabel()+' · 角色与骨骼动作';$('character-asset-name').textContent=assetLabel()+' · 选择一个动作查看';mountPreview(currentScreen);}).catch(modelError);
+$('start-btn').onclick=begin;$('restart-btn').onclick=restartCurrent;$('result-restart').onclick=restartCurrent;$('observer-restart').onclick=restartCurrent;$('result-title-btn').onclick=toTitle;$('pause-title-btn').onclick=toTitle;$('resume-btn').onclick=resume;$('pause-btn').onclick=()=>{if(game.getState().phase==='paused')resume();else pause()};
+$('how-btn').onclick=()=>showHelp('start');$('pause-how-btn').onclick=()=>showHelp('pause');$('close-how-btn').onclick=()=>{hideOverlays();$(helpReturn==='pause'?'pause-overlay':'start-overlay').hidden=false};$('fallback-concept').onclick=()=>tab('concept');
+$('sound-btn').onclick=()=>{audioInit();soundEnabled=!soundEnabled;audio.setEnabled(soundEnabled);$('sound-btn').textContent='声音 '+(soundEnabled?'开':'关');$('sound-btn').setAttribute('aria-pressed',soundEnabled);};
+$('music-volume').oninput=e=>{audioInit();audio.setMusicVolume(Number(e.target.value)/100);$('music-volume-value').textContent=e.target.value;};
+$('sfx-volume').oninput=e=>{audioInit();audio.setSfxVolume(Number(e.target.value)/100);$('sfx-volume-value').textContent=e.target.value;};
+window.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;const key=e.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(key)&&!$('panel-play').hidden&&['playing','countdown'].includes(game.phase)&&!(key===' '&&e.target.tagName==='BUTTON')){e.preventDefault();keys.add(key);if(key===' '&&!e.repeat)audioInit();}if(key==='escape'){if($('panel-play').hidden)return;e.preventDefault();if(!$('how-overlay').hidden){$('close-how-btn').click();return;}const s=game.getState();if(s.phase==='paused')resume();else pause();}});
+window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
+canvas.addEventListener('pointermove',e=>{pointer={x:e.clientX,y:e.clientY,valid:true};const r=wrap.getBoundingClientRect();$('crosshair').style.left=(e.clientX-r.left)+'px';$('crosshair').style.top=(e.clientY-r.top)+'px';});
+canvas.addEventListener('pointerdown',e=>{if(e.button!==0)return;canvas.focus({preventScroll:true});audioInit();pointer={x:e.clientX,y:e.clientY,valid:true};if(game.getState().phase==='playing'){shoot=true;canvas.setPointerCapture(e.pointerId);e.preventDefault();}});
+window.addEventListener('pointerup',()=>shoot=false);canvas.addEventListener('pointercancel',()=>shoot=false);canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('pointerleave',()=>{$('crosshair').style.display='none'});
+window.addEventListener('blur',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});window.addEventListener('resize',()=>{renderer.resize();if(characterViewer&&['home','upgrades','character'].includes(currentScreen))characterViewer.resize();});
+for(let i=0;i<4;i++){const l=document.createElement('div');l.className='actor-label'+(i===0?' p1':'');l.id='label-'+i;l.textContent=i===0?'P1':String(i+1);$('actor-labels').append(l);}
+function notify(s){$('message').textContent=s;$('message').style.display='block';messageUntil=performance.now()+1700;}
+function resultUI(s){clearInput();hideOverlays();$('result-overlay').hidden=false;const r=s.result||{},alive=s.actors.filter(a=>a.alive),p=s.actors[0],kind=r.type||r.kind||'';let title,subtitle;
+ if(kind==='draw'||alive.length===0){title='平局';subtitle='最后的队员同时落水。'}
+ else if(alive.length>1){title=p.alive?'共同获胜':'本局结束';subtitle='时间到，留在场上的队员都获胜。'}
+ else if(p.alive){title='你赢了！';subtitle='你是最后一位留在场上的队员。'}
+ else{title='本局结束';subtitle=(alive[0]?'AI '+(alive[0].index+1):'对手')+' 最后存活。'}
+ if(mode==='campaign'&&s.stage){lastOutcome=campaign.finishAttempt(s);title=lastOutcome.cleared?'第 '+s.stage.levelId+' 关通过！':'再试一次';subtitle=lastOutcome.cleared?(p.alive?r.reason==='all-opponents-out'?'全场清空，自动通关！金币到账，直接挑战下一关。':'任务已完成，金币到账，升级装备或继续下一关。':'你在落水前已完成任务，通关奖励保留。'):(s.actors[0].alive?(s.objectiveProgress?.type==='boss'?'队长已击落 '+s.objectiveProgress.current+' / '+s.objectiveProgress.count+' 轮，提升水压或射程再挑战。':'目标还差一点，升级后再来。'):'先升级装备，再挑战本关。');$('campaign-reward').hidden=false;$('result-coins').textContent='+'+lastOutcome.coinsEarned+' 金币';$('result-stars').textContent=lastOutcome.cleared?'★'.repeat(lastOutcome.stars)+'☆'.repeat(3-lastOutcome.stars):'失败也有挑战奖励';$('result-next').hidden=!(lastOutcome.cleared&&lastOutcome.nextLevel);$('result-next').textContent='下一关 · 第 '+(lastOutcome.nextLevel||12)+' 关';$('result-restart').textContent='重试本关';$('result-title-btn').textContent='升级水枪';renderCampaign();}
+ else{$('campaign-reward').hidden=true;$('result-next').hidden=true;$('result-restart').textContent=mode==='trial'?'再次试枪':'再来一局';$('result-title-btn').textContent=mode==='trial'?'返回工坊':'返回主菜单';if(mode==='trial'){title='试枪结束';subtitle='满级三束水炮展示 · 本次不计金币与关卡进度。';}}
+ $('result-title').textContent=title;$('result-subtitle').textContent=subtitle;$('result-eyebrow').textContent=mode==='campaign'?(lastOutcome?.cleared?'任务完成':'本关未通过'):p.alive?'存活成功':'本局结束';$('rank-list').innerHTML='';
+ s.actors.forEach((a,i)=>{const d=document.createElement('div');d.className='rank-card'+(i===0?' p1':'');d.innerHTML='<span class="rank-dot" style="background:'+colors[i]+'"></span><div>'+(i===0?'你 · P1':'AI '+(i+1))+'</div><b>#'+(a.rank||1)+'</b><span>'+(a.alive?'存活':'出局')+'</span>';$('rank-list').append(d)});
+ 
+}
+function updateHUD(s,now){const p=s.actors[0],w=Math.max(0,Math.round(p.water)),cap=p.weapon?.waterCapacity||s.params.waterCapacity,percent=w/cap*100;$('water-capacity').textContent=Math.round(cap);$('water-progress').setAttribute('aria-valuemax',cap);$('time-left').textContent=String(Math.ceil(s.timeLeft==null?s.params.roundDuration:s.timeLeft)).padStart(2,'0');$('timer').classList.toggle('warning',(s.timeLeft||30)<=5&&s.phase==='playing');$('alive-count').textContent='存活 '+s.actors.filter(a=>a.alive).length+' / 4';$('water-number').textContent=w;$('water-fill').style.width=Math.min(100,percent)+'%';$('water-fill').classList.toggle('low',percent<25);$('water-progress').setAttribute('aria-valuenow',w);
+ let m=(p.weapon?.passiveWaterRate??s.params.passiveWaterRate)>0?'松开喷水可慢慢回水，喷泉补水更快':'松开射击，在亮起的喷泉旁补水',wt='P1 水量',danger=false;
+ const charging=p.alive&&p.refilling&&w<cap;
+ if(!p.alive){wt='P1 已出局';m='观看场上队员，或开始下一局';}
+ else if(w===0){wt='P1 空水';m=(p.weapon?.passiveWaterRate??s.params.passiveWaterRate)>0?'松开喷水回水，或去亮起的喷泉':'松开射击，前往亮起的喷泉';danger=true;}
+ else if(percent<25){wt='P1 水量偏低';m='留意补水点，别在边缘停留';danger=true;}
+ if(p.regenerating&&!charging){wt='P1 回水中';m='停火正在慢慢回水 · 喷泉可以更快补满';danger=false;}
+ if(charging){wt='P1 补水中';m='水量正在恢复 · 按下射击会中断';danger=false;}
+ $('trial-demo-btn').hidden=mode!=='trial'||s.phase!=='playing';const mission=$('mission-hud');mission.classList.toggle('completed',mode==='campaign'&&!!s.stageGoalCompleted);mission.hidden=!(s.stage||mode==='trial');if(mode==='trial'){$('mission-title').textContent='满级试枪 · 三束水炮';$('mission-progress').textContent=trialDemo?'自动试喷演示 · 本次不计进度':'按住空格开喷 · 本次不计进度';}else if(s.stage){$('mission-title').textContent=String(s.stage.levelId).padStart(2,'0')+' · '+s.stage.name;const obj=s.stage.objective,progress=s.objectiveProgress,eliminated=s.actors.filter(a=>!a.isPlayer&&!a.alive).length;const need=obj?.count||1;$('mission-progress').textContent=s.stageGoalCompleted?(s.phase==='result'?'✓ 本关已通过':'✓ 目标已达成 · 继续清场，全清自动通关'):obj?.type==='boss'?'冲走队长 '+(progress?.current||0)+' / '+(progress?.count||obj.bossRounds||1)+' 轮':obj?.type==='eliminate'?'打落对手 '+Math.min(eliminated,need)+' / '+need:'坚持到时间结束，或清空全部对手';}
+
+ $('water-title').textContent=wt;$('water-message').textContent=m;$('water-message').classList.toggle('danger',danger);
+ s.actors.forEach((a,i)=>{const tag=$('label-'+i);tag.textContent=a.role==='boss'?'队长':i===0?'P1':String(i+1);document.querySelector('[data-player="'+i+'"]').classList.toggle('out',!a.alive);const l=$('label-'+i);l.hidden=!a.alive;try{const pt=renderer.worldToScreen(a.x,a.y,2.12),rr=wrap.getBoundingClientRect();l.style.left=(pt.x-rr.left)+'px';l.style.top=(pt.y-rr.top)+'px';l.classList.toggle('hit',a.hit>0);}catch(e){l.hidden=true;}});
+ $('crosshair').style.display=s.phase==='playing'&&p.alive&&pointer.valid&&!keys.has(' ')?'block':'none';
+ const locked=s.actors.find(a=>a.id===aimTargetId&&a.alive),halo=$('aim-target');halo.style.display=locked&&s.phase==='playing'&&p.alive?'block':'none';if(locked){const q=renderer.worldToScreen(locked.x,locked.y,.06),rr=wrap.getBoundingClientRect();halo.style.left=(q.x-rr.left)+'px';halo.style.top=(q.y-rr.top)+'px';}
+ $('countdown').style.display=s.phase==='countdown'?'flex':'none';$('countdown').textContent=String(Math.ceil(s.countdown||3));
+ $('observer').hidden=!(s.phase==='playing'&&!p.alive);$('observer-text').textContent='你已出局 · 第 '+(p.rank||4)+' 名';
+ if(now>messageUntil)$('message').style.display='none';
+ if(p.alive&&s.phase==='playing'&&Math.hypot(p.x,p.y)>6.05){$('message').textContent='靠近边缘了，向内移动';$('message').style.display='block';messageUntil=now+80;}
+ if(s.phase!==lastPhase){if(s.phase==='result')resultUI(s);if(s.phase==='playing'&&lastPhase==='countdown'){notify(mode==='trial'?'试试满级三束水炮！':s.stage?'开始闯关！空格喷水，松开回水':game.getDifficulty()==='easy'?'先熟悉操作：WASD 移动，空格喷水':'开喷！')}lastPhase=s.phase;}
+ for(const e of s.events||[]){const serial=e.seq||0;if(serial>lastEvent){audio.event(e,s);if(e.type==='objective-complete')notify('任务达成！继续清场，全清自动通关');if(e.type==='boss-round'&&e.phase==='start')notify('队长第 '+e.round+' 轮回场！');if(e.type==='elimination'){const a=s.actors.find(a=>a.id===e.actorId);notify((a&&a.isPlayer?'你':'AI '+(a?a.index+1:'?'))+' 落水出局');}lastEvent=Math.max(serial,lastEvent);}}
+
+}
+function frame(now){const dt=Math.min(.1,(now-last)/1000);last=now;const s=game.getState();
+ const demoFire=mode==='trial'&&trialDemo&&s.timeElapsed%6<4;const aim=resolveAim(s,{pointer,project:(x,y,h)=>renderer.worldToScreen(x,y,h),screenToWorld:(x,y)=>renderer.screenToWorld(x,y),assist,auto:keys.has(' ')||demoFire});aimTargetId=aim.targetId;
+ game.update(dt,{moveX:(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0),moveY:(keys.has('s')||keys.has('arrowdown')?1:0)-(keys.has('w')||keys.has('arrowup')?1:0),aimX:aim.aimX,aimY:aim.aimY,shoot:shoot||keys.has(' ')||demoFire});
+ const current=game.getState();audio.update(current,dt);const audioStatus=audio.debugSnapshot();$('music-status').textContent=!soundEnabled?'声音已关闭':current.phase==='paused'?'声音已暂停':audioStatus.musicPlaying?(audioStatus.musicVolume===0?'音乐音量为零':'原创配乐播放中'):(audioStatus.decodeFailed?'音乐加载失败，音效仍可用':'音乐待播放');if(!$('panel-play').hidden){renderer.render(current,now/1000);updateHUD(current,now);}if(characterViewer&&['home','upgrades','character'].includes(currentScreen)&&!characterFailure){try{characterViewer.render(now/1000);}catch(e){characterError();}}requestAnimationFrame(frame);
+}
+if(renderer.supported===false){$('load-error-title').textContent='当前浏览器未开启三维画面';$('load-error-message').textContent='请在支持 WebGL 的电脑浏览器中打开游戏。';$('fallback').style.display='flex';}renderer.resize();requestAnimationFrame(frame);
+renderCampaign();mountPreview('home');window.gameDesignUI={begin,pause,resume,toTitle,tab,notify,enterCampaignLevel,enterTrial};
+})();
+</script>
+</body></html>

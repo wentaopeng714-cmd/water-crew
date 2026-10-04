@@ -1,0 +1,66 @@
+Water Push v0.4 — asset provenance and modifications
+
+CURRENT CHARACTER GEOMETRY
+assets/character-v3.glb
+Original WaterCrew mesh authored for this project in Blender: rounded head/body,
+facial features, cap, clothing and shoes. The current export contains only the
+new WaterCrewV3_Character mesh (12 material primitives), not the old Soldier mesh.
+Runtime tinting provides four identities. Water gun and backpack are separate
+original runtime props attached/positioned by Three.js.
+
+RETAINED SKELETON AND ANIMATION
+Creator: Quaternius
+Pack: Toon Shooter Game Kit
+Official source: https://quaternius.com/packs/toonshootergamekit.html
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+Original source file: Character_Soldier.gltf
+Downloaded from the official Google Drive glTF folder on 2026-10-04.
+The v0.3 original geometry uses the retained 43-joint skeleton and 17 source clips:
+Death, Duck, HitReact, Idle, Idle_Shoot, Jump, Jump_Idle, Jump_Land, No, Punch,
+Run, Run_Gun, Run_Shoot, Walk, Walk_Shoot, Wave, Yes.
+No dedicated strafe, backward, refill, swimming or falling-into-water struggle
+clips were added. Runtime blending, aim adjustment and falling translation are
+code-driven additions. Death is the source death/fall-over clip, not a custom
+swimming animation. CC0 provenance applies to the retained rig and clips; it is
+not a claim that Quaternius authored the new WaterCrew mesh or the garden scene.
+
+LEGACY SOURCE FOR REPRODUCTION
+assets/character.glb and assets/source/Character_WaterCrew.gltf are the v0.2
+adaptation of Quaternius Character_Soldier. Original firearm/weapon meshes,
+shoulder armour and chest pouches were removed; the source face/skin geometry,
+bones and all 17 clips were retained. These legacy files remain as rig/action
+inputs and provenance material. The current build does not embed them as its character.
+Blender editable character scenes may retain these old source meshes hidden for
+reference; only the newly authored character mesh and rig are exported to v0.3 GLB.
+
+GARDEN ENVIRONMENT
+assets/environment-v3.glb
+Original project-authored Blender mesh geometry and materials: bevelled stone
+platform, leaves, flowers, pool, lawn, pedestal/fish-spout forms and nozzle markers.
+Dynamic fountain streams, foam, surface effects and waterfalls are rendered by
+Three.js. The reference video informed visual and gameplay direction; no Nintendo
+models, animation, music or sound were extracted or included.
+
+ORIGINAL v0.4 WATER VFX MODULE
+water-flow.js is original project code shared by the playable scene, decorative
+fish spouts and character viewer. It uses world-space emitted water packets,
+a tube reconstructed from live packets, detached ballistic droplets, impact
+spray, horizontal-plane ripple instances, and GPU ballistic fountain particles
+with a time-gated aerated rise. These are game visual-effects approximations,
+not a fluid solver. They do not solve pressure, fluid volume conservation,
+inter-droplet interactions or arbitrary scene collision. Gameplay collision and
+knockback remain separate from the visible water simulation. Character/environment
+geometry, skeleton and source animation provenance above are unchanged in v0.4.
+
+RUNTIME AND OTHER MATERIAL
+Three.js r180 (0.180.0), including GLTFLoader, SkeletonUtils, RoomEnvironment and
+reflection helpers: MIT. See vendor/THREE-LICENSE.txt and preserved source headers.
+esbuild 0.28.2 is a development/build dependency, not needed to play the built game.
+concept.png is the project's earlier generated concept illustration, retained as
+historical exploration; it is not a screenshot of the v0.3 playable scene.
+UI, gameplay code, authored geometry scripts, runtime props/effects and temporary
+synthesized sounds were created for this prototype. No additional open-source
+license is asserted here for original project material.
+
+V0.5 AUDIO
+Fountain Days / 喷泉假日: Original 16-bar C-major island score composed and synthesized for this project, 108 BPM. No external samples or borrowed game music. Master audio/music-notes.json. Runtime sound effects and fountain ambience are original Web Audio synthesis. Source: game-audio.js and source/audio/create_water_party_music.py.
