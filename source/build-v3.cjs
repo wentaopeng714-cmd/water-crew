@@ -41,7 +41,7 @@ async function build() {
   });
 
   let html = source.replace('/* CORE_MODULE */', () => read('source/gameplay.js'));
-  html = html.replace(/<script type="module"[^>]*>/, () => embedded + '<script src="game-visuals-v3.js?v=0.13.0"></script>\n<script>');
+  html = html.replace(/<script type="module"[^>]*>/, () => embedded + '<script src="game-visuals-v3.js?v=0.14.0"></script>\n<script>');
   for (const module of ['renderer_v3', 'character-viewer-v3', 'game-audio', 'player-controls', 'campaign']) {
     const pattern = new RegExp(`^import\\s+\\{[^}]+\\}\\s+from\\s+['"]\\./${module}\\.js['"];?\\s*$`, 'm');
     if (!pattern.test(html)) throw new Error(`UI import not found: ${module}.js`);
@@ -49,7 +49,7 @@ async function build() {
   }
   if (html.includes('/* CORE_MODULE */') || /<script type="module"/.test(html)) throw new Error('Offline HTML conversion was incomplete.');
   fs.writeFileSync(path.join(root, 'index.html'), html);
-  console.log('Built v0.13: index.html + game-visuals-v3.js; GLB assets ' + (web ? 'served as relative files.' : 'embedded.'));
+  console.log('Built v0.14: index.html + game-visuals-v3.js; GLB assets ' + (web ? 'served as relative files.' : 'embedded.'));
 }
 
 build().catch(error => { console.error(error); process.exitCode = 1; });

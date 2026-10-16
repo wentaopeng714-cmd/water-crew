@@ -1,7 +1,7 @@
 {
   "name": "water-push-prototype",
   "private": true,
-  "version": "0.13.0",
+  "version": "0.14.0",
   "scripts": {
     "build": "node source/build-v3.cjs",
     "test": "node source/core_test.cjs && node source/weapon_test_v6.cjs && node source/campaign_test_v6.mjs && node source/visual_test_v6.mjs && node source/controls_test_v5.mjs && node source/audio_test_v5.mjs && node source/asset_test_v3.mjs && node source/water_flow_test_v4.mjs && node source/menu_preview_test_v7.mjs && node source/objective_continuation_test_v9.mjs && node source/ai_tactics_test_v10.cjs && node source/resistance_test_v11.cjs && node source/ai_weapon_test_v12.mjs && node source/ai_weapon_visual_test_v12.mjs && node source/arena_projection_test_v13.mjs",

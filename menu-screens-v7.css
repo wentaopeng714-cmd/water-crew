@@ -611,3 +611,15 @@ header .version { color: #576575; }
   #panel-play .overlay { padding: 14px; }
   #panel-play .dialog { max-height: 100%; overflow-y: auto; padding: 18px; }
 }
+
+/* v0.14: concise player copy, with detail available on demand. */
+.home-preview-caption { justify-content: center; }
+.home-copy h1 { margin-top: 0; }
+.home-actions { margin-top: 22px; }
+.shop-upgrades .upgrade-card { min-height: 0; }
+.shop-upgrades .upgrade-card p { min-height: 0; margin: 10px 0; }
+.upgrade-card p:empty, .upgrade-state:empty, #upgrade-flash:empty, #result-subtitle:empty { display: none; }
+.shop-next .save-note, #panel-play .mini-rules, #model-loading-status.ready { display: none; }
+.character-asset:not(.failed):empty { display: none; }
+.credits-card { max-width: 560px; padding: 20px 24px; background: #fff; border-radius: 16px; font-size: 14px; line-height: 1.8; color: #4b5969; }
+.credits-card a { color: #1565bd; }
