@@ -370,7 +370,7 @@ header .version { color: #576575; }
   .level-detail-actions .secondary { min-height: 44px; font-size: 13px; }
   .levels-map-panel .stage-card { min-height: 129px; padding: 12px 10px; }
   .levels-map-panel .stage-card strong { font-size: 14px; }
-  .levels-map-panel .stage-card.boss::before { content: "挑战"; font-size: 10px; }
+  .levels-map-panel .stage-card.boss::before { content: "Boss"; font-size: 10px; }
   .shop-layout { grid-template-columns: 1fr; gap: 20px; }
   .shop-weapon-panel { padding: 18px; border-radius: 18px; }
   .shop-weapon-preview { height: 230px; }
@@ -623,3 +623,216 @@ header .version { color: #576575; }
 .character-asset:not(.failed):empty { display: none; }
 .credits-card { max-width: 560px; padding: 20px 24px; background: #fff; border-radius: 16px; font-size: 14px; line-height: 1.8; color: #4b5969; }
 .credits-card a { color: #1565bd; }
+
+/* v0.15: large independent controls, with safe areas for mobile webviews. */
+.touch-controls { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.touch-stick, .touch-fire { position: absolute; pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.touch-stick { width: 132px; height: 132px; bottom: 18px; left: 18px; border: 2px solid #ffffffb8; border-radius: 50%; background: #173e4b38; box-shadow: inset 0 0 0 13px #ffffff1c, 0 5px 18px #19383c28; }
+.touch-stick::before, .touch-stick::after { content: ''; position: absolute; background: #ffffff6b; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 4px; }
+.touch-stick::before { width: 72%; height: 1px; }
+.touch-stick::after { width: 1px; height: 72%; }
+.touch-stick > span { position: absolute; bottom: 10px; left: 0; width: 100%; color: #fff; text-align: center; font-size: 11px; pointer-events: none; }
+.touch-knob { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; border: 2px solid #fff; border-radius: 50%; background: #e3f4f4f2; box-shadow: 0 3px 10px #123e4a40; transform: translate(-50%, -50%); z-index: 1; pointer-events: none; }
+.touch-stick.active { background: #157fa64d; border-color: #fff; }
+.touch-stick.active .touch-knob { background: #86e2ee; }
+.touch-fire { width: 104px; height: 104px; right: 22px; bottom: 24px; border: 3px solid #f3ffff; border-radius: 50%; background: #188fc6f0; color: #fff; box-shadow: 0 6px 0 #10658f, 0 8px 20px #123e4a33; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 800; font-size: 17px; padding: 12px; }
+.touch-fire svg { width: 30px; height: 30px; }
+.touch-fire.active { background: #53cde1; box-shadow: 0 2px 0 #10658f; transform: translateY(4px); }
+body.touch-ui { -webkit-text-size-adjust: 100%; }
+body.touch-ui header { height: calc(56px + env(safe-area-inset-top, 0px)); min-height: calc(56px + env(safe-area-inset-top, 0px)); padding: calc(5px + env(safe-area-inset-top, 0px)) max(6px, env(safe-area-inset-right, 0px)) 5px max(6px, env(safe-area-inset-left, 0px)); gap: 6px; flex-direction: row; flex-wrap: nowrap; }
+body.touch-ui header .brand { flex: 0 0 auto; }
+body.touch-ui header nav { width: auto; order: 0; }
+.touch-ui header nav button, .touch-ui .menu-extras > summary { min-width: 44px; min-height: 44px; padding: 8px 7px; }
+.touch-ui header .version { display: none; }
+.touch-ui button, .touch-ui select, .touch-ui .home-help > summary { touch-action: manipulation; }
+.touch-ui .home-small-actions > button, .touch-ui .home-help > summary, .touch-ui .menu-back, .touch-ui .route-shop, .touch-ui .icon-btn, .touch-ui .dialog button, .touch-ui .shop-upgrades button, .touch-ui select { min-height: 44px; }
+.touch-ui .dialog { max-height: calc(100dvh - 90px); overflow-y: auto; }
+.touch-ui[data-screen="play"] { overflow: hidden; overscroll-behavior: none; }
+.touch-ui[data-screen="play"] main { padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)); }
+.touch-ui #panel-play .arena-wrap { --battle-height: calc(100vh - 64px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); --battle-height: calc(100dvh - 64px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); }
+.touch-ui #panel-play .footer-help { display: none; }
+.touch-ui #panel-play .water-hud { bottom: 166px; left: 14px; width: 174px; padding: 10px 12px; }
+.touch-ui #panel-play .hud-tools { right: 10px; }
+.touch-ui #panel-play .hud-top { left: 10px; }
+.touch-ui #panel-play .message, .touch-ui #panel-play .observer { bottom: 170px; }
+.touch-ui #panel-play .dialog { max-height: 100%; }
+@media (max-width: 480px) {
+  .touch-ui header .brand strong { font-size: 12px; }
+  .touch-ui header .nav-icon { display: none; }
+  .touch-ui .home-preview { height: 170px; }
+  .touch-ui .home-copy h1 { font-size: 32px; }
+  .touch-ui .home-actions { margin-top: 14px; }
+  .touch-ui .home-progress { gap: 8px; }
+  .touch-ui .home-stat { padding: 10px; }
+  .touch-ui .home-stat strong { font-size: 22px; }
+  .touch-ui .shop-upgrades .upgrade-card h3 { font-size: 12px; }
+  .touch-ui .shop-upgrades .upgrade-level { font-size: 9px; }
+  .touch-ui #panel-levels, .touch-ui #panel-upgrades { padding: 10px 10px 12px; }
+  .touch-ui .screen-toolbar { flex-wrap: nowrap; gap: 10px; margin-bottom: 10px; }
+  .touch-ui .screen-toolbar > button { width: auto; flex: 0 0 auto; padding: 8px 10px; }
+  .touch-ui .screen-title h1 { font-size: 22px; }
+  .touch-ui .screen-wallet { min-width: 66px; padding: 6px 9px; }
+  .touch-ui .screen-wallet strong { font-size: 21px; }
+  .touch-ui .route-shortcuts { gap: 8px; }
+  .touch-ui #panel-levels .stage-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .touch-ui #panel-levels .stage-card { min-height: 84px; padding: 7px; }
+  .touch-ui #panel-levels .stage-card strong { font-size: 11px; }
+  .touch-ui #panel-levels .stage-card small { font-size: 10px; }
+  .touch-ui .shop-layout { gap: 10px; }
+  .touch-ui .shop-upgrades .upgrade-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .touch-ui .shop-upgrades .upgrade-card { padding: 9px; min-height: 126px; }
+  .touch-ui .shop-upgrades .upgrade-card-head { gap: 3px; }
+  .touch-ui .upgrade-title { gap: 4px; }
+  .touch-ui .upgrade-icon { width: 20px; height: 20px; }
+  .touch-ui .upgrade-icon svg { width: 15px; height: 15px; }
+  .touch-ui .shop-upgrades .upgrade-card h3 { font-size: 11px; }
+  .touch-ui .shop-upgrades .upgrade-card p { font-size: 11px; line-height: 1.45; margin: 8px 0; }
+  .touch-ui .shop-upgrades .upgrade-state { font-size: 10px; margin-bottom: 6px; }
+  .touch-ui .shop-weapon-panel { padding: 10px; }
+  .touch-ui .shop-weapon-preview { height: 96px; }
+  .touch-ui .shop-weapon-panel .weapon-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin: 6px 0 0; }
+  .touch-ui .shop-weapon-panel .weapon-stats > div { padding: 7px 4px; }
+  .touch-ui .shop-weapon-panel .weapon-stats b { font-size: 17px; }
+  .touch-ui .shop-weapon-panel .weapon-stats span { font-size: 9px; }
+  .touch-ui .shop-weapon-panel .weapon-stats small { display: inline; font-size: 9px; margin: 0 0 0 2px; }
+  .touch-ui .shop-footer { flex-wrap: nowrap; gap: 6px; padding: 8px; }
+  .touch-ui .shop-footer > div { flex: 1; }
+  .touch-ui .shop-footer > div strong { font-size: 11px; }
+  .touch-ui .shop-footer label { flex: 0 0 auto; font-size: 10px; }
+  .touch-ui .shop-footer select { width: 66px; font-size: 11px; padding: 5px; }
+  .touch-ui .shop-footer .trial-btn { width: auto; flex: 0 0 auto; min-height: 44px; font-size: 11px; padding: 7px 9px; }
+}
+@media (orientation: portrait) {
+  .touch-ui #panel-play .hud-top { top: 10px; gap: 4px; }
+  .touch-ui #panel-play .small-hud { position: static; padding: 5px 7px; font-size: 10px; }
+  .touch-ui #panel-play .mission-hud, .touch-ui #panel-play #mission-hud.completed { top: 54px; left: 10px; max-width: 210px; font-size: 11px; }
+  .touch-ui #panel-play .timer { top: 10px; right: 10px; left: auto; transform: none; padding: 7px; width: 66px; min-width: 66px; }
+  .touch-ui #panel-play .hud-tools { top: 84px; flex-direction: row; }
+}
+@media (orientation: landscape) and (max-height: 600px) {
+  .touch-ui .touch-stick { width: 98px; height: 98px; left: 8px; bottom: 12px; }
+  .touch-ui .touch-knob { width: 38px; height: 38px; }
+  .touch-ui .touch-stick > span { bottom: 5px; font-size: 10px; }
+  .touch-ui .touch-fire { width: 82px; height: 82px; right: 12px; bottom: 16px; font-size: 14px; padding: 8px; gap: 1px; }
+  .touch-ui .touch-fire svg { width: 24px; height: 24px; }
+  .touch-ui #panel-play .water-hud { left: 8px; bottom: 120px; width: 96px; padding: 7px; }
+  .touch-ui #panel-play .hud-top { width: 96px; flex-wrap: wrap; gap: 4px; top: 10px; }
+  .touch-ui #panel-play .identity-dot { width: 20px; height: 20px; font-size: 9px; }
+  .touch-ui #panel-play .small-hud { position: static; width: 100%; margin: 0; padding: 4px; text-align: center; font-size: 10px; }
+  .touch-ui #panel-play .mission-hud, .touch-ui #panel-play #mission-hud.completed { top: 64px; left: 8px; width: 96px; font-size: 10px; padding: 7px; }
+  .touch-ui #panel-play .mission-hud strong { font-size: 11px; }
+  .touch-ui #panel-play .timer { left: auto; right: 8px; top: 10px; width: 88px; min-width: 88px; padding: 7px 9px; transform: none; }
+  .touch-ui #panel-play .timer strong { font-size: 26px; }
+  .touch-ui #panel-play .hud-tools { right: 8px; top: 80px; width: 88px; flex-direction: column; gap: 6px; }
+  .touch-ui #panel-play .icon-btn { padding: 7px 5px; font-size: 10px; }
+  .touch-ui #panel-play .water-line { flex-wrap: wrap; gap: 4px; font-size: 10px; margin-bottom: 5px; }
+  .touch-ui #panel-play .water-line > span:first-child { width: 100%; }
+  .touch-ui #panel-play .water-line b { font-size: 13px; }
+  .touch-ui #panel-play .message, .touch-ui #panel-play .observer { bottom: 20px; max-width: 55%; }
+}
+
+/* Splash Arena: a quiet, compact shell shared by every menu. */
+body:is([data-screen="home"],[data-screen="levels"],[data-screen="upgrades"]) { background:#f4f8f9; }
+#panel-home,#panel-levels,#panel-upgrades { --menu-accent:#087e91;--menu-accent-dark:#065969;max-width:1000px;padding:24px; }
+body:is([data-screen="home"],[data-screen="levels"],[data-screen="upgrades"]) header { border-bottom:1px solid #dce7ea;height:64px;padding:12px 24px; }
+body:is([data-screen="home"],[data-screen="levels"],[data-screen="upgrades"]) header .brand-icon { background:#087e91; }
+header .brand small,header .version,.menu-extras,.nav-icon { display:none; }
+header nav { background:transparent;gap:4px; }
+header nav button[data-tab] { background:transparent;color:#526575;border:0;box-shadow:none;min-height:36px;padding:8px 14px; }
+header nav button[data-tab].active { background:#e1f0f2;color:#065969;box-shadow:none; }
+.home-hero { grid-template-columns:1fr 1fr;gap:40px;padding:24px 0 16px; }
+.home-copy h1 { color:#143943;font-size:clamp(42px,6vw,72px);line-height:.97;letter-spacing:-3px;margin:0 0 18px; }
+.home-copy>p { color:#607680;font-size:16px; }
+.home-actions { max-width:250px;margin-top:28px; }
+#home-start { min-height:54px;border-radius:14px;font-size:19px; }
+#home-shop,.home-small-actions>button,.home-stat:nth-child(3),.shop-weapon-panel,.route-shortcuts>button { display:none; }
+.home-preview { border:0;box-shadow:none;border-radius:32px;background:#edf4f7;height:350px; }
+.home-preview-caption { text-align:center;padding-top:8px; }
+.home-preview-caption strong { color:#607680;font-size:13px;font-weight:550; }
+.home-progress { display:flex;gap:32px;padding:0; }
+.home-stat { display:flex;align-items:center;gap:12px;padding:8px 0;border:0;background:transparent; }
+.home-stat strong,.home-stat:nth-child(2) strong { font-size:19px;color:#143943; }
+.home-stat span { font-size:12px;color:#607680; }
+.save-note { color:#758993; }
+.screen-toolbar { min-height:44px;margin-bottom:16px; }
+.screen-toolbar>.menu-back { display:none; }
+.screen-title h1 { color:#143943;font-size:30px; }
+.screen-wallet { flex-direction:row;align-items:center;gap:12px;min-width:0;border:0;background:#e7f0f2;color:#143943;padding:8px 14px;border-radius:12px; }
+.screen-wallet strong { font-size:20px; }
+.route-shortcuts { margin:0 0 12px;min-height:0;padding:0;border:0;background:transparent; }
+.levels-map-panel { padding:0;border:0;background:transparent;box-shadow:none; }
+.levels-map-panel .stage-grid { grid-template-columns:repeat(4,minmax(0,1fr));gap:10px; }
+.levels-map-panel .stage-card { min-height:112px;padding:13px;border:1px solid #d8e3e7;background:#fff;color:#25434e;box-shadow:none;border-radius:14px; }
+.levels-map-panel .stage-card strong { font-size:13px;line-height:1.2; }
+.levels-map-panel .stage-card small { font-size:11px; }
+.levels-map-panel .stage-card.selected { background:#e2f5f4;border:2px solid #087e91; }
+.levels-map-panel .stage-card.locked { background:#edf1f3;color:#71838c;border-color:#e0e7ea;opacity:1; }
+.levels-map-panel .stage-card .stage-state { font-size:10px; }
+.levels-map-panel .stage-card .stage-stars { font-size:10px; }
+.levels-map-panel .stage-card.boss::before { content:'★';color:#936a17;background:#fff0c8;font-size:10px; }
+.shop-layout { display:block; }
+.shop-upgrades .upgrade-list { grid-template-columns:repeat(2,minmax(0,1fr));gap:14px; }
+.shop-upgrades .upgrade-card { background:white;border:1px solid #d8e3e7;border-radius:16px;min-height:0;padding:20px;box-shadow:none; }
+.shop-upgrades .upgrade-card h3 { font-size:18px;color:#143943; }
+.shop-upgrades .upgrade-card p { min-height:30px;font-size:12px;margin:18px 0 6px;line-height:1.5; }
+.shop-upgrades .upgrade-card button { color:#fff;background:#087e91;border:0;border-radius:10px;font-size:13px;min-height:42px;box-shadow:none; }
+.shop-upgrades .upgrade-card button:disabled { background:#e5edef;color:#617680;opacity:1; }
+.shop-upgrades .upgrade-state { min-height:18px;font-size:11px;color:#7a5551; }
+.upgrade-icon { color:#087e91;background:#e5f2f3; }
+.shop-next { margin-top:8px; }
+.shop-next .save-note { display:none; }
+.shop-footer { border:0;background:transparent;padding:10px 0; }
+#panel-play>.section-intro { display:none; }
+@media(max-width:660px) {
+ #panel-home,#panel-levels,#panel-upgrades { padding:20px 16px; }
+ body:is([data-screen="home"],[data-screen="levels"],[data-screen="upgrades"]) header { padding:10px 16px;height:auto;min-height:58px;flex-wrap:nowrap; }
+ header .brand strong { font-size:14px;white-space:nowrap; }
+ header .brand-icon { display:none; }
+ body:is([data-screen="home"],[data-screen="levels"],[data-screen="upgrades"]) header nav { width:auto;order:0; }
+ header nav button[data-tab] { font-size:12px;padding:8px;min-height:36px; }
+ .home-hero { grid-template-columns:1fr;gap:14px;padding:4px 0 12px; }
+ .home-preview-card { grid-row:1; }
+ .home-preview { height:260px;border-radius:24px; }
+ .home-copy { text-align:center;padding:8px 0; }
+ .home-copy h1 { font-size:42px;line-height:1;letter-spacing:-2px; }
+ .home-copy h1 br { display:none; }
+ .home-copy h1 br::after { content:' '; }
+ .home-copy>p { font-size:14px; }
+ .home-actions { display:block;max-width:none;margin:18px 0 0; }
+ #home-start { width:100%;min-height:50px; }
+ .home-small-actions { justify-content:center;margin-top:16px; }
+ .home-help p { text-align:left;font-size:12px; }
+ .home-progress { justify-content:center;gap:36px; }
+ #panel-home>.save-note { text-align:center;font-size:10px; }
+ .screen-toolbar { flex-wrap:nowrap;min-height:40px;margin-bottom:16px; }
+ .screen-title h1 { font-size:26px; }
+ .levels-map-panel .stage-grid { grid-template-columns:repeat(3,minmax(0,1fr));gap:7px; }
+ .levels-map-panel .stage-card { min-height:107px;padding:10px 8px; }
+ .levels-map-panel .stage-card strong { font-size:11px;min-height:26px; }
+ .levels-map-panel .stage-card small { font-size:9px; }
+ .levels-map-panel .stage-card .stage-state { font-size:9px; }
+ .shop-upgrades .upgrade-list { grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
+ .shop-upgrades .upgrade-card { padding:14px 12px;min-height:0; }
+ .shop-upgrades .upgrade-card h3 { font-size:15px; }
+ .shop-upgrades .upgrade-card p { min-height:40px;font-size:11px;margin-top:14px; }
+ .shop-upgrades .upgrade-card button { font-size:11px;padding:8px 4px; }
+ .upgrade-icon { display:none; }
+ .upgrade-level { font-size:10px; }
+ .shop-footer { flex-wrap:wrap;font-size:12px; }
+ .shop-footer .trial-btn { width:auto; }
+}
+@media(max-height:500px) and (min-width:661px) {
+ .home-hero { padding:0; }
+ .home-preview { height:230px; }
+ .home-copy h1 { font-size:46px; }
+ .home-actions { margin-top:16px; }
+ .home-small-actions { margin-top:14px; }
+}
+
+.levels-map-panel .stage-card.selected strong,.levels-map-panel .stage-card.selected .level-num,.levels-map-panel .stage-card.selected small { color:#143943; }
+.levels-map-panel .stage-card.selected .stage-stars { color:#936a17; }
+.levels-map-panel .stage-card.selected:not(:disabled):hover { background:#cff0ed;color:#143943;border-color:#087e91;box-shadow:0 0 0 2px #087e9120; }
+.stage-card.selected .stage-state { color:#065969;background:#fff; }
+.shop-upgrades .upgrade-icon,.shop-upgrades .upgrade-level { background:#edf4f5;color:#45626d; }
+.shop-footer .trial-btn,.shop-footer select { color:#45626d;border:1px solid #cbdde1;background:#fff; }
+@media(max-width:660px){.shop-upgrades .upgrade-icon{display:none;}}

@@ -19,7 +19,10 @@ const viewerUrl = asModule((await readFile(path.join(sourceRoot, 'character-view
 globalThis.window ||= {};
 const { CharacterViewer } = await import(viewerUrl);
 const { weaponAppearance } = await import(rendererUrl);
-const buffer = await readFile(path.join(assetRoot, 'assets/character-v3.glb'));
+globalThis.self = globalThis;
+globalThis.createImageBitmap = async () => ({ width: 1, height: 1, close() {} });
+globalThis.ProgressEvent = class { constructor(type, data) { this.type=type; Object.assign(this,data); } };
+const buffer = await readFile(path.join(assetRoot, 'assets/pokemon/007.glb'));
 const gltf = await new Promise((resolve, reject) => new GLTFLoader().parse(
   buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength), '', resolve, reject));
 let passed = 0;
@@ -47,9 +50,9 @@ try {
   await loading;
 } finally { GLTFLoader.prototype.loadAsync = oldLoadAsync; }
 
-test('An upgrade chosen before ready appears after the real 43-bone GLB loads', () => {
-  assert.equal(v.assetInfo.loaded, true); assert.equal(v.assetInfo.boneNames.length, 43);
-  assert.equal(v.clips.length, 17); assert.equal(v._weapon.jetCount, 3);
+test('An upgrade chosen before ready appears after the real Squirtle GLB loads', () => {
+  assert.equal(v.assetInfo.loaded, true); assert.equal(v.assetInfo.boneNames.length, 32);
+  assert.equal(v.clips.length, 6); assert.equal(v._weapon.jetCount, 3);
   assert.equal(v._waterJets.length, 3); assert.equal(v.gun.userData.upgradeParts.cream.color.getHex(), 0xffd168);
   assert.equal(v.gun.userData.upgradeParts.indicators.filter(dot => dot.visible).length, 3);
   assert.ok(v.tank.root.parent.isBone); assert.equal(JSON.stringify(maxWeapon), originalInput);
@@ -113,7 +116,7 @@ test('Upgrades retain the original five animation choices and running bone movem
     assert.equal(v.assetInfo.activeClipName, clip); close(action.time, time);
   }
   v.setMotion('run');
-  const leg = v.model.getObjectByName('LowerLegL'); assert.ok(leg?.isBone);
+  const leg = v.model.getObjectByName('left_leg_02'); assert.ok(leg?.isBone);
   v.mixer.update(.2); const before = leg.quaternion.clone(); v.mixer.update(.25);
   assert.ok(Math.abs(before.dot(leg.quaternion)) < .9999);
 });

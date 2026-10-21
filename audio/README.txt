@@ -1,17 +1,18 @@
-喷泉假日 / Fountain Days — 本项目原创背景音乐
+Fountain Days — original project music
 
-文件：water-party-original-v5.mp3
-时长：35.56 秒循环，108 BPM，C 大调，16 小节（A / B 各 8 小节）。
-配器：木琴主旋律、B 段钢鼓点缀、四音拨弦和弦、低音、柔和底鼓、手鼓、沙锤。
-完全在本地程序作曲与合成，没有引用商业歌曲，没有外部录音或采样。
+File: water-party-original-v5.mp3
+Loop: 35.56 seconds, 108 BPM, C major, 16 bars (8-bar A / B sections).
+Instruments: marimba lead, steelpan accents, plucked chords, bass,
+soft kick, hand percussion and shakers. Locally composed and synthesized;
+no commercial songs, external recordings or samples.
 
-游戏内默认采用同一 MP3 的内嵌数据，双击 index.html 离线打开仍可播放。
-首次点击开始或声音开关后启动；音乐与音效可分别调节，总静音立即作用。
-暂停和切换到后台会停止声源；回到页面并点击继续后从音乐保存位置恢复。
+Audio starts after a player gesture. Music and effects have separate volume
+controls. Pause/background transitions stop sources; resume continues from
+the saved music position. Master mute applies immediately.
 
-音效另由 Web Audio 实时合成：喷水、喷泉环境水声、补水、命中、落水、
-空水提示、3/2/1 倒计时、开局、胜负提示。角色喷水保持持续声源，松开、
-缺水或出局即停止；不随每帧重复创建，也不因重复事件叠加提示音。
+Web Audio synthesizes spray, fountains, refill, impacts, falls, empty-water
+alerts, countdown, start and result cues. Continuous spray stops when the
+player releases, runs dry or is eliminated.
 
-音频生命周期测试：audio_test_v5.mjs，35 项行为检查。测试使用 Mock
-AudioContext 验证启动、暂停、后台、静音、事件去重和释放，不评价听感。
+Source: game-audio.js, source/audio/create_water_party_music.py.
+Audio lifecycle tests use a mocked AudioContext; they do not assess sound quality.

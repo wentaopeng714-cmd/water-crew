@@ -189,23 +189,23 @@ test('Ten autonomous rounds finish, all values finite, events stay bounded and A
     games.push({ seed, result: g.result.type, duration: +g.result.duration.toFixed(2), playerRank: g.result.playerRank });
   }
   assert.ok(counters.refills > 0);
-  assert.ok(counters.aiStates.has('边缘求生'));
-  assert.ok(counters.aiStates.has('规避水流'));
-  assert.ok(counters.aiStates.has('寻找补水'));
+  assert.ok(counters.aiStates.has('edge-recovery'));
+  assert.ok(counters.aiStates.has('dodging'));
+  assert.ok(counters.aiStates.has('refilling'));
   console.log('AUTONOMOUS ' + JSON.stringify({ ...counters, aiStates: [...counters.aiStates], games }));
 });
 
 test('Easy is the default with UI metadata; standard retains all original parameters', () => {
   const easy = new WaterGameCore({ seed: 4 });
   assert.equal(easy.getDifficulty(), 'easy');
-  assert.equal(easy.getDifficultyInfo().label, '轻松');
+  assert.equal(easy.getDifficultyInfo().label, 'Easy');
   assert.equal(easy.getState().difficulty, 'easy');
   close(easy.timeLeft, 45); close(easy.params.waterUse, 18);
   assert.deepEqual(easy.getDifficultyOptions().map(d => d.id), ['easy', 'standard']);
   assert.ok(easy.getDifficultyInfo().description.includes('0.9'));
   const standard = new WaterGameCore({ difficulty: 'standard' });
   for (const [name, value] of Object.entries(WaterGameCore.DEFAULTS)) assert.equal(standard.params[name], value, name);
-  assert.equal(standard.getDifficultyInfo().label, '标准');
+  assert.equal(standard.getDifficultyInfo().label, 'Standard');
   close(standard.timeLeft, 30); close(standard.params.passiveWaterRate, 0);
   assert.equal(new WaterGameCore({ difficulty: 'invalid' }).getDifficulty(), 'easy');
 });

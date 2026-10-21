@@ -17,8 +17,9 @@ export class CharacterViewer {
     this.camera = new THREE.PerspectiveCamera(32, 1, 0.05, 50);
     this.camera.position.set(1.6, 1.8, 4.15);
     this.camera.lookAt(0, 1.03, 0);
+    this.mobileQuality=!!window.matchMedia?.('(any-pointer: coarse)')?.matches||window.innerWidth<=900;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.mobileQuality ? 1.5 : 2));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.16;
@@ -41,7 +42,7 @@ export class CharacterViewer {
     this._overlayRotation = new THREE.Quaternion();
     this._overlayAxis = new THREE.Vector3(1, 0, 0);
     this.assetInfo = {
-      ...metadata, loaded: false, path: './assets/character-v3.glb', normalizedHeight: 2,
+      ...metadata, loaded: false, path: './assets/pokemon/007.glb', normalizedHeight: 2,
       animationNames: [], boneNames: [], motions: {}, selectedMotion: 'idle',
       hasSkinnedMesh: false, gunAttachment: null, error: null
     };
@@ -59,7 +60,7 @@ export class CharacterViewer {
     const key = new THREE.DirectionalLight('#fff6e8', 3.2);
     key.position.set(-3, 5, 4);
     key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
+    key.shadow.mapSize.set(this.mobileQuality?512:1024, this.mobileQuality?512:1024);
     Object.assign(key.shadow.camera, { left: -2.8, right: 2.8, top: 3.5, bottom: -2.8, near: 0.5, far: 14 });
     key.shadow.bias = -0.0004;
     key.shadow.normalBias = 0.015;
@@ -103,7 +104,7 @@ export class CharacterViewer {
   }
 
   async _load() {
-    const gltf = await new GLTFLoader().loadAsync(window.WATER_CHARACTER_URL || './assets/character-v3.glb');
+    const gltf = await new GLTFLoader().loadAsync(window.WATER_CHARACTER_URL || './assets/pokemon/007.glb');
     this.model = gltf.scene;
     const bones = [];
     const materialCache = new Map();
@@ -156,7 +157,7 @@ export class CharacterViewer {
       }
       bounds.union(new THREE.Box3().setFromObject(object, true));
     });
-    if (bounds.isEmpty()) throw new Error('角色 GLB 没有可显示的网格。');
+    if (bounds.isEmpty()) throw new Error('Character GLB No visible mesh.');
     const size = bounds.getSize(new THREE.Vector3());
     const center = bounds.getCenter(new THREE.Vector3());
     const scale = 2 / Math.max(size.y, 0.001);
@@ -187,9 +188,9 @@ export class CharacterViewer {
     this.motionClips = {
       idle: exact('Idle_Shoot') || exact('Idle') || match(/idle|stand/i),
       run: exact('Run_Gun') || exact('Run_Shoot') || exact('Run') || match(/run/i) || match(/walk/i),
-      shoot: exact('Idle_Shoot') || match(/shoot|fire|firing/i),
+      shoot: exact('attack') || exact('Idle_Shoot') || match(/shoot|fire|firing/i),
       hit: exact('HitReact') || match(/hit|hurt|damage|impact/i),
-      fall: exact('Death') || match(/death|dead|fall|dying/i)
+      fall: exact('sleep') || exact('Death') || match(/death|dead|fall|dying/i)
     };
     for (const motion of MOTIONS) {
       const clip = this.motionClips[motion];
@@ -197,18 +198,18 @@ export class CharacterViewer {
         clipName: clip ? clip.name : null,
         source: clip ? 'external-clip' : motion === 'hit' ? 'bone-overlay' : 'unavailable',
         duration: clip ? clip.duration : null,
-        note: clip ? `真实外部片段：${clip.name}` : motion === 'hit' ?
-          '缺少独立受击片段；只叠加真实骨骼短促受击。' :
-          `缺少${{ idle: '待机', run: '跑步', shoot: '射击', fall: '倒下' }[motion]}片段；保持可用待机姿态。`
+        note: clip ? `Imported clip: ${clip.name}` : motion === 'hit' ?
+          'Hit feedback uses a procedural bone overlay.' :
+          `Missing ${{ idle: 'Idle', run: 'Run', shoot: 'Spray', fall: 'Fall' }[motion]} clip unavailable; using idle.`
       };
     }
   }
 
   _attachWaterGun(bones) {
-    const hand = bones.find(bone => /^Index1[._]?R$/i.test(bone.name)) ||
+    const hand = bones.find(bone => bone.name === 'right_hand') || bones.find(bone => /^Index1[._]?R$/i.test(bone.name)) ||
       bones.find(bone => /(?:RightHand|Hand[._]R|hand_r|r_hand)$/i.test(bone.name)) ||
       bones.find(bone => /^(LowerArm[._]?R|RightForeArm)$/i.test(bone.name));
-    if (!hand) { this.assetInfo.gunAttachment = '未找到右手挂点'; return; }
+    if (!hand) { this.assetInfo.gunAttachment = 'No right-hand socket'; return; }
     const gun = new THREE.Group();
     gun.name = 'Viewer_WaterGun';
     const mint = new THREE.MeshStandardMaterial({ color: '#a0e2df', roughness: 0.35 });
@@ -232,7 +233,7 @@ export class CharacterViewer {
     });
     gun.userData.upgradeParts = { mint, cream, orange, barrel, lip, indicators,
       baseMint: mint.color.clone(), baseCream: cream.color.clone(), baseOrange: orange.color.clone() };
-    gun.position.set(0.01, 0.15, -0.054);
+    gun.position.set(0, 0, 0); // Native hand origin; GLB units differ from the toy's world units.
     hand.add(gun);
     this.scene.updateMatrixWorld(true);
     const handWorldScale = hand.getWorldScale(new THREE.Vector3());
@@ -243,11 +244,11 @@ export class CharacterViewer {
     this.gun = gun;
     this._createWaterSpray(gun);
     this.assetInfo.gunAttachment = hand.name;
-    this.assetInfo.gunSource = '本地程序圆角玩具水枪，挂在真实骨骼；不是外部 GLB 动画片段。';
+    this.assetInfo.gunSource = 'Procedural blaster attached to the real skeleton; separate from GLB  animation clips.';
   }
 
   _attachWaterTank(bones) {
-    const torso = this._overlayBone || bones.find(bone => /spine|torso|chest/i.test(bone.name));
+    const torso = this._overlayBone || bones.find(bone => /spine|torso|chest|waist/i.test(bone.name));
     if (!torso) return;
     const root = new THREE.Group(); root.name = 'Viewer_WaterBackpack';
     const shell = new THREE.MeshStandardMaterial({ color: '#daf8e9', roughness: .12,
@@ -364,7 +365,7 @@ export class CharacterViewer {
   }
 
   setMotion(motion) {
-    if (!MOTIONS.includes(motion)) throw new Error(`未知角色展示动作：${motion}`);
+    if (!MOTIONS.includes(motion)) throw new Error(`Unknown animation: ${motion}`);
     this._motion = motion;
     this.assetInfo.selectedMotion = motion;
     this._motionAge = 0;

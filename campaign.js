@@ -12,37 +12,37 @@ function freeze(value) {
 
 export const SAVE_KEY = 'water-push-campaign-v1';
 export const CHAPTERS = freeze([
-  { id: 1, name: '花园初练', theme: 'spring' },
-  { id: 2, name: '落日水战', theme: 'sunset' },
-  { id: 3, name: '海湾冲浪', theme: 'lagoon' },
-  { id: 4, name: '月光决赛', theme: 'moon' }
+  { id: 1, name: 'Garden', theme: 'spring' },
+  { id: 2, name: 'Sunset', theme: 'sunset' },
+  { id: 3, name: 'Lagoon', theme: 'lagoon' },
+  { id: 4, name: 'Moonlight', theme: 'moon' }
 ]);
 export const LEVELS = freeze([
-  { id: 1, name: '第一股水花', chapter: 1, type: 'survive', count: 0, duration: 25, fountainPattern: 'alternating', objectiveText: '坚持 25 秒，或清空全部对手' },
-  { id: 2, name: '把他们冲走', chapter: 1, type: 'eliminate', count: 1, duration: 38, fountainPattern: 'alternating', objectiveText: '保持在场，直到 1 名对手落水' },
-  { id: 3, name: '花园守门员', chapter: 1, type: 'boss', count: 1, duration: 42, fountainPattern: 'ring', objectiveText: '把花园守门员冲下水' },
-  { id: 4, name: '落日追逐', chapter: 2, type: 'survive', count: 0, duration: 36, fountainPattern: 'ring', objectiveText: '坚持 36 秒，或清空全部对手' },
-  { id: 5, name: '双人退场', chapter: 2, type: 'eliminate', count: 2, duration: 44, fountainPattern: 'alternating', objectiveText: '保持在场，直到 2 名对手落水' },
-  { id: 6, name: '落日水炮手', chapter: 2, type: 'boss', count: 1, bossRounds: 2, duration: 46, fountainPattern: 'pulse', objectiveText: '把落日水炮手冲下水 2 轮' },
-  { id: 7, name: '潮汐补给', chapter: 3, type: 'survive', count: 0, duration: 42, fountainPattern: 'pulse', objectiveText: '坚持 42 秒，或清空全部对手' },
-  { id: 8, name: '浪花夹击', chapter: 3, type: 'eliminate', count: 2, duration: 48, fountainPattern: 'ring', objectiveText: '保持在场，直到 2 名对手落水' },
-  { id: 9, name: '海湾重装手', chapter: 3, type: 'boss', count: 1, bossRounds: 2, duration: 52, fountainPattern: 'pulse', objectiveText: '把海湾重装手冲下水 2 轮' },
-  { id: 10, name: '月光清场', chapter: 4, type: 'eliminate', count: 3, duration: 55, fountainPattern: 'ring', objectiveText: '保持在场，直到 3 名对手落水' },
-  { id: 11, name: '喷泉争夺战', chapter: 4, type: 'eliminate', count: 3, duration: 58, fountainPattern: 'pulse', objectiveText: '保持在场并让 3 名对手落水，留意补水节奏' },
-  { id: 12, name: '终极水枪王', chapter: 4, type: 'boss', count: 1, bossRounds: 3, duration: 60, fountainPattern: 'pulse', objectiveText: '把终极水枪王冲下水 3 轮' }
+  { id: 1, name: 'First Splash', chapter: 1, type: 'survive', count: 0, duration: 25, fountainPattern: 'alternating', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 2, name: 'Washout', chapter: 1, type: 'eliminate', count: 1, duration: 38, fountainPattern: 'alternating', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 3, name: 'Garden Guard', chapter: 1, type: 'boss', count: 1, duration: 42, fountainPattern: 'ring', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 4, name: 'Sunset Chase', chapter: 2, type: 'survive', count: 0, duration: 36, fountainPattern: 'ring', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 5, name: 'Double Trouble', chapter: 2, type: 'eliminate', count: 2, duration: 44, fountainPattern: 'alternating', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 6, name: 'Sunset Ace', chapter: 2, type: 'boss', count: 1, bossRounds: 2, duration: 46, fountainPattern: 'pulse', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 7, name: 'High Tide', chapter: 3, type: 'survive', count: 0, duration: 42, fountainPattern: 'pulse', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 8, name: 'Crosscurrent', chapter: 3, type: 'eliminate', count: 2, duration: 48, fountainPattern: 'ring', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 9, name: 'Lagoon Tank', chapter: 3, type: 'boss', count: 1, bossRounds: 2, duration: 52, fountainPattern: 'pulse', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 10, name: 'Moon Sweep', chapter: 4, type: 'eliminate', count: 3, duration: 55, fountainPattern: 'ring', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 11, name: 'Fountain Rush', chapter: 4, type: 'eliminate', count: 3, duration: 58, fountainPattern: 'pulse', objectiveText: 'Stay on the platform and complete the goal.' },
+  { id: 12, name: 'Final Splash', chapter: 4, type: 'boss', count: 1, bossRounds: 3, duration: 60, fountainPattern: 'pulse', objectiveText: 'Stay on the platform and complete the goal.' }
 ].map(level => ({ ...level, theme: CHAPTERS[level.chapter - 1].theme, bossId: level.type === 'boss' ? 'ai1' : null,
   bossRounds: level.type === 'boss' ? level.bossRounds || 1 : 0,
   firstClearCoins: 55 + (level.id - 1) * 4, replayCoins: 15 + Math.floor((level.id - 1) * 1.35) })));
 
 export const UPGRADE_DEFINITIONS = freeze([
-  { id: 'pressure', name: '高压泵', maxRank: 5, baseCost: 35, costStep: 25,
-    description: '水束更粗，推力更强；轻微增加射程。' },
-  { id: 'reach', name: '远射管', maxRank: 4, baseCost: 45, costStep: 25,
-    description: '提高射程，在更远处先发制人。' },
-  { id: 'nozzle', name: '散射喷头', maxRank: 4, baseCost: 50, costStep: 30,
-    description: '加宽命中范围；升到 2 级开启三束水流。' },
-  { id: 'tank', name: '大容量水箱', maxRank: 4, baseCost: 40, costStep: 20,
-    description: '更多储水、更省水；停火回复和喷泉补水更快。' }
+  { id: 'pressure', name: 'Pressure', maxRank: 5, baseCost: 35, costStep: 25,
+    description: 'Stronger, thicker spray.' },
+  { id: 'reach', name: 'Reach', maxRank: 4, baseCost: 45, costStep: 25,
+    description: 'Reach rivals from farther away.' },
+  { id: 'nozzle', name: 'Spray', maxRank: 4, baseCost: 50, costStep: 30,
+    description: 'Wider spray. Triple jets at level 2.' },
+  { id: 'tank', name: 'Tank', maxRank: 4, baseCost: 40, costStep: 20,
+    description: 'More water and faster refill.' }
 ]);
 const emptyRanks = () => Object.fromEntries(UPGRADE_DEFINITIONS.map(upgrade => [upgrade.id, 0]));
 const newSave = () => ({ version: 1, coins: 35, selectedLevel: 1, highestUnlocked: 1,
@@ -148,13 +148,13 @@ export class Campaign {
       const cost = maxed ? 0 : upgrade.baseCost + rank * upgrade.costStep;
       const next = { ...this._save.upgrades, [upgrade.id]: Math.min(upgrade.maxRank, rank + 1) };
       const stats = weaponFor(this._save.upgrades), nextStats = weaponFor(next);
-      let nextDescription = '已升至满级';
+      let nextDescription = 'Max level';
       if (!maxed) {
-        if (upgrade.id === 'pressure') nextDescription = `推力 ${stats.pushAcceleration.toFixed(1)} → ${nextStats.pushAcceleration.toFixed(1)}，水束再加粗`;
-        if (upgrade.id === 'reach') nextDescription = `射程 ${stats.range.toFixed(1)} → ${nextStats.range.toFixed(1)} 米`;
-        if (upgrade.id === 'nozzle') nextDescription = nextStats.jetCount > stats.jetCount ? '解锁三束水流，命中范围更宽' :
-          `命中宽度 ${(stats.beamRadius * 2).toFixed(2)} → ${(nextStats.beamRadius * 2).toFixed(2)} 米`;
-        if (upgrade.id === 'tank') nextDescription = `容量 ${stats.waterCapacity} → ${nextStats.waterCapacity}，停火回复 ${stats.passiveWaterRate} → ${nextStats.passiveWaterRate}/秒`;
+        if (upgrade.id === 'pressure') nextDescription = `Power ${stats.pushAcceleration.toFixed(1)} → ${nextStats.pushAcceleration.toFixed(1)} · Thicker spray`;
+        if (upgrade.id === 'reach') nextDescription = `Range ${stats.range.toFixed(1)} → ${nextStats.range.toFixed(1)} m`;
+        if (upgrade.id === 'nozzle') nextDescription = nextStats.jetCount > stats.jetCount ? 'Unlock triple spray' :
+          `Spray width ${(stats.beamRadius * 2).toFixed(2)} → ${(nextStats.beamRadius * 2).toFixed(2)} m`;
+        if (upgrade.id === 'tank') nextDescription = `Capacity ${stats.waterCapacity} → ${nextStats.waterCapacity} · Refill ${stats.passiveWaterRate} → ${nextStats.passiveWaterRate}/s`;
       }
       return { ...clone(upgrade), rank, level: rank, cost, maxed, canBuy: !this._active && !maxed && this._save.coins >= cost,
         nextDescription, stats, nextStats };

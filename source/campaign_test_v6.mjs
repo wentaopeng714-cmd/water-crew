@@ -215,7 +215,7 @@ test('Read-only snapshots cannot mutate the economy, configurations or progressi
   save.coins = 1000; save.upgrades.pressure = 5; save.stars[0] = 3;
   levels[0].name = 'fake'; config.enemyProfiles[0].weapon.pushAcceleration = 999;
   assert.equal(campaign.getState().coins, 35); assert.equal(campaign.getWeapon().pushAcceleration, 24);
-  assert.equal(campaign.getState().stars[0], 0); assert.equal(campaign.getLevels()[0].name, '第一股水花');
+  assert.equal(campaign.getState().stars[0], 0); assert.equal(campaign.getLevels()[0].name, 'First Splash');
   assert.ok(campaign.getLevelConfig(1).enemyProfiles[0].weapon.pushAcceleration < 30);
 });
 test('Maximum-gun preview provides three strong jets without spending or faking progress', () => {

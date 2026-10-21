@@ -1,29 +1,72 @@
-# 水枪推推乐 · Water Crew v0.14
+# Splash Arena
 
-在线游玩：https://wentaopeng714-cmd.github.io/water-crew/
+A Three.js water-blaster arena game featuring Squirtle, Charmander, Pikachu and Bulbasaur.
+English menus, 12 stages, four upgrade branches, increasingly capable rivals,
+original music and touch controls. v0.16.0.
 
-电脑浏览器 3D 水枪对战：在湿石圆台上移动、喷水，把对手推下水。十二关、四个主题、四条水枪升级路线；全部对手落水后自动通关。金币、装备与解锁记录存储在当前浏览器和地址中。
+## Run
 
-v0.14 精简首页、关卡、升级、对战、暂停与结算文字。升级卡保留实际数值变化和完整价格，目标和水量状态保持明确；常态补水长句、重复引导与底部制作状态不再常驻。完整操作按需展开，制作信息保留原创与授权出处。
+Node.js 20+.
 
-战斗画面固定为参考图的宽幅构图与椭圆比例。电脑与手机横竖屏仅等比缩放，空间不匹配时留白；镜头角度不再随窗口宽高变化。短横屏的状态与操作按钮分布在两侧，竖屏任务信息与存活人数分开显示。
+```sh
+npm start
+```
 
-AI 的水枪随章节升级，实际增加推力、射程、喷射宽度和水箱容量，枪口、水箱、泵环与水束效果同步变化。普通 AI 在第 10 关启用三束水流，队长从第 6 关启用。AI 使用有限水量，需要停火和补水；同一把枪的三束同时击中一个对手时只施加一次击退。人物头顶只显示 P1、编号或队长名称。AI 抗击退随关卡提高，但仍能被推下水。
-
-WASD / 方向键移动；按住空格自动瞄准喷水；鼠标瞄准并按住左键也可喷水；Esc 暂停。松开喷水后可缓慢回水，在亮起的喷泉范围内停火补水更快。点击开始后播放原创配乐。
-
-需要支持 WebGL 2 的电脑浏览器。本版未提供手机触控。
-
-## 本地构建
+The included build is ready to serve. The server listens on PORT (default 3000).
+To edit and rebuild:
 
 ```sh
 npm install
-npm run build:web
+npm run build
 npm test
 ```
 
-`build:web` 生成使用相对路径加载 GLB 的网页版本。`npm run build` 将角色与环境模型内嵌为离线版本，模型和界面源文件保持不变。提交生成文件后，GitHub Pages 从 main 分支根目录发布；`.nojekyll` 保留静态目录结构。
+The root index.html is the entry point. All models, audio and Three.js modules
+are bundled locally. No API key, backend or CDN is required. Use HTTP hosting;
+do not open the web build through file://. Offline embedding is also available
+with npm run build:offline.
 
-源码包含独立玩法、战役经济、Three.js 场景、水流、音频、控制、页面模板和自动检查。参数模拟是脚本探测，不代表真人胜率。来源说明见 [assets/ATTRIBUTION.txt](assets/ATTRIBUTION.txt)。Three.js 为 MIT；角色骨架和动画来自 Quaternius Toon Shooter Game Kit（CC0），角色网格、花园和配乐由本项目创作。本项目不是任天堂官方游戏，未使用从参考游戏提取的模型或音频。
+## Eazo import
 
-自动检查共 246 项、15 个套件；投影检查覆盖不同视口的固定椭圆、等比缩放、鼠标坐标映射与隐藏画布恢复。检查记录见 source/test-results-v14.txt。
+Upload the entire ZIP as an existing project. Suggested prompt:
+
+> Import this existing Three.js game. Use root index.html as the entry point,
+> npm run build to build, and npm start to preview on the platform PORT.
+> Preserve the existing arena, animated Pokemon roster, stages, upgrades,
+> music and mobile controls. Continue editing the supplied source.
+
+The archive is validated locally. Import/publication inside your Eazo account
+has not been performed.
+
+## Controls
+
+- Touch: left stick to move; hold Spray on the right to auto aim and spray.
+- Keyboard: WASD / arrows to move, Space for auto aim and spray, Esc to pause.
+- Mouse: aim and hold the left button to spray.
+- Stop spraying to refill slowly. A glowing fountain refills faster.
+- Complete the goal while staying on the platform. Clearing every rival ends
+  the stage automatically. Boss stages require all boss rounds.
+
+Progress saves to the browser and site address. Saves do not transfer
+automatically between devices or hosting platforms.
+
+## Source
+
+- source/game_design_shell_v3.html: UI markup and controller.
+- source/gameplay.js, campaign.js: physics, AI, stages and upgrades.
+- renderer_v3.js, character-viewer-v3.js, water-flow.js: rendering and animation.
+- touch-controls.js, player-controls.js: touch input and aiming.
+- assets/pokemon/: four GLBs with embedded textures and skeletal animation.
+- audio/, game-audio.js: music and effects.
+- source/*test*: 17 automated suites, including actual model deformation,
+  equipment sockets, mobile input, progression, AI and fixed arena projection.
+
+## Credits
+
+Pokemon models and animation: [06wj/pokemon](https://github.com/06wj/pokemon),
+revision 00d96f7f18894055e7f1db44fa0df6462e5e4c8a.
+The source's MIT software license does not grant rights to Pokemon assets.
+This is an unofficial fan project, not affiliated with the rights holders.
+See assets/ATTRIBUTION.txt and assets/POKEMON-SOURCE-LICENSE.txt.
+Garden geometry, water effects, runtime props and music were authored for this project.
+Three.js: MIT, see vendor/THREE-LICENSE.txt.

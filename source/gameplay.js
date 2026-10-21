@@ -19,16 +19,16 @@
     aiOpeningGrace: 0, aiPlayerTargetLimit: 0, aiPlayerTargetPenalty: 0
   });
   const DIFFICULTIES = Object.freeze({
-    easy: Object.freeze({ id: 'easy', label: '轻松', roundDuration: 45,
-      description: '45秒上手局：电脑行动更慢、射击有间隙，前4秒不会向你开火；停火0.9秒后缓慢回水。',
+    easy: Object.freeze({ id: 'easy', label: 'Easy', roundDuration: 45,
+      description: '45-second round. Rivals have a 4-second opening delay. Water refills after 0.9 seconds without spraying.',
       params: Object.freeze({ roundDuration: 45, playerShootingMoveFactor: 0.9,
         playerPushFactor: 0.65, waterUse: 18, refillRadius: 1.5,
         passiveWaterDelay: 0.9, passiveWaterRate: 8, aiMoveFactor: 0.72,
         aiReaction: 0.4, aiAimError: 12 * Math.PI / 180,
         aiBurstDuration: 0.75, aiBurstRest: 0.85,
         aiOpeningGrace: 4, aiPlayerTargetLimit: 1, aiPlayerTargetPenalty: 0.75 }) }),
-    standard: Object.freeze({ id: 'standard', label: '标准', roundDuration: 30,
-      description: '原版30秒挑战：电脑速度相同、持续射击；停火后需要到喷泉补水。',
+    standard: Object.freeze({ id: 'standard', label: 'Standard', roundDuration: 30,
+      description: 'Stay on the platform. Stop spraying or use a fountain to refill.',
       params: Object.freeze({}) })
   });
   const EPS = 1e-9;
@@ -205,7 +205,7 @@
           vx: 0, vy: 0, mx: 0, my: 0, shooting: false, hit: 0,
           refilling: false, regenerating: false, refillSource: null,
           rank: null, outsideTime: 0, eliminatedAt: null,
-          aiState: i ? '交战' : null, targetId: null,
+          aiState: i ? 'engaging' : null, targetId: null,
           stats: { shootingTime: 0, hitTime: 0, refillTime: 0, refillVisits: 0, regenTime: 0, eliminations: 0 },
           lastHitBy: null, lastHitAt: -1e9,
           _reaction: this._random() * (i ? profile.reaction : this.params.aiReaction),
@@ -366,7 +366,7 @@
       Object.assign(a, { x: position.x, y: position.y, alive: true, water: a.weapon.waterCapacity,
         kx: 0, ky: 0, vx: 0, vy: 0, mx: 0, my: 0, shooting: false,
         hit: 0, refilling: false, regenerating: false, refillSource: null,
-        rank: null, outsideTime: 0, eliminatedAt: null, aiState: '交战', targetId: null,
+        rank: null, outsideTime: 0, eliminatedAt: null, aiState: 'engaging', targetId: null,
         lastHitBy: null, lastHitAt: -1e9, _reaction: 0, _targetTimer: 0, _targetHold: 0,
         _refillIntent: false, _stuckTime: 0, _lastDecisionX: position.x, _lastDecisionY: position.y,
         _hitEventAt: -10, _dry: false, _restTime: 0 });
@@ -496,7 +496,7 @@
         a.alive = false; a.rank = survivors + 1; a.eliminatedAt = this.timeElapsed + dt;
         a.shooting = false; a.refilling = false; a.regenerating = false;
         a.refillSource = null; a.vx = 0; a.vy = 0;
-        a.aiState = a.isPlayer ? null : '出局'; a.targetId = null;
+        a.aiState = a.isPlayer ? null : 'Out'; a.targetId = null;
         const credited = a.lastHitBy && a.eliminatedAt - a.lastHitAt <= 3 + EPS ?
           this.actors.find(source => source.id === a.lastHitBy && source !== a) : null;
         if (credited) credited.stats.eliminations++;
@@ -723,7 +723,7 @@
       }
       let movement;
       if (radial > p.arenaRadius - (tactics ? profile.edgeMargin : p.aiEdgeMargin) || predicted > p.arenaRadius - 0.25) {
-        a.aiState = '边缘求生';
+        a.aiState = 'edge-recovery';
         movement = inward;
         if (tactics) {
           // Release the trigger to recover full running speed; add a sideways
@@ -736,7 +736,7 @@
           }
         }
       } else if (threat || a.hit > 0) {
-        a.aiState = '规避水流';
+        a.aiState = 'dodging';
         const incoming = !threat && tactics && len(a.kx, a.ky) > EPS ? normalize(a.kx, a.ky) : toward;
         const dx = threat ? threat.dx : incoming.x, dy = threat ? threat.dy : incoming.y;
         if (tactics) {
@@ -752,14 +752,14 @@
           movement = normalize(tangent.x + inward.x * 0.4, tangent.y + inward.y * 0.4);
         }
       } else if (a._refillIntent) {
-        a.aiState = '寻找补水'; command.shoot = false;
+        a.aiState = 'refilling'; command.shoot = false;
         const active = this.fountains.filter(f => f.active).sort((f, g) =>
           this._refillCost(a, f, tactics) - this._refillCost(a, g, tactics));
         const f = active[0];
         movement = f && len(f.x - a.x, f.y - a.y) > p.refillRadius * 0.65 ?
           normalize(f.x - a.x, f.y - a.y) : { x: 0, y: 0 };
       } else {
-        a.aiState = '交战';
+        a.aiState = 'engaging';
         const sign = a.index % 2 ? 1 : -1;
         const tangent = { x: -toward.y * sign, y: toward.x * sign };
         // Acquire the target's inner side so the stream pushes toward the edge.
@@ -773,7 +773,7 @@
         const station = stationDistance > 0.35 ? normalize(stationX - a.x, stationY - a.y) : { x: 0, y: 0 };
         const strafe = .15 + tactics * (stationDistance < 1.5 ? .3 : .12);
         movement = limit(station.x + tangent.x * strafe, station.y + tangent.y * strafe, 1);
-        if (tactics && stationDistance < 1.5) a.aiState = '侧翼压制';
+        if (tactics && stationDistance < 1.5) a.aiState = 'flanking';
         if (tactics && command.shoot) {
           const nextAngle = a.angle + clamp(angleDelta(a.angle, aimAngle), -p.turnSpeed * dt, p.turnSpeed * dt);
           // Don't drain the tank into an intervening actor or empty space. This

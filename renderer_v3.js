@@ -1,6 +1,6 @@
 /**
- * Water Push — local GLB / skeletal-animation renderer.
- * Original Blender geometry uses the CC0 Quaternius skeleton and animation clips.
+ * Splash Arena — local GLB / skeletal-animation renderer.
+ * Pokemon models and animation: 06wj/pokemon. See assets/ATTRIBUTION.txt.
  * Scene props and water effects are authored here. No primitive-character fallback.
  * Public coordinates: x -> world X, y -> world Z, height -> world Y; floor Y=0.
  */
@@ -26,7 +26,7 @@ const expTo = (from, to, rate, dt) => THREE.MathUtils.lerp(from, to, 1 - Math.ex
 const tempV = new THREE.Vector3(), tempV2 = new THREE.Vector3(), tempQ = new THREE.Quaternion();
 const tempM = new THREE.Matrix4(), tempO = new THREE.Object3D();
 const cleanName = name => String(name).split('|').pop().replace(/[^a-z0-9]/gi, '').toLowerCase();
-const boneKey = name => String(name).replace(/_\d+$/, '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+const boneKey = name => String(name).replace(/[^a-z0-9]/gi, '').toLowerCase();
 function material(color, roughness = .58, extra = {}) {
   return new THREE.MeshStandardMaterial({ color, roughness, metalness: .02, ...extra });
 }
@@ -142,7 +142,7 @@ class WaterParticles {
 export class WaterRenderer {
   constructor(canvas) {
     this.canvas = canvas; this.supported = false; this.modelLoaded = false; this.environmentLoaded = false; this.error = '';
-    this.assetInfo = { displayName: 'Blender 原创水花小队', status: 'loading', url: './assets/character-v3.glb', embedded: !!window.WATER_CHARACTER_URL, format: 'GLB', animations: [], clips: {},
+    this.assetInfo = { displayName: 'Squirtle', status: 'loading', url: './assets/pokemon/007.glb', embedded: !!window.WATER_CHARACTER_URL, format: 'GLB', animations: [], clips: {},
       skinnedMeshes: 0, bones: 0, displayedHeight: 2.12, runtime: `Three.js r${THREE.REVISION}`,
       environment: { status: 'loading', url: './assets/environment-v3.glb', embedded: !!window.WATER_ENVIRONMENT_URL } };
     this._destroyed = false; this._actors = new Map(); this._views = []; this._roundId = null; this._eventSeq = 0;
@@ -161,21 +161,22 @@ export class WaterRenderer {
     this._raycaster = new THREE.Raycaster(); this._floorPlane = new THREE.Plane(UP, 0);
     this._pointer = new THREE.Vector2(); this._projected = new THREE.Vector3();
     try {
-      this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      this.mobileQuality=!!window.matchMedia?.('(any-pointer: coarse)')?.matches||window.innerWidth<=900;
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.mobileQuality ? 1.5 : 2));
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
       this.renderer.toneMapping = THREE.ACESFilmicToneMapping; this.renderer.toneMappingExposure = 1.0;
       this.renderer.shadowMap.enabled = true; this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       this._buildLighting(); this._buildArena(); this._buildFountains();
       this.particles = new WaterParticles(this.scene); this._buildBeamPool(); this.resize();
       this.supported = true;
-      this._contextLost = e => { e.preventDefault(); this.supported = false; this.error = '图形上下文已丢失，请重新载入样机。'; };
+      this._contextLost = e => { e.preventDefault(); this.supported = false; this.error = 'Graphics interrupted. Please reload.'; };
       canvas.addEventListener('webglcontextlost', this._contextLost, false);
       this.ready = Promise.all([this._loadCharacter(), this._loadEnvironment()]).then(() => {
         this.assetInfo.status = 'ready'; return this.assetInfo;
       });
     } catch (err) {
-      this.error = `3D 渲染器启动失败：${err.message || err}`; this.assetInfo.status = 'error'; this.assetInfo.error = this.error;
+      this.error = `3D Renderer failed: ${err.message || err}`; this.assetInfo.status = 'error'; this.assetInfo.error = this.error;
       this.ready = Promise.reject(new Error(this.error));
     }
     // Retain a rejecting public promise while preventing an unhandled rejection before the UI attaches its handler.
@@ -186,7 +187,7 @@ export class WaterRenderer {
     const hemi = new THREE.HemisphereLight(0xe8f4ed, 0x355921, .95); this.scene.add(hemi);
     const ambient = new THREE.AmbientLight(0xf7eedb, .07); this.scene.add(ambient);
     const sun = new THREE.DirectionalLight(0xfff2d9, 2.3); sun.position.set(-8, 16, 10);
-    sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+    sun.castShadow = true; sun.shadow.mapSize.set(this.mobileQuality?1024:2048, this.mobileQuality?1024:2048);
     Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, near: 1, far: 45 });
     sun.shadow.bias = -.00045; sun.shadow.normalBias = .025; sun.shadow.radius = 4.5; this.scene.add(sun);
     const fill = new THREE.DirectionalLight(0xd4ece6, .28); fill.position.set(9, 7, -10); this.scene.add(fill);
@@ -302,7 +303,7 @@ export class WaterRenderer {
           'gl_FragColor=vec4(base.rgb*vec3(1.0,.98,.94),.40);')
     };
     this.planarWater = new Reflector(new THREE.CircleGeometry(6.98, 112), {
-      textureWidth: 512, textureHeight: 512, clipBias: .003, multisample: 0, shader: reflectionShader
+      textureWidth: this.mobileQuality?256:512, textureHeight: this.mobileQuality?256:512, clipBias: .003, multisample: 0, shader: reflectionShader
     });
     this.planarWater.rotation.x = -Math.PI / 2; this.planarWater.position.y = .029;
     this.planarWater.material.transparent = true; this.planarWater.material.depthWrite = false;
@@ -356,7 +357,7 @@ export class WaterRenderer {
         node.material = Array.isArray(node.material) ? node.material.map(convert) : convert(node.material);
         if (/lawn/.test(label)) node.castShadow = false;
       });
-      if (!count) throw new Error('环境 GLB 没有可显示的网格。');
+      if (!count) throw new Error('Environment GLB No visible mesh.');
       gltf.scene.name = 'BlenderEnvironmentV3'; gltf.scene.updateMatrixWorld(true);
       const bounds = new THREE.Box3().setFromObject(gltf.scene), size = bounds.getSize(new THREE.Vector3());
       this.scene.add(gltf.scene); this.environmentRoot = gltf.scene; this.environmentLoaded = true;
@@ -365,7 +366,7 @@ export class WaterRenderer {
       Object.assign(this.assetInfo.environment, { status: 'ready', loaded: true, meshes: count, triangles, names, dimensions: size.toArray(), loadMs: Math.round(performance.now() - started) });
       return this.assetInfo.environment;
     } catch (error) {
-      this.environmentLoaded = false; this.error = `Blender 场景加载失败：${error.message || error}`;
+      this.environmentLoaded = false; this.error = `Blender Arena failed to load: ${error.message || error}`;
       this.assetInfo.status = 'error'; Object.assign(this.assetInfo.environment, { status: 'error', loaded: false, error: this.error });
       throw new Error(this.error);
     }
@@ -456,59 +457,43 @@ export class WaterRenderer {
 
   async _loadCharacter() {
     const start = performance.now();
+    const roster = [
+      { id: '007', name: 'Squirtle', height: 1.95 },
+      { id: '004', name: 'Charmander', height: 2.08 },
+      { id: '025', name: 'Pikachu', height: 2.0, mounted: true },
+      { id: '001', name: 'Bulbasaur', height: 1.85, quadruped: true }
+    ];
     try {
-      const gltf = await new GLTFLoader().loadAsync(window.WATER_CHARACTER_URL || './assets/character-v3.glb');
-      if (this._destroyed) throw new Error('Renderer was destroyed while loading the model.');
-      this._sourceGltf = gltf;
-      let skinCount = 0; const bones = new Set(), materialNames = new Set(), meshNames = [];
-      gltf.scene.traverse(node => {
-        if (node.isSkinnedMesh) { skinCount++; node.skeleton.bones.forEach(b => bones.add(b.name)); }
-        if (node.isMesh) { meshNames.push(node.name); (Array.isArray(node.material) ? node.material : [node.material]).forEach(m => materialNames.add(m.name)); }
-      });
-      if (!skinCount) throw new Error('角色 GLB 不含蒙皮骨骼，无法播放要求的真实角色动画。');
-      if (!gltf.animations.length) throw new Error('角色 GLB 不含动画片段。');
-      const byName = new Map(gltf.animations.map(a => [cleanName(a.name), a]));
-      const choose = (...names) => names.map(n => byName.get(cleanName(n))).find(Boolean);
-      const map = {
-        idle: choose('Idle_Shoot', 'Idle'), run: choose('Run_Gun', 'Run'), runShoot: choose('Run_Shoot', 'Run_Gun', 'Run'),
-        walk: choose('Walk_Shoot', 'Walk'), aim: choose('Idle_Shoot', 'Idle'), shoot: choose('Idle_Shoot'),
-        moveAim: choose('Run_Gun', 'Run'), moveShoot: choose('Run_Shoot', 'Run_Gun', 'Run'),
-        hit: choose('HitReact'), death: choose('Death'), victory: choose('Wave', 'Yes', 'Idle')
-      };
-      for (const required of ['idle', 'run', 'hit', 'death']) if (!map[required]) throw new Error(`角色资产缺少必需动画：${required}`);
-      this._clipMap = map;
-      this.assetInfo.animations = gltf.animations.map(a => a.name);
-      this.assetInfo.clips = Object.fromEntries(Object.entries(map).map(([key, value]) => [key, value ? value.name : null]));
-      this.assetInfo.skinnedMeshes = skinCount; this.assetInfo.bones = bones.size; this.assetInfo.materials = Array.from(materialNames); this.assetInfo.meshes = meshNames;
-      this.assetInfo.directionalLocomotion = '源包无后退/横移片段；当前使用真实持枪移动动画与有限骨盆转向，不声称具备完整四向动作。';
-      // Pose the original at the first idle frame before measuring; imported guns have been removed from the delivery GLB.
-      const measureMixer = new THREE.AnimationMixer(gltf.scene); measureMixer.clipAction(map.idle).play(); measureMixer.update(0);
-      gltf.scene.updateMatrixWorld(true);
-      const bounds = new THREE.Box3().setFromObject(gltf.scene, true), size = bounds.getSize(new THREE.Vector3());
-      if (!(size.y > .1 && Number.isFinite(size.y))) throw new Error('角色模型的包围盒无效。');
-      this._modelScale = this.modelHeight / size.y;
-      // Preserve the authored root in X/Z. The asymmetric aiming pose must not shift the feet behind the logical actor.
-      this._modelOffset = new THREE.Vector3(0, -bounds.min.y, 0);
-      // Horizontal root positioning remains the core's responsibility. Strip only Root's X/Z travel, keep vertical animation.
-      this._clips = gltf.animations.map(clip => {
-        const c = clip.clone();
-        c.tracks = c.tracks.map(track => {
-          if (/\.position$/.test(track.name) && /^(root|characterarmature)(?:_\d+)?$/i.test(trackNode(track))) {
-            const t = track.clone(), firstX = t.values[0], firstZ = t.values[2];
-            for (let i = 0; i < t.values.length; i += 3) { t.values[i] = firstX; t.values[i + 2] = firstZ; } return t;
-          } return track;
-        }); return c;
-      });
-      this._clipMap = Object.fromEntries(Object.entries(map).map(([key, value]) => [key, value ? this._clips.find(c => c.name === value.name) : null]));
-      measureMixer.stopAllAction(); measureMixer.uncacheRoot(gltf.scene);
-      this.assetInfo.sourceHeight = size.y; this.assetInfo.normalizationScale = this._modelScale;
-      for (let i = 0; i < 4; i++) this._views.push(this._createActor(i));
+      const assets = await Promise.all(roster.map(p => new GLTFLoader().loadAsync(window.WATER_POKEMON_URLS?.[p.id] || `./assets/pokemon/${p.id}.glb`)));
+      if (this._destroyed) throw new Error('Renderer was destroyed while loading.');
+      this._pokemonAssets = assets;
+      for (let i = 0; i < roster.length; i++) {
+        const gltf = assets[i], character = roster[i];
+        let skins = 0; gltf.scene.traverse(n => { if (n.isSkinnedMesh) skins++; });
+        const choose = name => gltf.animations.find(c => c.name === name);
+        for (const name of ['idle', 'run', 'walk', 'attack', 'happy', 'sleep']) if (!choose(name)) throw new Error(`${character.name}: missing ${name} animation`);
+        if (!skins) throw new Error(`${character.name}: missing skeleton`);
+        const measure = new THREE.AnimationMixer(gltf.scene);
+        measure.clipAction(choose('idle')).play(); measure.update(0); gltf.scene.updateMatrixWorld(true);
+        const bounds = new THREE.Box3().setFromObject(gltf.scene, true), size = bounds.getSize(new THREE.Vector3());
+        this._modelScale = character.height / size.y;
+        this._modelOffset = new THREE.Vector3(0, -bounds.min.y, 0);
+        this._sourceGltf = gltf;
+        this._clipMap = { idle: choose('idle'), run: choose('run'), runShoot: choose('run'), walk: choose('walk'), aim: choose('idle'), shoot: choose('attack'), moveAim: choose('run'), moveShoot: choose('run'), hit: choose('idle'), death: choose('sleep'), victory: choose('happy') };
+        measure.stopAllAction(); measure.uncacheRoot(gltf.scene);
+        const view = this._createActor(i); view.character = character; view.isPokemon = true;
+        view.tank.root.position.set(character.quadruped ? .43 : 0, character.quadruped ? .65 : .72, -.34);
+        if (character.quadruped || character.mounted) {
+          // A side-mounted cannon leaves the low running cycles unobstructed.
+          view.root.attach(view.gun); view.gun.position.set(character.quadruped ? .48 : .32, character.quadruped ? .72 : .68, .38); view.gun.quaternion.identity();
+        }
+        this._views.push(view);
+      }
+      this.assetInfo = { ...this.assetInfo, displayName: 'Squirtle', status: this.environmentLoaded ? 'ready' : 'environment-loading', roster: roster.map(p => p.name), animations: assets[0].animations.map(c => c.name), loadMs: Math.round(performance.now() - start) };
       this.modelLoaded = true;
-      if (this.assetInfo.status !== 'error') this.assetInfo.status = this.environmentLoaded ? 'ready' : 'environment-loading';
-      this.assetInfo.loadMs = Math.round(performance.now() - start);
       return this.assetInfo;
     } catch (error) {
-      this.modelLoaded = false; this.error = `角色模型加载失败：${error.message || error}`;
+      this.modelLoaded = false; this.error = `Unable to load characters: ${error.message || error}`;
       this.assetInfo.status = 'error'; this.assetInfo.error = this.error; throw new Error(this.error);
     }
   }
@@ -534,8 +519,9 @@ export class WaterRenderer {
     });
     const mixer = new THREE.AnimationMixer(model);
     const upperNames = new Set();
-    const upperRoot = boneMap.get('abdomen') || boneMap.get('torso');
-    if (upperRoot) upperRoot.traverse(node => { if (node.isBone) upperNames.add(node.name); });
+    for (const key of ['head', 'neck', 'spine02', 'rightarm01', 'leftarm01', 'rightshoulder', 'leftshoulder']) {
+      const upperRoot = boneMap.get(key); if (upperRoot) upperRoot.traverse(node => { if (node.isBone) upperNames.add(node.name); });
+    }
     const isUpper = track => upperNames.has(trackNode(track));
     const parts = {}, actions = {};
     for (const [key, source] of Object.entries(this._clipMap)) {
@@ -560,8 +546,8 @@ export class WaterRenderer {
     const muzzleObject = new THREE.Object3D(); muzzleObject.name = 'WaterMuzzle'; muzzleObject.position.set(0, 0, .35); gun.add(muzzleObject);
     // Calibrate against the real imported grip pose, then preserve that attachment through all actual arm animation.
     root.updateMatrixWorld(true);
-    const gripBone = boneMap.get('index1r') || boneMap.get('lowerarmr');
-    if (!gripBone) throw new Error('角色骨架缺少右手武器挂点 Index1R / LowerArmR。');
+    const gripBone = boneMap.get('righthand') || boneMap.get('index1r') || boneMap.get('lowerarmr');
+    if (!gripBone) throw new Error('Character skeleton has no weapon socket.');
     gripBone.getWorldPosition(tempV);
     gun.position.copy(tempV).add(new THREE.Vector3(0, .08, .04)); gun.quaternion.identity(); gun.scale.setScalar(1);
     root.updateMatrixWorld(true); gripBone.attach(gun);
@@ -778,7 +764,7 @@ export class WaterRenderer {
     v.lean.x = expTo(v.lean.x, canMove ? clamp(-fwd * .022, -.12, .12) : 0, 13, dt);
     v.lean.z = expTo(v.lean.z, canMove ? clamp(right * .018, -.10, .10) : 0, 13, dt);
     v.pose.rotation.x = v.lean.x; v.pose.rotation.z = v.lean.z;
-    if (!v.fullState) {
+    if (!v.fullState && !v.isPokemon) {
       const hips = v.boneMap.get('body') || v.boneMap.get('hips'), torso = v.boneMap.get('abdomen');
       const forwardSpeed = mx * Math.cos(angle) + my * Math.sin(angle), rightSpeed = -mx * Math.sin(angle) + my * Math.cos(angle);
       const twist = speed > .15 ? clamp(Math.atan2(rightSpeed, Math.abs(forwardSpeed) + .3), -.30, .30) * v.moveWeight : 0;
@@ -817,6 +803,13 @@ export class WaterRenderer {
     if (actor.refilling && actor.alive !== false) {
       v.refillEmit += dt * 12;
       while (v.refillEmit >= 1) { v.refillEmit--; const a = this._random() * TAU; this.particles.emit(actor.x + Math.cos(a) * .34, .10, actor.y + Math.sin(a) * .34, 0, .8, 0, { life: .65, size: .075, gravity: 0, color: 0x8fffe0 }); }
+    }
+    // Follow the animated grip position while keeping the nozzle aligned with aim.
+    // Pokemon attack clips swing their hands; allowing that rotation would point water into the floor.
+    v.root.updateMatrixWorld(true);
+    if (v.isPokemon && v.gun.parent !== v.root) {
+      const parentRotation = v.gun.parent.getWorldQuaternion(new THREE.Quaternion());
+      v.gun.quaternion.copy(parentRotation.invert().multiply(v.root.getWorldQuaternion(new THREE.Quaternion())));
     }
     v.root.updateMatrixWorld(true); v.muzzleObject.getWorldPosition(v.muzzle);
     v.previous = { x: actor.x, y: actor.y, vx: actor.vx, vy: actor.vy, kx: actor.kx, ky: actor.ky, step: Math.floor(v.stepPhase * 2) };

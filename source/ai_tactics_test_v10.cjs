@@ -40,33 +40,33 @@ test('A new visible stream cannot bypass the finite AI reaction interval', () =>
   ai._command = saved; ai._reaction = .2; visibleStream(game);
   near(game._aiCommand(ai, STEP).moveY, 0); assert.ok(ai._reaction > 0);
   for (let i = 0; i < 12; i++) game._aiCommand(ai, STEP);
-  assert.equal(ai.aiState, '规避水流'); assert.ok(Math.abs(ai._command.moveY) > .8);
+  assert.equal(ai.aiState, 'dodging'); assert.ok(Math.abs(ai._command.moveY) > .8);
 });
 
 test('Advanced AI leaves a visible jet sideways and releases the trigger to regain running speed', () => {
   const game = fixture(), ai = game.actors[1]; visibleStream(game);
   const water = ai.water, c = game._aiCommand(ai, STEP);
-  assert.equal(ai.aiState, '规避水流'); assert.ok(Math.abs(c.moveY) > .8); assert.ok(c.moveX < 0);
+  assert.equal(ai.aiState, 'dodging'); assert.ok(Math.abs(c.moveY) > .8); assert.ok(c.moveX < 0);
   assert.equal(c.shoot, false); near(ai.water, water);
 });
 
 test('Early AI still attacks during evasion, making tactical growth gradual', () => {
   const game = fixture({ profile: { tacticalLevel: .3, aimLead: 0 } }), ai = game.actors[1]; visibleStream(game);
   const c = game._aiCommand(ai, STEP);
-  assert.equal(ai.aiState, '规避水流'); assert.ok(Math.abs(c.moveY) > .8); assert.equal(c.shoot, true);
+  assert.equal(ai.aiState, 'dodging'); assert.ok(Math.abs(c.moveY) > .8); assert.equal(c.shoot, true);
 });
 
 test('A distant, blocked or off-axis visible stream causes no invented threat', () => {
   for (const beam of [{ length: 1 }, { y1: 2 }, { x1: 5 }]) {
     const game = fixture(), ai = game.actors[1]; visibleStream(game, beam); game._aiCommand(ai, STEP);
-    assert.notEqual(ai.aiState, '规避水流');
+    assert.notEqual(ai.aiState, 'dodging');
   }
 });
 
 test('Edge prediction retreats before crossing the boundary and stops shooting', () => {
   const game = fixture(), ai = game.actors[1]; Object.assign(ai, { x: 4.8, vx: 5 });
   const c = game._aiCommand(ai, STEP);
-  assert.equal(ai.aiState, '边缘求生'); assert.ok(c.moveX < -.9); assert.equal(c.shoot, false);
+  assert.equal(ai.aiState, 'edge-recovery'); assert.ok(c.moveX < -.9); assert.equal(c.shoot, false);
 });
 
 test('Sidestep chooses the free side instead of running into a nearby actor', () => {
@@ -101,7 +101,7 @@ test('AI prefers a slightly farther fountain clear of an observed jet', () => {
   Object.assign(ai, { x: 1.3, water: 0 });
   visibleStream(game, { x1: 5, y1: -.95, dx: -1, dy: 0, length: 3 });
   const c = game._aiCommand(ai, STEP);
-  assert.equal(ai.aiState, '寻找补水'); assert.ok(c.moveX < 0); assert.equal(c.shoot, false);
+  assert.equal(ai.aiState, 'refilling'); assert.ok(c.moveX < 0); assert.equal(c.shoot, false);
 });
 
 test('Empty tactical AI uses the real fountain rate and never receives instant full water', () => {

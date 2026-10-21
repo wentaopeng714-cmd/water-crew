@@ -1,66 +1,40 @@
-Water Push v0.4 — asset provenance and modifications
+Splash Arena v0.16 — asset credits
 
-CURRENT CHARACTER GEOMETRY
-assets/character-v3.glb
-Original WaterCrew mesh authored for this project in Blender: rounded head/body,
-facial features, cap, clothing and shoes. The current export contains only the
-new WaterCrewV3_Character mesh (12 material primitives), not the old Soldier mesh.
-Runtime tinting provides four identities. Water gun and backpack are separate
-original runtime props attached/positioned by Three.js.
+POKEMON CHARACTERS AND ANIMATIONS
+Models: Bulbasaur (001), Charmander (004), Squirtle (007), Pikachu (025).
+Source repository: https://github.com/06wj/pokemon
+Source revision: 00d96f7f18894055e7f1db44fa0df6462e5e4c8a
+Source paths: public/models/{001,004,007,025}/model.glb
+Retrieved: 2026-10-22. Delivered GLBs are unmodified source files.
+The six embedded skeletal clips are attack, happy, idle, run, sleep and walk.
+Runtime additions: scale normalization, independent animation mixers, upper-body
+blending, procedural knockback/falling, water cannons and refill tanks.
+There is no dedicated imported hit, swimming or falling animation.
 
-RETAINED SKELETON AND ANIMATION
-Creator: Quaternius
-Pack: Toon Shooter Game Kit
-Official source: https://quaternius.com/packs/toonshootergamekit.html
-License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
-Original source file: Character_Soldier.gltf
-Downloaded from the official Google Drive glTF folder on 2026-10-04.
-The v0.3 original geometry uses the retained 43-joint skeleton and 17 source clips:
-Death, Duck, HitReact, Idle, Idle_Shoot, Jump, Jump_Idle, Jump_Land, No, Punch,
-Run, Run_Gun, Run_Shoot, Walk, Walk_Shoot, Wave, Yes.
-No dedicated strafe, backward, refill, swimming or falling-into-water struggle
-clips were added. Runtime blending, aim adjustment and falling translation are
-code-driven additions. Death is the source death/fall-over clip, not a custom
-swimming animation. CC0 provenance applies to the retained rig and clips; it is
-not a claim that Quaternius authored the new WaterCrew mesh or the garden scene.
+The source repository describes itself as an unofficial technical demonstration.
+Pokemon characters and associated assets belong to their respective owners;
+the repository does not grant rights to those assets. Its MIT software license
+is not an asset license or a grant of commercial Pokemon rights.
+This fan project is not affiliated with or endorsed by the Pokemon rights holders.
+The source software notice is preserved in POKEMON-SOURCE-LICENSE.txt.
 
-LEGACY SOURCE FOR REPRODUCTION
-assets/character.glb and assets/source/Character_WaterCrew.gltf are the v0.2
-adaptation of Quaternius Character_Soldier. Original firearm/weapon meshes,
-shoulder armour and chest pouches were removed; the source face/skin geometry,
-bones and all 17 clips were retained. These legacy files remain as rig/action
-inputs and provenance material. The current build does not embed them as its character.
-Blender editable character scenes may retain these old source meshes hidden for
-reference; only the newly authored character mesh and rig are exported to v0.3 GLB.
+GARDEN ENVIRONMENT AND WATER EFFECTS
+assets/environment-v3.glb contains project-authored Blender geometry/materials.
+water-flow.js uses emitted water packets, detached droplets, ripples and shader
+fountains. These are visual approximations, with separate gameplay collision.
+Water cannons and tanks are project-authored procedural Three.js props.
 
-GARDEN ENVIRONMENT
-assets/environment-v3.glb
-Original project-authored Blender mesh geometry and materials: bevelled stone
-platform, leaves, flowers, pool, lawn, pedestal/fish-spout forms and nozzle markers.
-Dynamic fountain streams, foam, surface effects and waterfalls are rendered by
-Three.js. The reference video informed visual and gameplay direction; no Nintendo
-models, animation, music or sound were extracted or included.
+AUDIO
+Fountain Days: project-composed and synthesized island music, 108 BPM.
+No borrowed game music or external samples. Runtime effects use Web Audio.
+Source: game-audio.js, source/audio/create_water_party_music.py.
 
-ORIGINAL v0.4 WATER VFX MODULE
-water-flow.js is original project code shared by the playable scene, decorative
-fish spouts and character viewer. It uses world-space emitted water packets,
-a tube reconstructed from live packets, detached ballistic droplets, impact
-spray, horizontal-plane ripple instances, and GPU ballistic fountain particles
-with a time-gated aerated rise. These are game visual-effects approximations,
-not a fluid solver. They do not solve pressure, fluid volume conservation,
-inter-droplet interactions or arbitrary scene collision. Gameplay collision and
-knockback remain separate from the visible water simulation. Character/environment
-geometry, skeleton and source animation provenance above are unchanged in v0.4.
+RUNTIME
+Three.js r180 (0.180.0): MIT, see vendor/THREE-LICENSE.txt.
+esbuild 0.28.2 is a build dependency and is not required to play the built game.
 
-RUNTIME AND OTHER MATERIAL
-Three.js r180 (0.180.0), including GLTFLoader, SkeletonUtils, RoomEnvironment and
-reflection helpers: MIT. See vendor/THREE-LICENSE.txt and preserved source headers.
-esbuild 0.28.2 is a development/build dependency, not needed to play the built game.
-concept.png is the project's earlier generated concept illustration, retained as
-historical exploration; it is not a screenshot of the v0.3 playable scene.
-UI, gameplay code, authored geometry scripts, runtime props/effects and temporary
-synthesized sounds were created for this prototype. No additional open-source
-license is asserted here for original project material.
-
-V0.5 AUDIO
-Fountain Days / 喷泉假日: Original 16-bar C-major island score composed and synthesized for this project, 108 BPM. No external samples or borrowed game music. Master audio/music-notes.json. Runtime sound effects and fountain ambience are original Web Audio synthesis. Source: game-audio.js and source/audio/create_water_party_music.py.
+SOURCE ASSET SHA-256
+001.glb  655d63cef5edb8606d8aa38c95e32080e687b9a8550dce5cceddbaf769221306
+004.glb  80330893c87d6b6a64ce6a83c6b620a7736488032c165c39612b7580e62920ed
+007.glb  aaafb1ac704552e781765fadd8adf3ade1a94587ab1c1a418295579390f944e9
+025.glb  5c9e14325cd7f2d4fcf8b9a6ba3a3bcd0c5947c2fd5b102de24643014a9c758c
